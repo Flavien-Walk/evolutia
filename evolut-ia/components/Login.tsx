@@ -1,16 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   Image,
+  Alert,
 } from "react-native";
-import { Link, useRouter } from "expo-router"; // Import du router pour la navigation
+import { Link, useRouter } from "expo-router";
+import axios from "axios";
 import styles from "../styles/LoginScreenStyles";
 
 const Login: React.FC = () => {
   const router = useRouter();
+
+  // Gestion des champs de connexion
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      console.log("Tentative de connexion avec :", { email, password });
+
+      const response = await axios.post("http://192.168.3.20:5000/login", {
+        email,
+        password,
+      });
+
+      console.log("Réponse du serveur :", response.data);
+      Alert.alert("Succès", response.data.message);
+
+      // Redirection vers la page Home
+      router.push("/home");
+    } catch (error: any) {
+      console.error("Erreur lors de la connexion :", error);
+
+      const errorMessage =
+        error.response?.data?.error || "Une erreur est survenue, veuillez réessayer.";
+      Alert.alert("Erreur", errorMessage);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -42,6 +71,8 @@ const Login: React.FC = () => {
         placeholder="Saisir l'adresse électronique"
         placeholderTextColor="#A29BFE"
         style={styles.input}
+        value={email}
+        onChangeText={(text) => setEmail(text)}
       />
       <View style={styles.passwordContainer}>
         <TextInput
@@ -49,6 +80,8 @@ const Login: React.FC = () => {
           placeholderTextColor="#A29BFE"
           style={[styles.input, { flex: 1 }]}
           secureTextEntry
+          value={password}
+          onChangeText={(text) => setPassword(text)}
         />
         <TouchableOpacity>
           <Text style={styles.eyeIcon}>👁️</Text>
@@ -61,7 +94,7 @@ const Login: React.FC = () => {
       </TouchableOpacity>
 
       {/* Bouton Connexion */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Connexion</Text>
       </TouchableOpacity>
 

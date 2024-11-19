@@ -1,10 +1,64 @@
-import React from "react";
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
-import { Link, useRouter } from "expo-router"; // Import du router pour la navigation
-import styles from "../styles/RegisterStyles"; // Importez les styles
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
+import { Link, useRouter } from "expo-router";
+import axios from "axios";
+import styles from "../styles/RegisterStyles";
 
 const Register: React.FC = () => {
   const router = useRouter();
+
+  // Gestion des champs du formulaire
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    contactNumber: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  // Fonction pour mettre à jour les champs du formulaire
+  const handleInputChange = (name: string, value: string) => {
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Fonction pour gérer l'inscription
+  const handleRegister = async () => {
+    console.log("Bouton S'inscrire cliqué");
+
+    // Vérification des mots de passe
+    if (formData.password !== formData.confirmPassword) {
+      Alert.alert("Erreur", "Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    try {
+      console.log("Envoi des données au backend :", formData);
+
+      const response = await axios.post("http://192.168.3.20:5000/register", {
+        email: formData.email,
+        username: formData.username,
+        contactNumber: formData.contactNumber,
+        password: formData.password,
+      });
+
+      console.log("Réponse du serveur :", response.data);
+      Alert.alert("Succès", response.data.message);
+      router.push("/login");
+    } catch (error: any) {
+      console.error("Erreur lors de l'envoi :", error);
+
+      const errorMessage =
+        error.response?.data?.error || "Une erreur est survenue, veuillez réessayer.";
+      Alert.alert("Erreur", errorMessage);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -13,10 +67,13 @@ const Register: React.FC = () => {
         <Text style={styles.backText}>←</Text>
       </TouchableOpacity>
 
+      {/* Logo */}
       <Image
-        source={{ uri: "https://via.placeholder.com/50" }} // Remplacez par le logo réel
+        source={{ uri: "https://via.placeholder.com/50" }} // Remplacez par votre logo réel
         style={styles.logo}
       />
+
+      {/* Titre */}
       <Text style={styles.title}>S'inscrire</Text>
       <Text style={styles.subtitle}>Lorem Ipsum is simply</Text>
       <Text style={styles.description}>
@@ -27,18 +84,41 @@ const Register: React.FC = () => {
       </Text>
 
       {/* Champs de saisie */}
-      <TextInput style={styles.input} placeholder="Saisir l'adresse électronique" />
-      <TextInput style={styles.input} placeholder="Créer un nom d'utilisateur" />
-      <TextInput style={styles.input} placeholder="Numéro de contact" />
-      <TextInput style={styles.input} placeholder="Mot de passe" secureTextEntry={true} />
+      <TextInput
+        style={styles.input}
+        placeholder="Saisir l'adresse électronique"
+        onChangeText={(text) => handleInputChange("email", text)}
+        value={formData.email}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Créer un nom d'utilisateur"
+        onChangeText={(text) => handleInputChange("username", text)}
+        value={formData.username}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Numéro de contact"
+        onChangeText={(text) => handleInputChange("contactNumber", text)}
+        value={formData.contactNumber}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Mot de passe"
+        secureTextEntry={true}
+        onChangeText={(text) => handleInputChange("password", text)}
+        value={formData.password}
+      />
       <TextInput
         style={styles.input}
         placeholder="Confirmer le mot de passe"
         secureTextEntry={true}
+        onChangeText={(text) => handleInputChange("confirmPassword", text)}
+        value={formData.confirmPassword}
       />
 
       {/* Bouton S'inscrire */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>S'inscrire</Text>
       </TouchableOpacity>
 
