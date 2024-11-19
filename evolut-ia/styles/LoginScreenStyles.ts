@@ -8,6 +8,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#ffffff",
   },
+  backArrow: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    padding: 10,
+  },
+  backText: {
+    fontSize: 20,
+    color: "#000000",
+  },
   logo: {
     width: 50,
     height: 50,

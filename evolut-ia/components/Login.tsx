@@ -6,12 +6,19 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { Link } from "expo-router"; // Import du composant Link
+import { Link, useRouter } from "expo-router"; // Import du router pour la navigation
 import styles from "../styles/LoginScreenStyles";
 
 const Login: React.FC = () => {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
+      {/* Flèche retour */}
+      <TouchableOpacity style={styles.backArrow} onPress={() => router.push("/")}>
+        <Text style={styles.backText}>←</Text>
+      </TouchableOpacity>
+
       {/* Logo */}
       <Image
         source={{ uri: "https://via.placeholder.com/50" }}
