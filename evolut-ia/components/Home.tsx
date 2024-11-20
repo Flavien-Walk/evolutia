@@ -12,7 +12,7 @@ const HomeScreen: React.FC = () => {
       {/* Header */}
       <View style={styles.header}>
         <View>
-          <Text style={styles.greetingText}>Bonjour, Bienvenue 👋</Text>
+          <Text style={styles.greetingText}>Bonjour Bienvenue 👋</Text>
           <Text style={styles.nameText}>Antoine Dupont</Text>
         </View>
         <TouchableOpacity onPress={() => router.push("/profil")}>
