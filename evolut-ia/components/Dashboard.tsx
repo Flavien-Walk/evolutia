@@ -55,7 +55,9 @@ const Dashboard: React.FC = () => {
       </ScrollView>
 
       {/* Navbar */}
-      <Navbar />
+      <View style={styles.navbarContainer}>
+        <Navbar />
+      </View>
     </View>
   );
 };
