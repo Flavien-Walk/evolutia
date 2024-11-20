@@ -10,6 +10,9 @@ const Navbar: React.FC = () => {
         <Ionicons name="home-outline" size={24} style={styles.navIcon} />
       </TouchableOpacity>
       <TouchableOpacity>
+        <Ionicons name="search-outline" size={24} style={styles.navIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity>
         <Ionicons name="grid-outline" size={24} style={styles.navIcon} />
       </TouchableOpacity>
       <TouchableOpacity>
