@@ -18,7 +18,7 @@ const Index: React.FC = () => {
 
         {/* Conteneur englobant */}
         <View style={styles.card}>
-          {/* Texte de bienvenue */}
+          {}
           <Text style={styles.title}>
             Bienvenue dans <Text style={styles.highlight}>Évolut'IA</Text> !
           </Text>
