@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import styles from "../styles/HomeScreenStyles";
-import { Ionicons } from "@expo/vector-icons";
+import Navbar from "../components/Navbar"; // Import du composant Navbar
 
 const HomeScreen: React.FC = () => {
   return (
@@ -35,22 +35,11 @@ const HomeScreen: React.FC = () => {
         <TouchableOpacity style={styles.quizCard}>
           <Text style={styles.quizSubject}>Mathématique</Text>
           <Text style={styles.quizDuration}>Durée : 20min</Text>
-          <Ionicons name="chevron-forward-outline" size={20} />
         </TouchableOpacity>
       </View>
 
-      {/* Bottom Navbar */}
-      <View style={styles.navbar}>
-        <TouchableOpacity>
-          <Ionicons name="home-outline" size={24} style={styles.navIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="grid-outline" size={24} style={styles.navIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="person-outline" size={24} style={styles.navIcon} />
-        </TouchableOpacity>
-      </View>
+      {/* Appel du composant Navbar */}
+      <Navbar />
     </View>
   );
 };
