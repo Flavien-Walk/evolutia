@@ -1,21 +1,52 @@
-import React from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import Navbar from "../components/Navbar";
 import styles from "../styles/ProfilStyles";
-import { LinearGradient } from 'expo-linear-gradient';
-
+import { LinearGradient } from "expo-linear-gradient";
 
 const Profil: React.FC = () => {
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  // Fonction pour choisir une image
+  const pickImage = async () => {
+    // Demander l'autorisation d'accès à la galerie
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      Alert.alert("Permission refusée", "Vous devez autoriser l'accès à la galerie.");
+      return;
+    }
+
+    // Ouvrir la galerie pour choisir une image
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setProfileImage(result.assets[0].uri);
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* Contenu défilable */}
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* Header */}
         <View style={styles.header}>
-          <Image
-            style={styles.profileImage}
-            source={{ uri: "https://via.placeholder.com/100" }}
-          />
+          <TouchableOpacity onPress={pickImage}>
+            <Image
+              style={styles.profileImage}
+              source={
+                profileImage
+                  ? { uri: profileImage }
+                  : require("../assets/default-profile.png") // Image par défaut
+              }
+            />
+          </TouchableOpacity>
           <Text style={styles.nameText}>Antoine Dupont</Text>
         </View>
 
@@ -24,9 +55,7 @@ const Profil: React.FC = () => {
           <View style={styles.statRow}>
             <TouchableOpacity style={styles.statCard}>
               <Image
-                source={{
-                  uri: "https://via.placeholder.com/30/FF0000/FFFFFF?text=⚡",
-                }}
+                source={require("../assets/photoprofil1.png")}
                 style={styles.statIcon}
               />
               <View>
@@ -36,9 +65,7 @@ const Profil: React.FC = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.statCard}>
               <Image
-                source={{
-                  uri: "https://via.placeholder.com/30/0000FF/FFFFFF?text=📊",
-                }}
+                source={require("../assets/photoprofil1.png")}
                 style={styles.statIcon}
               />
               <View>
@@ -50,9 +77,7 @@ const Profil: React.FC = () => {
           <View style={styles.statRow}>
             <TouchableOpacity style={styles.statCard}>
               <Image
-                source={{
-                  uri: "https://via.placeholder.com/30/00FF00/FFFFFF?text=✔",
-                }}
+                source={require("../assets/photoprofil1.png")}
                 style={styles.statIcon}
               />
               <View>
@@ -62,9 +87,7 @@ const Profil: React.FC = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.statCard}>
               <Image
-                source={{
-                  uri: "https://via.placeholder.com/30/FFA500/FFFFFF?text=⚙",
-                }}
+                source={require("../assets/photoprofil1.png")}
                 style={styles.statIcon}
               />
               <View>
@@ -81,7 +104,7 @@ const Profil: React.FC = () => {
           {[28, 35, 40].map((percent, index) => (
             <View key={index} style={styles.topicCard}>
               <Image
-                source={{ uri: "https://via.placeholder.com/50" }}
+                source={require("../assets/photoprofil1.png")}
                 style={styles.topicImage}
               />
               <View style={styles.topicContent}>
@@ -93,7 +116,7 @@ const Profil: React.FC = () => {
                     end={{ x: 1, y: 0 }}
                     style={[
                       styles.progressBar,
-                      { width: `${percent}%`, height: 10 }, // Assurez-vous que le style est défini correctement
+                      { width: `${percent}%`, height: 10 },
                     ]}
                   />
                 </View>
@@ -109,7 +132,7 @@ const Profil: React.FC = () => {
           {[95, 90, 87].map((percent, index) => (
             <View key={index} style={styles.topicCard}>
               <Image
-                source={{ uri: "https://via.placeholder.com/50" }}
+                source={require("../assets/photoprofil1.png")}
                 style={styles.topicImage}
               />
               <View style={styles.topicContent}>
