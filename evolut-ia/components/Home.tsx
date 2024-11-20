@@ -9,7 +9,7 @@ const HomeScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+      {/* */}
       <View style={styles.header}>
         <View>
           <Text style={styles.greetingText}>Bonjour Bienvenue 👋</Text>
