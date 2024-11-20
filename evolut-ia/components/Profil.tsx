@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
 import Navbar from "../components/Navbar";
 import styles from "../styles/ProfilStyles";
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const Profil: React.FC = () => {
   return (
@@ -22,7 +24,9 @@ const Profil: React.FC = () => {
           <View style={styles.statRow}>
             <TouchableOpacity style={styles.statCard}>
               <Image
-                source={{ uri: "https://via.placeholder.com/30/FF0000/FFFFFF?text=⚡" }}
+                source={{
+                  uri: "https://via.placeholder.com/30/FF0000/FFFFFF?text=⚡",
+                }}
                 style={styles.statIcon}
               />
               <View>
@@ -32,7 +36,9 @@ const Profil: React.FC = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.statCard}>
               <Image
-                source={{ uri: "https://via.placeholder.com/30/0000FF/FFFFFF?text=📊" }}
+                source={{
+                  uri: "https://via.placeholder.com/30/0000FF/FFFFFF?text=📊",
+                }}
                 style={styles.statIcon}
               />
               <View>
@@ -44,7 +50,9 @@ const Profil: React.FC = () => {
           <View style={styles.statRow}>
             <TouchableOpacity style={styles.statCard}>
               <Image
-                source={{ uri: "https://via.placeholder.com/30/00FF00/FFFFFF?text=✔" }}
+                source={{
+                  uri: "https://via.placeholder.com/30/00FF00/FFFFFF?text=✔",
+                }}
                 style={styles.statIcon}
               />
               <View>
@@ -54,7 +62,9 @@ const Profil: React.FC = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.statCard}>
               <Image
-                source={{ uri: "https://via.placeholder.com/30/FFA500/FFFFFF?text=⚙" }}
+                source={{
+                  uri: "https://via.placeholder.com/30/FFA500/FFFFFF?text=⚙",
+                }}
                 style={styles.statIcon}
               />
               <View>
@@ -77,7 +87,15 @@ const Profil: React.FC = () => {
               <View style={styles.topicContent}>
                 <Text>Lorem Ipsum is simply</Text>
                 <View style={styles.progressBarContainer}>
-                  <View style={[styles.progressBar, { width: `${percent}%` }]} />
+                  <LinearGradient
+                    colors={["#FFA726", "#FB8C00"]} // Dégradé orange
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={[
+                      styles.progressBar,
+                      { width: `${percent}%`, height: 10 }, // Assurez-vous que le style est défini correctement
+                    ]}
+                  />
                 </View>
               </View>
               <Text style={styles.topicPercentage}>{percent}% Correct</Text>
@@ -97,7 +115,15 @@ const Profil: React.FC = () => {
               <View style={styles.topicContent}>
                 <Text>Lorem Ipsum is simply</Text>
                 <View style={styles.progressBarContainer}>
-                  <View style={[styles.progressBar, { width: `${percent}%`, backgroundColor: "#4caf50" }]} />
+                  <LinearGradient
+                    colors={["#66BB6A", "#43A047"]} // Dégradé vert
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={[
+                      styles.progressBar,
+                      { width: `${percent}%`, height: 10 },
+                    ]}
+                  />
                 </View>
               </View>
               <Text style={styles.topicPercentage}>{percent}% Correct</Text>
