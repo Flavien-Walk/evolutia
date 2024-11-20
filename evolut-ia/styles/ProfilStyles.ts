@@ -7,7 +7,7 @@ export default StyleSheet.create({
   },
   scrollContainer: {
     padding: 20,
-    paddingBottom: 80, // Pour éviter que le contenu ne soit caché par la Navbar
+    paddingBottom: 100, // Espace supplémentaire pour la Navbar
   },
   header: {
     alignItems: "center",
@@ -22,10 +22,10 @@ export default StyleSheet.create({
   nameText: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#000000",
+    color: "#333333",
   },
   statsSection: {
-    marginBottom: 20,
+    marginBottom: 30,
   },
   statRow: {
     flexDirection: "row",
@@ -37,14 +37,14 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#ffffff",
-    borderRadius: 15,
-    padding: 10,
+    borderRadius: 10,
+    padding: 15,
     marginHorizontal: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowRadius: 3,
+    elevation: 2,
   },
   statIcon: {
     width: 30,
@@ -61,25 +61,25 @@ export default StyleSheet.create({
     color: "#666666",
   },
   topicSection: {
-    marginBottom: 20,
+    marginBottom: 30,
   },
   topicTitle: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#333333",
+    color: "#444444",
   },
   topicCard: {
     flexDirection: "row",
     alignItems: "center",
     padding: 15,
-    backgroundColor: "#f9f9f9",
-    borderRadius: 15,
+    backgroundColor: "#ffffff",
+    borderRadius: 12,
     marginBottom: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 5,
+    shadowRadius: 4,
     elevation: 3,
   },
   topicImage: {
@@ -100,13 +100,12 @@ export default StyleSheet.create({
   },
   progressBar: {
     height: 8,
-    backgroundColor: "#4caf50",
     borderRadius: 5,
   },
   topicPercentage: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#333333",
+    color: "#444444",
   },
   navbarContainer: {
     position: "absolute",
@@ -121,7 +120,7 @@ export default StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
-    shadowRadius: 5,
+    shadowRadius: 4,
     elevation: 5,
   },
 });
