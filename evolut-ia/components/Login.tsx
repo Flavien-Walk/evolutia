@@ -50,23 +50,25 @@ const Login: React.FC = () => {
 
       {/* Logo */}
       <Image
-        source={{ uri: "https://via.placeholder.com/50" }}
+        source={require("../assets/Logo noir Evolut'IA.png")}
         style={styles.logo}
       />
 
       {/* Titre principal */}
       <Text style={styles.title}>Se connecter à</Text>
-      <Text style={styles.subtitle}>Lorem Ipsum is simply</Text>
 
-      {/* Lien d'inscription */}
-      <Text style={styles.registerText}>
-        Si vous n'avez pas de compte, inscrivez-vous{" "}
-        <Link href="/register" style={styles.link}>
-          ici !
-        </Link>
-      </Text>
+      {/* Texte sous-titre */}
+      <View style={styles.textContainer}>
+        <Text style={styles.registerText}>Si vous n'avez pas de compte, inscrivez-vous</Text>
+        <Text style={styles.registerText}>
+          Vous pouvez vous{" "}
+          <Link href="/register" style={styles.link}>
+            inscrire ici !
+          </Link>
+        </Text>
+      </View>
 
-      {/* Champs de connexion */}
+      {/* Champ Adresse Électronique */}
       <TextInput
         placeholder="Saisir l'adresse électronique"
         placeholderTextColor="#A29BFE"
@@ -74,6 +76,8 @@ const Login: React.FC = () => {
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
+
+      {/* Champ Mot de Passe */}
       <View style={styles.passwordContainer}>
         <TextInput
           placeholder="Mot de passe"
@@ -101,23 +105,23 @@ const Login: React.FC = () => {
       {/* Texte ou */}
       <Text style={styles.orText}>ou continuer avec</Text>
 
-      {/* Icônes des réseaux sociaux */}
+      {/* Icônes des Réseaux Sociaux */}
       <View style={styles.socialIcons}>
         <TouchableOpacity>
           <Image
-            source={{ uri: "https://via.placeholder.com/40/3b5998" }}
+            source={require("../assets/Facebook.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            source={{ uri: "https://via.placeholder.com/40/000000" }}
+            source={require("../assets/apple.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            source={{ uri: "https://via.placeholder.com/40/db4437" }}
+            source={require("../assets/google.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
