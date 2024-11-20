@@ -41,7 +41,7 @@ const Register: React.FC = () => {
     try {
       console.log("Envoi des données au backend :", formData);
 
-      const response = await axios.post("http://192.168.3.20:5000/register", {
+      const response = await axios.post("http://10.76.204.42:5000/register", {
         email: formData.email,
         username: formData.username,
         contactNumber: formData.contactNumber,
@@ -69,7 +69,7 @@ const Register: React.FC = () => {
 
       {/* Logo */}
       <Image
-        source={{ uri: "https://via.placeholder.com/50" }} // Remplacez par votre logo réel
+        source={{ uri: "https://via.placeholder.com/50" }}
         style={styles.logo}
       />
 
@@ -126,15 +126,15 @@ const Register: React.FC = () => {
       <Text style={styles.continueText}>ou continuer avec</Text>
       <View style={styles.socialIcons}>
         <Image
-          source={{ uri: "https://via.placeholder.com/30" }} // Remplacez par l'icône Facebook
+          source={{ uri: "https://via.placeholder.com/30" }}
           style={styles.icon}
         />
         <Image
-          source={{ uri: "https://via.placeholder.com/30" }} // Remplacez par l'icône Apple
+          source={{ uri: "https://via.placeholder.com/30" }}
           style={styles.icon}
         />
         <Image
-          source={{ uri: "https://via.placeholder.com/30" }} // Remplacez par l'icône Google
+          source={{ uri: "https://via.placeholder.com/30" }}
           style={styles.icon}
         />
       </View>
