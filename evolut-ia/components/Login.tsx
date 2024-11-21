@@ -22,7 +22,7 @@ const Login: React.FC = () => {
     try {
       console.log("Tentative de connexion avec :", { email, password });
 
-      const response = await axios.post("http://10.76.204.42:5000/login", {
+      const response = await axios.post("http://10.76.203.251:5000/login", {
         email,
         password,
       });
