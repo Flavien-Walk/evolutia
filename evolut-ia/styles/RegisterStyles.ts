@@ -1,18 +1,15 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
+  scrollContainer: {
+    flexGrow: 1, // Permet au ScrollView de scroller sur l'ensemble du contenu
+    backgroundColor: "#FFFFFF",
     paddingHorizontal: 20,
-    paddingVertical: 40,
-    justifyContent: "center",
+    paddingVertical: 20, // Réduire le padding vertical pour un meilleur positionnement
+    justifyContent: "flex-start",
   },
   backArrow: {
-    position: "absolute",
-    top: 40,
-    left: 20,
-    padding: 10,
+    marginBottom: 15,
   },
   backText: {
     fontSize: 20,
@@ -28,55 +25,60 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 5,
-    color: "#333",
+    marginBottom: 15,
+    color: "#000000",
   },
   description: {
+    fontSize: 14,
     textAlign: "center",
-    color: "#666",
+    color: "#666666",
     marginBottom: 20,
   },
   link: {
-    color: "#5A67D8",
+    color: "#5C34E7",
     textDecorationLine: "underline",
+    fontWeight: "bold",
   },
   input: {
-    backgroundColor: "#F3F4F6",
-    borderRadius: 8,
-    padding: 15,
+    backgroundColor: "#F4F1FD",
+    color: "#5C34E7",
     fontSize: 16,
-    marginBottom: 10,
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    width: "100%",
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: "#E4E4E4",
   },
   button: {
-    backgroundColor: "#6B46C1",
-    borderRadius: 8,
+    backgroundColor: "#5C34E7",
     paddingVertical: 15,
+    borderRadius: 8,
     alignItems: "center",
-    marginTop: 10,
+    marginBottom: 15,
   },
   buttonText: {
-    color: "#fff",
+    color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
   },
-  continueText: {
+  orText: {
     textAlign: "center",
-    marginVertical: 20,
-    color: "#666",
+    fontSize: 14,
+    color: "#666666",
+    marginBottom: 15,
   },
   socialIcons: {
     flexDirection: "row",
-    justifyContent: "center",
-    gap: 20,
+    justifyContent: "space-around",
+    width: "70%",
+    alignSelf: "center",
   },
   icon: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
   },
 });
 
