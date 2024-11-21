@@ -5,23 +5,39 @@ import io from "socket.io-client";
 import styles from "../styles/ChatGlobalStyles";
 
 // Connexion à Socket.IO
-const socket = io("http://10.76.203.251:5000"); // Remplace par l'IP de ton serveur si nécessaire
+const socket = io("http://10.76.203.251:5000");
 
-// Typage d'un message (si nécessaire)
+// Typage d'un message
 type Message = {
+  id: string; // Identifiant unique pour chaque message
   text: string;
-  sender: string; // Peut être "user", "bot", ou autre
+  sender: string;
+  color: string;
 };
+
+// Fonction pour générer un identifiant unique
+const generateUniqueId = () => Date.now().toString() + Math.random().toString(36).substring(2);
 
 const ChatGlobal: React.FC = () => {
   const router = useRouter();
-  const [messages, setMessages] = useState<string[]>([]); // Liste des messages
+  const [messages, setMessages] = useState<Message[]>([]); // Liste des messages
   const [newMessage, setNewMessage] = useState<string>(""); // Message à envoyer
+  const [user, setUser] = useState<{ name: string; color: string }>({
+    name: "Utilisateur_" + Math.floor(Math.random() * 1000),
+    color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+  });
 
   // Connexion à Socket.IO
   useEffect(() => {
-    socket.on("receiveMessage", (message: string) => {
-      setMessages((prevMessages) => [...prevMessages, message]); // Ajouter un message reçu
+    // Réception des messages du serveur
+    socket.on("receiveMessage", (message: Message) => {
+      setMessages((prevMessages) => {
+        // Vérifie si le message existe déjà pour éviter les doublons
+        if (prevMessages.some((m) => m.id === message.id)) {
+          return prevMessages;
+        }
+        return [...prevMessages, message];
+      });
     });
 
     return () => {
@@ -32,7 +48,13 @@ const ChatGlobal: React.FC = () => {
   // Fonction pour envoyer un message
   const sendMessage = () => {
     if (newMessage.trim() !== "") {
-      socket.emit("sendMessage", newMessage); // Envoyer au serveur
+      const message: Message = {
+        id: generateUniqueId(),
+        text: newMessage,
+        sender: user.name,
+        color: user.color,
+      };
+      socket.emit("sendMessage", message); // Envoyer au serveur
       setNewMessage(""); // Réinitialiser l'entrée
     }
   };
@@ -50,10 +72,16 @@ const ChatGlobal: React.FC = () => {
       {/* Boîte de messages */}
       <FlatList
         data={messages}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id} // Utilisation de l'ID unique
         renderItem={({ item }) => (
-          <View style={styles.messageBubble}>
-            <Text style={styles.messageText}>{item}</Text>
+          <View
+            style={[
+              styles.messageBubble,
+              item.sender === user.name ? styles.myMessage : styles.otherMessage,
+            ]}
+          >
+            <Text style={[styles.senderText, { color: item.color }]}>{item.sender}</Text>
+            <Text style={styles.messageText}>{item.text}</Text>
           </View>
         )}
         contentContainerStyle={styles.chatBox}
