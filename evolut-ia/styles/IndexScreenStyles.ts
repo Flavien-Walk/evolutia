@@ -1,85 +1,92 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: "#6D57FC", 
+  background: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: width,
+    height: height,
+    backgroundColor: "#6D57FC",
   },
   container: {
     flex: 1,
-    justifyContent: "center",// Alignement vers le haut
-    alignItems: "center", // Centrer horizontalement
-    backgroundColor: "#6D57FC", // Fond violet pour le conteneur principal
+    justifyContent: "center",
+    alignItems: "center",
   },
   logo: {
-    width: 160, // Largeur du logo
-    height: 130, // Hauteur du logo
-    marginTop: 60, // Espacement supérieur pour éloigner le logo du bord
-    marginBottom: 20, // Espacement entre le logo et le conteneur
+    width: 160,
+    height: 130,
+    marginBottom: 20,
+    marginTop: 100,
   },
   card: {
-    backgroundColor: "#FFFFFF", // Fond blanc pour l'onglet
-    borderRadius: 20, // Coins arrondis
-    width: "100%", // Largeur relative pour s'adapter à l'écran
-    paddingVertical: 65, // Espacement interne vertical
-    paddingHorizontal: 10, // Espacement interne horizontal
-    shadowColor: "#000", // Ombre pour un effet de profondeur
+    backgroundColor: "#FFFFFF",
+    borderRadius: 20,
+    width: "100%",
+    paddingVertical: 65,
+    paddingHorizontal: 10,
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 5 },
-    elevation: 5, // Ombre sur Android
-    alignItems: "center", // Centrer le contenu
+    elevation: 5,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#000", // Couleur noire pour le titre
+    color: "#000",
     textAlign: "center",
     marginBottom: 15,
   },
   highlight: {
-    color: "#5c34e7", // Violet pour "Évolut'IA"
+    color: "#5c34e7",
   },
   subtitle: {
     fontSize: 16,
-    color: "#333", // Gris foncé
-    textAlign: "left", // Centrer le texte
-    lineHeight: 22, // Espacement entre les lignes
-    marginBottom: 30, // Espacement après le sous-titre
+    color: "#333",
+    textAlign: "left",
+    marginBottom: 30,
+    lineHeight: 22,
   },
   question: {
     fontSize: 18,
-    fontWeight: "light",
+    fontWeight: "300",
     color: "#000",
     textAlign: "center",
-    marginBottom: 30, // Espacement avant les boutons
+    marginBottom: 30,
   },
   linkWrapper: {
-    width: "80%", // Largeur relative des boutons
+    width: "80%",
     alignItems: "center",
-    marginBottom: 15, // Espacement entre les boutons
+    marginBottom: 15,
   },
   button: {
-    backgroundColor: "#5c34e7", // Violet pour le fond du bouton
-    paddingVertical: 12, // Hauteur des boutons
-    borderRadius: 10, // Coins arrondis
+    backgroundColor: "#5c34e7",
+    paddingVertical: 12,
+    borderRadius: 10,
     alignItems: "center",
-    width: "100%", // Largeur complète
-    shadowColor: "#000", // Ombre
+    width: "100%",
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 5,
     shadowOffset: { width: 0, height: 2 },
-    elevation: 3, // Ombre sur Android
+    elevation: 3,
   },
   buttonText: {
-    color: "#fff", // Texte blanc sur le bouton
+    color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
   },
   orText: {
     fontSize: 14,
-    color: "#666", // Gris clair pour "ou"
-    marginBottom: 15, // Espacement avec le bouton suivant
+    color: "#666",
+    marginBottom: 15,
     textAlign: "center",
   },
 });
