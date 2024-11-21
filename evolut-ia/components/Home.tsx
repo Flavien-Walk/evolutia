@@ -40,7 +40,7 @@ const HomeScreen: React.FC = () => {
           <ImageBackground
             source={require("../assets/Image Container anglais.png")}
             style={styles.courseImage}
-            imageStyle={styles.cardImageStyle} // Arrondir les coins
+            imageStyle={styles.cardImageStyle} 
           >
             <View style={styles.overlay}>
               <Text style={styles.courseTitle}>Cours d'anglais</Text>
@@ -54,7 +54,7 @@ const HomeScreen: React.FC = () => {
         <Text style={styles.quizTitle}>Quiz de la semaine</Text>
         <TouchableOpacity style={styles.quizCard}>
           <Image
-            source={require("../assets/Image maths.png")} // Remplacez par votre image
+            source={require("../assets/Image maths.png")} 
             style={styles.quizImage}
           />
           <View>
