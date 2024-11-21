@@ -10,7 +10,6 @@ const Index: React.FC = () => {
       <StatusBar barStyle="light-content" backgroundColor="#6D57FC" />
 
       <View style={styles.container}>
-        {/* Logo */}
         <Image
           source={require("../assets/Logo Blanc Evolut'IA.png")}
           style={styles.logo}

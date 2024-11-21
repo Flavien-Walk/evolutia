@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  ScrollView,
   View,
   Text,
   TextInput,
@@ -14,7 +15,6 @@ import styles from "../styles/RegisterStyles";
 const Register: React.FC = () => {
   const router = useRouter();
 
-  // Gestion des champs du formulaire
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -23,37 +23,27 @@ const Register: React.FC = () => {
     confirmPassword: "",
   });
 
-  // Fonction pour mettre à jour les champs du formulaire
   const handleInputChange = (name: string, value: string) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Fonction pour gérer l'inscription
   const handleRegister = async () => {
-    console.log("Bouton S'inscrire cliqué");
-
-    // Vérification des mots de passe
     if (formData.password !== formData.confirmPassword) {
       Alert.alert("Erreur", "Les mots de passe ne correspondent pas");
       return;
     }
 
     try {
-      console.log("Envoi des données au backend :", formData);
-
-      const response = await axios.post("http://10.76.203.251:5000/register", {
+      const response = await axios.post("http://10.76.204.42:5000/register", {
         email: formData.email,
         username: formData.username,
         contactNumber: formData.contactNumber,
         password: formData.password,
       });
 
-      console.log("Réponse du serveur :", response.data);
       Alert.alert("Succès", response.data.message);
       router.push("/login");
     } catch (error: any) {
-      console.error("Erreur lors de l'envoi :", error);
-
       const errorMessage =
         error.response?.data?.error || "Une erreur est survenue, veuillez réessayer.";
       Alert.alert("Erreur", errorMessage);
@@ -61,7 +51,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
       {/* Flèche retour */}
       <TouchableOpacity style={styles.backArrow} onPress={() => router.push("/")}>
         <Text style={styles.backText}>←</Text>
@@ -69,13 +59,14 @@ const Register: React.FC = () => {
 
       {/* Logo */}
       <Image
-        source={{ uri: "https://via.placeholder.com/50" }}
+        source={require("../assets/Logo noir Evolut'IA.png")}
         style={styles.logo}
       />
 
       {/* Titre */}
       <Text style={styles.title}>S'inscrire</Text>
-      <Text style={styles.subtitle}>Lorem Ipsum is simply</Text>
+
+      {/* Description */}
       <Text style={styles.description}>
         Si vous avez déjà un compte, connectez-vous{" "}
         <Link href="/login" style={styles.link}>
@@ -83,36 +74,49 @@ const Register: React.FC = () => {
         </Link>
       </Text>
 
-      {/* Champs de saisie */}
+      {/* Adresse Email */}
       <TextInput
         style={styles.input}
         placeholder="Saisir l'adresse électronique"
+        placeholderTextColor="#A29BFE"
         onChangeText={(text) => handleInputChange("email", text)}
         value={formData.email}
       />
+
+      {/* Nom d'utilisateur */}
       <TextInput
         style={styles.input}
         placeholder="Créer un nom d'utilisateur"
+        placeholderTextColor="#A29BFE"
         onChangeText={(text) => handleInputChange("username", text)}
         value={formData.username}
       />
+
+      {/* Numéro de contact */}
       <TextInput
         style={styles.input}
         placeholder="Numéro de contact"
+        placeholderTextColor="#A29BFE"
         onChangeText={(text) => handleInputChange("contactNumber", text)}
         value={formData.contactNumber}
       />
+
+      {/* Mot de passe */}
       <TextInput
         style={styles.input}
         placeholder="Mot de passe"
-        secureTextEntry={true}
+        placeholderTextColor="#A29BFE"
+        secureTextEntry
         onChangeText={(text) => handleInputChange("password", text)}
         value={formData.password}
       />
+
+      {/* Confirmation du mot de passe */}
       <TextInput
         style={styles.input}
         placeholder="Confirmer le mot de passe"
-        secureTextEntry={true}
+        placeholderTextColor="#A29BFE"
+        secureTextEntry
         onChangeText={(text) => handleInputChange("confirmPassword", text)}
         value={formData.confirmPassword}
       />
@@ -122,23 +126,31 @@ const Register: React.FC = () => {
         <Text style={styles.buttonText}>S'inscrire</Text>
       </TouchableOpacity>
 
-      {/* Section ou continuer avec */}
-      <Text style={styles.continueText}>ou continuer avec</Text>
+      {/* Texte ou */}
+      <Text style={styles.orText}>ou continuer avec</Text>
+
+      {/* Icônes des Réseaux Sociaux */}
       <View style={styles.socialIcons}>
-        <Image
-          source={{ uri: "https://via.placeholder.com/30" }}
-          style={styles.icon}
-        />
-        <Image
-          source={{ uri: "https://via.placeholder.com/30" }}
-          style={styles.icon}
-        />
-        <Image
-          source={{ uri: "https://via.placeholder.com/30" }}
-          style={styles.icon}
-        />
+        <TouchableOpacity>
+          <Image
+            source={require("../assets/Facebook.png")}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require("../assets/apple.png")}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require("../assets/google.png")}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

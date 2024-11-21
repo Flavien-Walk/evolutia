@@ -4,42 +4,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingTop: 50,
     backgroundColor: "#ffffff",
   },
   backArrow: {
-    position: "absolute",
-    top: 40,
-    left: 20,
-    padding: 10,
+    marginBottom: 20, // Espacement sous la flèche
   },
   backText: {
-    fontSize: 20,
+    fontSize: 18,
     color: "#000000",
   },
   logo: {
-    width: 50,
-    height: 50,
-    marginBottom: 20,
+    width: 60,
+    height: 60,
+    alignSelf: "center",
+    marginBottom: 30, // Espacement sous le logo
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
     color: "#000000",
     textAlign: "center",
+    marginBottom: 20, // Espacement sous le titre
   },
-  subtitle: {
-    fontSize: 16,
-    color: "#7f7f7f",
-    textAlign: "center",
-    marginBottom: 20,
+  textContainer: {
+    marginBottom: 20, // Espacement entre les textes et les champs
   },
   registerText: {
     fontSize: 14,
     color: "#7f7f7f",
     textAlign: "center",
-    marginBottom: 30,
   },
   link: {
     color: "#5c34e7",
@@ -50,17 +44,17 @@ const styles = StyleSheet.create({
     color: "#5c34e7",
     fontSize: 16,
     borderRadius: 8,
-    paddingVertical: 10,
+    paddingVertical: 12,
     paddingHorizontal: 15,
     width: "100%",
-    marginBottom: 15,
+    marginBottom: 20, // Espacement entre les champs
   },
   passwordContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#f4f1fd",
     borderRadius: 8,
-    marginBottom: 10,
+    marginBottom: 20, // Espacement avant le bouton
     width: "100%",
   },
   eyeIcon: {
@@ -71,8 +65,7 @@ const styles = StyleSheet.create({
     color: "#5c34e7",
     fontSize: 14,
     textAlign: "right",
-    marginBottom: 20,
-    alignSelf: "flex-end",
+    marginBottom: 30, // Espacement avant le bouton Connexion
   },
   button: {
     backgroundColor: "#5c34e7",
@@ -80,7 +73,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     width: "100%",
-    marginBottom: 20,
+    marginBottom: 30, // Espacement avant le texte "ou continuer avec"
   },
   buttonText: {
     color: "#fff",
@@ -90,14 +83,14 @@ const styles = StyleSheet.create({
   orText: {
     fontSize: 14,
     color: "#7f7f7f",
-    marginBottom: 10,
     textAlign: "center",
+    marginBottom: 20, // Espacement avant les icônes des réseaux sociaux
   },
   socialIcons: {
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "60%",
-    marginTop: 10,
+    width: "70%",
+    alignSelf: "center",
   },
   icon: {
     width: 40,
