@@ -41,7 +41,7 @@ const Register: React.FC = () => {
     try {
       console.log("Envoi des données au backend :", formData);
 
-      const response = await axios.post("http://10.76.204.42:5000/register", {
+      const response = await axios.post("http://10.76.203.251:5000/register", {
         email: formData.email,
         username: formData.username,
         contactNumber: formData.contactNumber,

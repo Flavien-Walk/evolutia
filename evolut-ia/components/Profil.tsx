@@ -68,7 +68,7 @@ const Profil: React.FC = () => {
                 source={require("../assets/photoprofil1.png")}
                 style={styles.statIcon}
               />
-              <View>
+               <View>
                 <Text style={styles.statValue}>#2</Text>
                 <Text style={styles.statLabel}>Leaderboard</Text>
               </View>
