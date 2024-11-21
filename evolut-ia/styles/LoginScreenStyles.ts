@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   backArrow: {
-    marginBottom: 20, // Espacement sous la flèche
+    marginBottom: 20,
   },
   backText: {
     fontSize: 18,
@@ -18,26 +18,14 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     alignSelf: "center",
-    marginBottom: 30, // Espacement sous le logo
+    marginBottom: 30,
   },
   title: {
     fontSize: 22,
     fontWeight: "bold",
     color: "#000000",
     textAlign: "center",
-    marginBottom: 20, // Espacement sous le titre
-  },
-  textContainer: {
-    marginBottom: 20, // Espacement entre les textes et les champs
-  },
-  registerText: {
-    fontSize: 14,
-    color: "#7f7f7f",
-    textAlign: "center",
-  },
-  link: {
-    color: "#5c34e7",
-    fontWeight: "bold",
+    marginBottom: 20,
   },
   input: {
     backgroundColor: "#f4f1fd",
@@ -47,25 +35,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 15,
     width: "100%",
-    marginBottom: 20, // Espacement entre les champs
-  },
-  passwordContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f4f1fd",
-    borderRadius: 8,
-    marginBottom: 20, // Espacement avant le bouton
-    width: "100%",
-  },
-  eyeIcon: {
-    paddingHorizontal: 10,
-    color: "#A29BFE",
+    marginBottom: 20,
   },
   forgotPassword: {
     color: "#5c34e7",
     fontSize: 14,
     textAlign: "right",
-    marginBottom: 30, // Espacement avant le bouton Connexion
+    marginBottom: 30,
   },
   button: {
     backgroundColor: "#5c34e7",
@@ -73,7 +49,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
     width: "100%",
-    marginBottom: 30, // Espacement avant le texte "ou continuer avec"
+    marginBottom: 30,
   },
   buttonText: {
     color: "#fff",
@@ -84,7 +60,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#7f7f7f",
     textAlign: "center",
-    marginBottom: 20, // Espacement avant les icônes des réseaux sociaux
+    marginBottom: 20,
   },
   socialIcons: {
     flexDirection: "row",

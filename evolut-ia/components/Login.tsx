@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,43 +7,77 @@ import {
   Image,
   Alert,
 } from "react-native";
-import { Link, useRouter } from "expo-router";
-import axios from "axios";
+import * as Google from "expo-auth-session/providers/google";
+import { useRouter } from "expo-router";
 import styles from "../styles/LoginScreenStyles";
 
 const Login: React.FC = () => {
   const router = useRouter();
 
-  // Gestion des champs de connexion
+  // Champs pour email et mot de passe
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Initialisation Google OAuth
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    clientId: "372481784711-30b8l1pnokd02s441uk2l17neg7bjkf1.apps.googleusercontent.com",
+    redirectUri: "https://auth.expo.io/@msxprime/evolut-ia",
+  });
+
+  // Gestion de la réponse Google
+  useEffect(() => {
+    if (response?.type === "success") {
+      const sendGoogleToken = async () => {
+        try {
+          const backendResponse = await fetch("http://10.76.203.251:5000/google-login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: response.authentication?.idToken }),
+          });
+
+          const data = await backendResponse.json();
+
+          if (backendResponse.ok) {
+            Alert.alert("Bienvenue", `Bonjour ${data.user.username} !`);
+            router.push("/home");
+          } else {
+            Alert.alert("Erreur", data.error || "Une erreur est survenue.");
+          }
+        } catch (error) {
+          console.error("Erreur lors de l'envoi du token Google :", error);
+          Alert.alert("Erreur", "Impossible de se connecter au serveur.");
+        }
+      };
+
+      sendGoogleToken();
+    }
+  }, [response]);
+
+  // Gestion de la connexion classique (email et mot de passe)
   const handleLogin = async () => {
     try {
-      console.log("Tentative de connexion avec :", { email, password });
-
-      const response = await axios.post("http://10.76.203.251:5000/login", {
-        email,
-        password,
+      const response = await fetch("http://10.76.203.251:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
-      console.log("Réponse du serveur :", response.data);
-      Alert.alert("Succès", response.data.message);
-
-      // Redirection vers la page Home
-      router.push("/home");
-    } catch (error: any) {
-      console.error("Erreur lors de la connexion :", error);
-
-      const errorMessage =
-        error.response?.data?.error || "Une erreur est survenue, veuillez réessayer.";
-      Alert.alert("Erreur", errorMessage);
+      const data = await response.json();
+      if (response.ok) {
+        Alert.alert("Connexion réussie", "Bienvenue !");
+        router.push("/home");
+      } else {
+        Alert.alert("Erreur", data.error || "Identifiants incorrects.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la connexion classique :", error);
+      Alert.alert("Erreur", "Une erreur est survenue, veuillez réessayer.");
     }
   };
 
   return (
     <View style={styles.container}>
-      {/* Flèche retour */}
+      {/* Retour */}
       <TouchableOpacity style={styles.backArrow} onPress={() => router.push("/")}>
         <Text style={styles.backText}>←</Text>
       </TouchableOpacity>
@@ -54,50 +88,34 @@ const Login: React.FC = () => {
         style={styles.logo}
       />
 
-      {/* Titre principal */}
-      <Text style={styles.title}>Se connecter à</Text>
+      {/* Titre */}
+      <Text style={styles.title}>Se connecter</Text>
 
-      {/* Texte sous-titre */}
-      <View style={styles.textContainer}>
-        <Text style={styles.registerText}>Si vous n'avez pas de compte, inscrivez-vous</Text>
-        <Text style={styles.registerText}>
-          Vous pouvez vous{" "}
-          <Link href="/register" style={styles.link}>
-            inscrire ici !
-          </Link>
-        </Text>
-      </View>
-
-      {/* Champ Adresse Électronique */}
+      {/* Champ email */}
       <TextInput
-        placeholder="Saisir l'adresse électronique"
+        placeholder="Email"
         placeholderTextColor="#A29BFE"
         style={styles.input}
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={setEmail}
       />
 
-      {/* Champ Mot de Passe */}
-      <View style={styles.passwordContainer}>
-        <TextInput
-          placeholder="Mot de passe"
-          placeholderTextColor="#A29BFE"
-          style={[styles.input, { flex: 1 }]}
-          secureTextEntry
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-        />
-        <TouchableOpacity>
-          <Text style={styles.eyeIcon}>👁️</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Champ mot de passe */}
+      <TextInput
+        placeholder="Mot de passe"
+        placeholderTextColor="#A29BFE"
+        style={styles.input}
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
 
-      {/* Lien "Mot de passe oublié" */}
+      {/* Bouton "Mot de passe oublié" */}
       <TouchableOpacity>
         <Text style={styles.forgotPassword}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
 
-      {/* Bouton Connexion */}
+      {/* Bouton Connexion classique */}
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Connexion</Text>
       </TouchableOpacity>
@@ -105,11 +123,11 @@ const Login: React.FC = () => {
       {/* Texte ou */}
       <Text style={styles.orText}>ou continuer avec</Text>
 
-      {/* Icônes des Réseaux Sociaux */}
+      {/* Boutons Google, Facebook et Apple */}
       <View style={styles.socialIcons}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => promptAsync()}>
           <Image
-            source={require("../assets/Facebook.png")}
+            source={require("../assets/google.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
@@ -121,7 +139,7 @@ const Login: React.FC = () => {
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            source={require("../assets/google.png")}
+            source={require("../assets/Facebook.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
