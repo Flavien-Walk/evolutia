@@ -1,11 +1,13 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router"; // Utilisation de la navigation
 import styles from "../styles/DashboardStyles"; // Importation des styles
 import Navbar from "../components/Navbar"; // Importation de la Navbar
 
 const Dashboard: React.FC = () => {
-  console.log("Rendering Dashboard...");
+  const router = useRouter(); // Initialiser le routeur pour la navigation
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={styles.container}>
@@ -35,9 +37,13 @@ const Dashboard: React.FC = () => {
           <View style={styles.cardLarge}>
             <Text style={styles.cardTitle}>Option A</Text>
           </View>
-          <View style={styles.cardSmall}>
+          {/* Carte IA Assistance */}
+          <TouchableOpacity
+            style={styles.cardSmall}
+            onPress={() => router.push("/chatbot")} // Navigation vers chatbot.tsx
+          >
             <Text style={styles.cardTitle}>IA Assistance</Text>
-          </View>
+          </TouchableOpacity>
           <View style={styles.cardSmall}>
             <Text style={styles.cardTitle}>Historique</Text>
           </View>
