@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/RegisterStyles";
 
 const Register: React.FC = () => {
@@ -28,21 +29,29 @@ const Register: React.FC = () => {
   };
 
   const handleRegister = async () => {
+    // Vérification des mots de passe
     if (formData.password !== formData.confirmPassword) {
       Alert.alert("Erreur", "Les mots de passe ne correspondent pas");
       return;
     }
 
     try {
-      const response = await axios.post("http://10.76.203.251:5000/register", {
+      // Appel API pour l'inscription
+      const response = await axios.post("http://192.168.3.20:5000/register", {
         email: formData.email,
         username: formData.username,
         contactNumber: formData.contactNumber,
         password: formData.password,
       });
 
-      Alert.alert("Succès", response.data.message);
-      router.push("/login");
+      // Stockage du token dans AsyncStorage
+      const { token, message } = response.data; // Le token et le message doivent être renvoyés par l'API
+      await AsyncStorage.setItem("token", token);
+
+      Alert.alert("Succès", message);
+
+      // Rediriger l'utilisateur
+      router.push("/home"); // Redirigez vers la page appropriée
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.error || "Une erreur est survenue, veuillez réessayer.";

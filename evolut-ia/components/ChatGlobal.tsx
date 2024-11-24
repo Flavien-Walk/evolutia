@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TextInput, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import io from "socket.io-client";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/ChatGlobalStyles";
 
 // Connexion à Socket.IO
-const socket = io("http://10.76.203.251:5000");
+const socket = io("http://192.168.3.20:5000");
 
 // Typage d'un message
 type Message = {
-  id: string; // Identifiant unique pour chaque message
+  id: string;
   text: string;
   sender: string;
   color: string;
@@ -20,19 +21,48 @@ const generateUniqueId = () => Date.now().toString() + Math.random().toString(36
 
 const ChatGlobal: React.FC = () => {
   const router = useRouter();
-  const [messages, setMessages] = useState<Message[]>([]); // Liste des messages
-  const [newMessage, setNewMessage] = useState<string>(""); // Message à envoyer
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState<string>("");
   const [user, setUser] = useState<{ name: string; color: string }>({
-    name: "Utilisateur_" + Math.floor(Math.random() * 1000),
+    name: "",
     color: "#" + Math.floor(Math.random() * 16777215).toString(16),
   });
 
-  // Connexion à Socket.IO
+  // Récupérer les informations utilisateur
   useEffect(() => {
-    // Réception des messages du serveur
+    const fetchUser = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (!token) {
+          console.error("Token manquant !");
+          return;
+        }
+
+        const response = await fetch("http://192.168.3.20:5000/user-info", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        setUser({
+          name: data.username,
+          color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+        });
+
+        // Informer le serveur Socket.IO du nom d'utilisateur
+        socket.emit("setUsername", { username: data.username });
+      } catch (error) {
+        console.error("Erreur lors de la récupération de l'utilisateur :", error);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  // Réception des messages du serveur
+  useEffect(() => {
     socket.on("receiveMessage", (message: Message) => {
       setMessages((prevMessages) => {
-        // Vérifie si le message existe déjà pour éviter les doublons
         if (prevMessages.some((m) => m.id === message.id)) {
           return prevMessages;
         }
@@ -41,21 +71,21 @@ const ChatGlobal: React.FC = () => {
     });
 
     return () => {
-      socket.off("receiveMessage"); // Nettoyer la connexion
+      socket.off("receiveMessage");
     };
   }, []);
 
-  // Fonction pour envoyer un message
+  // Envoi des messages
   const sendMessage = () => {
     if (newMessage.trim() !== "") {
       const message: Message = {
         id: generateUniqueId(),
         text: newMessage,
-        sender: user.name,
+        sender: user.name || "Anonymous",
         color: user.color,
       };
-      socket.emit("sendMessage", message); // Envoyer au serveur
-      setNewMessage(""); // Réinitialiser l'entrée
+      socket.emit("sendMessage", message);
+      setNewMessage("");
     }
   };
 
@@ -69,10 +99,10 @@ const ChatGlobal: React.FC = () => {
         <Text style={styles.headerText}>Chat Global</Text>
       </View>
 
-      {/* Boîte de messages */}
+      {/* Liste des messages */}
       <FlatList
         data={messages}
-        keyExtractor={(item) => item.id} // Utilisation de l'ID unique
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View
             style={[
@@ -87,7 +117,7 @@ const ChatGlobal: React.FC = () => {
         contentContainerStyle={styles.chatBox}
       />
 
-      {/* Barre d'entrée */}
+      {/* Barre de saisie */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}

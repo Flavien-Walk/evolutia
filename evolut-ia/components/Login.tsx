@@ -8,6 +8,7 @@ import {
   Alert,
 } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import styles from "../styles/LoginScreenStyles";
 
@@ -38,6 +39,10 @@ const Login: React.FC = () => {
           const data = await backendResponse.json();
 
           if (backendResponse.ok) {
+            // Stocker le token et le nom d'utilisateur
+            await AsyncStorage.setItem("token", data.token);
+            await AsyncStorage.setItem("username", data.user.username);
+
             Alert.alert("Bienvenue", `Bonjour ${data.user.username} !`);
             router.push("/home");
           } else {
@@ -56,7 +61,7 @@ const Login: React.FC = () => {
   // Gestion de la connexion classique (email et mot de passe)
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://10.76.203.251:5000/login", {
+      const response = await fetch("http://192.168.3.20:5000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -64,7 +69,11 @@ const Login: React.FC = () => {
 
       const data = await response.json();
       if (response.ok) {
-        Alert.alert("Connexion réussie", "Bienvenue !");
+        // Stocker le token et le nom d'utilisateur
+        await AsyncStorage.setItem("token", data.token);
+        await AsyncStorage.setItem("username", data.user.username);
+
+        Alert.alert("Connexion réussie", `Bonjour ${data.user.username} !`);
         router.push("/home");
       } else {
         Alert.alert("Erreur", data.error || "Identifiants incorrects.");
