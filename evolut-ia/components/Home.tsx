@@ -8,23 +8,36 @@ import Navbar from "../components/Navbar"; // Import du composant Navbar
 const HomeScreen: React.FC = () => {
   const router = useRouter();
   const [username, setUsername] = useState("Utilisateur"); // État pour le nom d'utilisateur
+  const [role, setRole] = useState("User"); // État pour le rôle (statut)
+  const [roleColor, setRoleColor] = useState("#808080"); // État pour la couleur du rôle
 
-  // Charger le nom d'utilisateur depuis AsyncStorage
+  // Charger les informations utilisateur depuis AsyncStorage
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchUserData = async () => {
       try {
         const storedUsername = await AsyncStorage.getItem("username");
+        const storedRole = await AsyncStorage.getItem("role");
+        const storedRoleColor = await AsyncStorage.getItem("roleColor");
+
         if (storedUsername) {
           setUsername(storedUsername);
         } else {
           console.warn("Nom d'utilisateur non trouvé !");
         }
+
+        if (storedRole) {
+          setRole(storedRole);
+        }
+
+        if (storedRoleColor) {
+          setRoleColor(storedRoleColor);
+        }
       } catch (error) {
-        console.error("Erreur lors de la récupération du nom d'utilisateur :", error);
+        console.error("Erreur lors de la récupération des informations utilisateur :", error);
       }
     };
 
-    fetchUsername();
+    fetchUserData();
   }, []);
 
   return (
@@ -34,6 +47,9 @@ const HomeScreen: React.FC = () => {
         <View style={styles.headerTextContainer}>
           <Text style={styles.greetingText}>Bonjour Bienvenue 👋</Text>
           <Text style={styles.nameText}>{username}</Text>
+          <Text style={[styles.roleText, { color: roleColor }]}>
+            Statut : {role}
+          </Text>
         </View>
         <TouchableOpacity onPress={() => router.push("/profil")}>
           <Image

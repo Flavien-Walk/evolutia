@@ -44,14 +44,16 @@ const Register: React.FC = () => {
         password: formData.password,
       });
 
-      // Stockage du token dans AsyncStorage
-      const { token, message } = response.data; // Le token et le message doivent être renvoyés par l'API
+      const { token, user } = response.data;
+
+      // Stockage des informations utilisateur
       await AsyncStorage.setItem("token", token);
+      await AsyncStorage.setItem("username", user.username);
+      await AsyncStorage.setItem("role", user.role);
+      await AsyncStorage.setItem("roleColor", user.roleColor);
 
-      Alert.alert("Succès", message);
-
-      // Rediriger l'utilisateur
-      router.push("/home"); // Redirigez vers la page appropriée
+      Alert.alert("Succès", `Bienvenue, ${user.username}!`);
+      router.push("/home");
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.error || "Une erreur est survenue, veuillez réessayer.";
@@ -83,25 +85,21 @@ const Register: React.FC = () => {
         </Link>
       </Text>
 
-      {/* Adresse Email */}
+      {/* Formulaire */}
       <TextInput
         style={styles.input}
-        placeholder="Saisir l'adresse électronique"
+        placeholder="Email"
         placeholderTextColor="#A29BFE"
         onChangeText={(text) => handleInputChange("email", text)}
         value={formData.email}
       />
-
-      {/* Nom d'utilisateur */}
       <TextInput
         style={styles.input}
-        placeholder="Créer un nom d'utilisateur"
+        placeholder="Nom d'utilisateur"
         placeholderTextColor="#A29BFE"
         onChangeText={(text) => handleInputChange("username", text)}
         value={formData.username}
       />
-
-      {/* Numéro de contact */}
       <TextInput
         style={styles.input}
         placeholder="Numéro de contact"
@@ -109,8 +107,6 @@ const Register: React.FC = () => {
         onChangeText={(text) => handleInputChange("contactNumber", text)}
         value={formData.contactNumber}
       />
-
-      {/* Mot de passe */}
       <TextInput
         style={styles.input}
         placeholder="Mot de passe"
@@ -119,8 +115,6 @@ const Register: React.FC = () => {
         onChangeText={(text) => handleInputChange("password", text)}
         value={formData.password}
       />
-
-      {/* Confirmation du mot de passe */}
       <TextInput
         style={styles.input}
         placeholder="Confirmer le mot de passe"
@@ -130,7 +124,7 @@ const Register: React.FC = () => {
         value={formData.confirmPassword}
       />
 
-      {/* Bouton S'inscrire */}
+      {/* Bouton */}
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>S'inscrire</Text>
       </TouchableOpacity>

@@ -39,9 +39,11 @@ const Login: React.FC = () => {
           const data = await backendResponse.json();
 
           if (backendResponse.ok) {
-            // Stocker le token et le nom d'utilisateur
-            await AsyncStorage.setItem("token", data.token);
-            await AsyncStorage.setItem("username", data.user.username);
+            // Stocker les données utilisateur uniquement si elles existent
+            if (data.token) await AsyncStorage.setItem("token", data.token);
+            if (data.user?.username) await AsyncStorage.setItem("username", data.user.username);
+            if (data.user?.role) await AsyncStorage.setItem("role", data.user.role);
+            if (data.user?.roleColor) await AsyncStorage.setItem("roleColor", data.user.roleColor);
 
             Alert.alert("Bienvenue", `Bonjour ${data.user.username} !`);
             router.push("/home");
@@ -69,9 +71,11 @@ const Login: React.FC = () => {
 
       const data = await response.json();
       if (response.ok) {
-        // Stocker le token et le nom d'utilisateur
-        await AsyncStorage.setItem("token", data.token);
-        await AsyncStorage.setItem("username", data.user.username);
+        // Stocker les données utilisateur uniquement si elles existent
+        if (data.token) await AsyncStorage.setItem("token", data.token);
+        if (data.user?.username) await AsyncStorage.setItem("username", data.user.username);
+        if (data.user?.role) await AsyncStorage.setItem("role", data.user.role);
+        if (data.user?.roleColor) await AsyncStorage.setItem("roleColor", data.user.roleColor);
 
         Alert.alert("Connexion réussie", `Bonjour ${data.user.username} !`);
         router.push("/home");
