@@ -1,9 +1,8 @@
 import { StyleSheet, Dimensions } from "react-native";
 
-const { width, height } = Dimensions.get("window"); // Screen dimensions
+const { width, height } = Dimensions.get("window");
 
-const styles = StyleSheet.create({
-  // Background for the entire screen
+export default StyleSheet.create({
   background: {
     position: "absolute",
     top: 0,
@@ -14,16 +13,12 @@ const styles = StyleSheet.create({
     height: height,
     backgroundColor: "#6c63ff", // Purple background
   },
-
-  // Main container with transparent background
   container: {
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "transparent",
   },
-
-  // White card container for content
   cardContainer: {
     flex: 1,
     backgroundColor: "#FFFFFF", // White background
@@ -39,17 +34,13 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 10,
   },
-
-  // Header container
   header: {
     width: "100%",
     alignItems: "center",
     paddingTop: 70,
     paddingBottom: 20,
-    backgroundColor: "#6c63ff", // Purple background for the header
+    backgroundColor: "#6c63ff",
   },
-
-  // Logo container and image
   logoContainer: {
     position: "absolute",
     left: 20,
@@ -60,8 +51,6 @@ const styles = StyleSheet.create({
     height: 40,
     resizeMode: "contain",
   },
-
-  // Header text styles
   headerTextContainer: {
     marginTop: 50,
     alignItems: "flex-start",
@@ -69,16 +58,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#fff", // White title text
+    color: "#fff",
     textAlign: "left",
   },
   subtitle: {
     fontSize: 16,
-    color: "#ddd", // Light gray subtitle text
+    color: "#ddd",
     textAlign: "left",
   },
-
-  // Icons in the header
   icons: {
     position: "absolute",
     right: 20,
@@ -86,11 +73,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   icon: {
-    color: "#fff", // White icons
+    color: "#fff",
     marginLeft: 10,
   },
-
-  // Tabs container
   tabContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -101,14 +86,12 @@ const styles = StyleSheet.create({
   tabText: {
     fontSize: 13,
     fontWeight: "bold",
-    color: "#333", // Gray for inactive tabs
+    color: "#333",
   },
   activeTabText: {
-    color: "#6c63ff", // Purple for active tab
-    textDecorationLine: "underline", // Underline for active tab
+    color: "#6c63ff",
+    textDecorationLine: "underline",
   },
-
-  // Progress bar container
   progressWrapper: {
     marginTop: 20,
     alignItems: "center",
@@ -116,7 +99,7 @@ const styles = StyleSheet.create({
   progressContainer: {
     width: "90%",
     height: 15,
-    backgroundColor: "#f3f3f3", // Light gray background
+    backgroundColor: "#f3f3f3",
     borderRadius: 10,
     overflow: "hidden",
     justifyContent: "center",
@@ -127,7 +110,7 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: "100%",
-    backgroundColor: "#6c63ff", // Purple progress
+    backgroundColor: "#6c63ff",
     borderRadius: 10,
   },
   progressLabel: {
@@ -136,8 +119,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: "center",
   },
-
-  // Cards container
+  scrollContainer: {
+    marginBottom: 60, // Space to ensure content doesn't clash with the navbar
+  },
   cardsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -145,12 +129,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 20,
   },
-
-  // Individual card styles
   card: {
     width: "48%",
     height: 120,
-    backgroundColor: "#fff", // White card
+    backgroundColor: "#fff",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -159,14 +141,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3, // Shadow for Android
+    elevation: 3,
   },
-
-  // Chart card style
   chartCard: {
     width: "100%",
     height: 150,
-    backgroundColor: "#fff", // White background
+    backgroundColor: "#fff",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -175,23 +155,34 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3, // Shadow for Android
+    elevation: 3,
   },
-
-  // Card title
   cardTitle: {
     fontSize: 16,
-    color: "#333", // Dark gray for text
+    color: "#333",
     fontWeight: "bold",
   },
-
-  // Card value (e.g., 660)
   cardValue: {
     fontSize: 40,
-    color: "#6c63ff", // Purple for value
+    color: "#6c63ff",
     fontWeight: "bold",
     marginTop: 10,
   },
+  navbarContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 60,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#ddd",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
 });
-
-export default styles;
