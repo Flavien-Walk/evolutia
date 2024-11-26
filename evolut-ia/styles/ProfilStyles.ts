@@ -9,9 +9,9 @@ export default StyleSheet.create({
     padding: 20,
     paddingBottom: 100, // Espace supplémentaire pour la Navbar
   },
-  header: {
+  profileHeader: {
     alignItems: "center",
-    marginBottom: 20,
+    marginVertical: 20,
   },
   profileImage: {
     width: 100,
@@ -23,6 +23,25 @@ export default StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     color: "#333333",
+  },
+  tabsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+    marginBottom: 15,
+  },
+  tabText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    padding: 10,
+    marginHorizontal: 10,
+    color: "#666666", // Couleur par défaut pour les onglets
+  },
+  activeTab: {
+    color: "#587EFF", // Couleur violette pour l'onglet actif
+    borderBottomWidth: 2,
+    borderBottomColor: "#587EFF", // Soulignement violet pour l'onglet actif
   },
   statsSection: {
     marginBottom: 30,

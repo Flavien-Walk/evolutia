@@ -24,18 +24,30 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginLeft: 40, // Pour éviter la superposition avec la flèche
+    marginLeft: 40,
   },
   chatBox: {
     flexGrow: 1,
     padding: 16,
   },
   messageBubble: {
-    backgroundColor: "#E0E0E0",
     padding: 12,
     borderRadius: 8,
-    alignSelf: "flex-start",
     marginBottom: 8,
+    maxWidth: "80%",
+  },
+  myMessage: {
+    alignSelf: "flex-end",
+    backgroundColor: "#D1C4E9",
+  },
+  otherMessage: {
+    alignSelf: "flex-start",
+    backgroundColor: "#E0E0E0",
+  },
+  senderText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    marginBottom: 4,
   },
   messageText: {
     fontSize: 16,

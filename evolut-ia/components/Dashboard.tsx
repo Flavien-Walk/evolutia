@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import styles from "../styles/DashboardStyles";
 import Navbar from "../components/Navbar";
 
+
 const Header: React.FC = () => (
   <View style={styles.header}>
     <View style={styles.logoContainer}>
@@ -14,16 +15,21 @@ const Header: React.FC = () => (
         style={styles.logoImage}
       />
     </View>
+    
     <View style={styles.headerTextContainer}>
       <Text style={styles.title}>Prêt à comprendre ?</Text>
       <Text style={styles.subtitle}>Choisis ton item.</Text>
     </View>
+
+
+
     <View style={styles.icons}>
       <Ionicons name="reload-outline" size={24} style={styles.icon} />
       <Ionicons name="notifications-outline" size={24} style={styles.icon} />
     </View>
   </View>
 );
+
 
 const Tabs: React.FC = () => {
   const router = useRouter();
@@ -41,6 +47,7 @@ const Tabs: React.FC = () => {
     </View>
   );
 };
+
 
 const ProgressBar: React.FC<{ progress: number }> = ({ progress }) => (
   <View style={styles.progressCard}>
@@ -112,6 +119,7 @@ const Dashboard: React.FC = () => {
           </View>
         </View>
         <View style={styles.navbarContainer}>
+
           <Navbar />
         </View>
       </View>

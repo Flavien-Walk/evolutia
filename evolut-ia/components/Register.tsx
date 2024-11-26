@@ -10,11 +10,13 @@ import {
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/RegisterStyles";
 
 const Register: React.FC = () => {
   const router = useRouter();
 
+  // État pour les données du formulaire
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -23,27 +25,49 @@ const Register: React.FC = () => {
     confirmPassword: "",
   });
 
+  // Fonction pour gérer les changements dans les champs du formulaire
   const handleInputChange = (name: string, value: string) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  // Fonction pour gérer l'inscription
   const handleRegister = async () => {
+    // Vérification des mots de passe
     if (formData.password !== formData.confirmPassword) {
       Alert.alert("Erreur", "Les mots de passe ne correspondent pas");
       return;
     }
 
+    // Vérification des champs obligatoires
+    if (!formData.email || !formData.username || !formData.password) {
+      Alert.alert("Erreur", "Veuillez remplir tous les champs obligatoires");
+      return;
+    }
+
     try {
+
       const response = await axios.post("http://10.76.204.57:3636/register", {
+
         email: formData.email,
         username: formData.username,
         contactNumber: formData.contactNumber,
         password: formData.password,
       });
 
-      Alert.alert("Succès", response.data.message);
-      router.push("/login");
+      // Récupération des données de la réponse
+      const { token, user } = response.data;
+
+      // Stockage des informations utilisateur
+      if (token) await AsyncStorage.setItem("token", token);
+      if (user?.username) await AsyncStorage.setItem("username", user.username);
+      if (user?.role) await AsyncStorage.setItem("role", user.role);
+      if (user?.roleColor) await AsyncStorage.setItem("roleColor", user.roleColor);
+
+      Alert.alert("Succès", `Bienvenue, ${user.username} !`);
+      router.push("/home");
     } catch (error: any) {
+      // Gestion des erreurs
+      console.error("Erreur lors de l'inscription :", error);
       const errorMessage =
         error.response?.data?.error || "Une erreur est survenue, veuillez réessayer.";
       Alert.alert("Erreur", errorMessage);
@@ -74,34 +98,31 @@ const Register: React.FC = () => {
         </Link>
       </Text>
 
-      {/* Adresse Email */}
+      {/* Formulaire */}
       <TextInput
         style={styles.input}
-        placeholder="Saisir l'adresse électronique"
+        placeholder="Email"
         placeholderTextColor="#A29BFE"
+        keyboardType="email-address"
+        autoCapitalize="none"
         onChangeText={(text) => handleInputChange("email", text)}
         value={formData.email}
       />
-
-      {/* Nom d'utilisateur */}
       <TextInput
         style={styles.input}
-        placeholder="Créer un nom d'utilisateur"
+        placeholder="Nom d'utilisateur"
         placeholderTextColor="#A29BFE"
         onChangeText={(text) => handleInputChange("username", text)}
         value={formData.username}
       />
-
-      {/* Numéro de contact */}
       <TextInput
         style={styles.input}
-        placeholder="Numéro de contact"
+        placeholder="Numéro de contact (optionnel)"
         placeholderTextColor="#A29BFE"
+        keyboardType="phone-pad"
         onChangeText={(text) => handleInputChange("contactNumber", text)}
         value={formData.contactNumber}
       />
-
-      {/* Mot de passe */}
       <TextInput
         style={styles.input}
         placeholder="Mot de passe"
@@ -110,8 +131,6 @@ const Register: React.FC = () => {
         onChangeText={(text) => handleInputChange("password", text)}
         value={formData.password}
       />
-
-      {/* Confirmation du mot de passe */}
       <TextInput
         style={styles.input}
         placeholder="Confirmer le mot de passe"
@@ -121,7 +140,7 @@ const Register: React.FC = () => {
         value={formData.confirmPassword}
       />
 
-      {/* Bouton S'inscrire */}
+      {/* Bouton d'inscription */}
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>S'inscrire</Text>
       </TouchableOpacity>

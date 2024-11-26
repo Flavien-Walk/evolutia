@@ -1,11 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, ImageBackground } from "react-native";
-import { useRouter } from "expo-router"; // Import useRouter pour la navigation
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import pour récupérer les données locales
+import { useRouter } from "expo-router"; // Hook pour gérer la navigation
 import styles from "../styles/HomeScreenStyles";
 import Navbar from "../components/Navbar"; // Import du composant Navbar
 
 const HomeScreen: React.FC = () => {
-  const router = useRouter(); // Hook pour gérer la navigation
+  const router = useRouter();
+  const [username, setUsername] = useState("Utilisateur"); // État pour le nom d'utilisateur
+  const [role, setRole] = useState("User"); // État pour le rôle (statut)
+  const [roleColor, setRoleColor] = useState("#808080"); // État pour la couleur du rôle
+
+  // Charger les informations utilisateur depuis AsyncStorage
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const storedUsername = await AsyncStorage.getItem("username");
+        const storedRole = await AsyncStorage.getItem("role");
+        const storedRoleColor = await AsyncStorage.getItem("roleColor");
+
+        if (storedUsername) {
+          setUsername(storedUsername);
+        } else {
+          console.warn("Nom d'utilisateur non trouvé !");
+        }
+
+        if (storedRole) {
+          setRole(storedRole);
+        }
+
+        if (storedRoleColor) {
+          setRoleColor(storedRoleColor);
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des informations utilisateur :", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -13,7 +46,10 @@ const HomeScreen: React.FC = () => {
       <View style={styles.header}>
         <View style={styles.headerTextContainer}>
           <Text style={styles.greetingText}>Bonjour Bienvenue 👋</Text>
-          <Text style={styles.nameText}>Antoine Dupont</Text>
+          <Text style={styles.nameText}>{username}</Text>
+          <Text style={[styles.roleText, { color: roleColor }]}>
+            Statut : {role}
+          </Text>
         </View>
         <TouchableOpacity onPress={() => router.push("/profil")}>
           <Image
@@ -40,7 +76,7 @@ const HomeScreen: React.FC = () => {
           <ImageBackground
             source={require("../assets/Image Container anglais.png")}
             style={styles.courseImage}
-            imageStyle={styles.cardImageStyle} 
+            imageStyle={styles.cardImageStyle}
           >
             <View style={styles.overlay}>
               <Text style={styles.courseTitle}>Cours d'anglais</Text>
@@ -54,7 +90,7 @@ const HomeScreen: React.FC = () => {
         <Text style={styles.quizTitle}>Quiz de la semaine</Text>
         <TouchableOpacity style={styles.quizCard}>
           <Image
-            source={require("../assets/Image maths.png")} 
+            source={require("../assets/Image maths.png")}
             style={styles.quizImage}
           />
           <View>

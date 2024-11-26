@@ -24,6 +24,12 @@ export default StyleSheet.create({
     fontWeight: "bold",
     color: "#000000",
   },
+  roleText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: 4,
+    color: "#808080", // Couleur par défaut (gris)
+  },
   profileImage: {
     width: 70,
     height: 70,
