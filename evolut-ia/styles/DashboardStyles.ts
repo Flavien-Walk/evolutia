@@ -133,7 +133,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    paddingHorizontal: 10,
+    paddingHorizontal: 1,
     marginTop: 20,
   },
   largeCard: {

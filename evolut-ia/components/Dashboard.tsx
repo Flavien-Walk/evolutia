@@ -67,7 +67,7 @@ const CardsSection: React.FC = () => {
         <Text style={styles.cardTitle}>Récapitulation de l’avancement par matière</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.smallCard} onPress={() => router.push("/")}>
+      <TouchableOpacity style={styles.smallCard} onPress={() => router.push("/chatbot")}>
         <Image source={require("../assets/chat-bot.png")} style={styles.cardIcon} />
         <Text style={styles.cardTitle}>IA Assistance</Text>
       </TouchableOpacity>
