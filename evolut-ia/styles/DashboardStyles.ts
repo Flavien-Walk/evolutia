@@ -1,9 +1,9 @@
 import { StyleSheet, Dimensions } from "react-native";
 
-const { width, height } = Dimensions.get("window"); // Dimensions de l'écran
+const { width, height } = Dimensions.get("window"); // Screen dimensions
 
 const styles = StyleSheet.create({
-  // Fond violet couvrant toute la page
+  // Background for the entire screen
   background: {
     position: "absolute",
     top: 0,
@@ -12,196 +12,186 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: width,
     height: height,
-    backgroundColor: "#6c63ff", // Fond violet
+    backgroundColor: "#6c63ff", // Purple background
   },
 
-  // Conteneur principal transparent pour respecter le fond violet
+  // Main container with transparent background
   container: {
     flex: 1,
-    justifyContent: "flex-start", // Aligne le contenu en haut
+    justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "transparent",
   },
 
-  // Conteneur blanc englobant
+  // White card container for content
   cardContainer: {
     flex: 1,
-    backgroundColor: "#FFFFFF", // Fond blanc
-    borderTopLeftRadius: 30, // Coins arrondis en haut à gauche
-    borderTopRightRadius: 30, // Coins arrondis en haut à droite
-    paddingTop: 20, // Espacement supérieur
-    paddingHorizontal: 15, // Espacement horizontal
-    shadowColor: "#000", // Ombre
+    backgroundColor: "#FFFFFF", // White background
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 20,
+    paddingHorizontal: 15,
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 5 },
-    elevation: 5, // Ombre pour Android
-    width: "100%", // Largeur complète
-    marginTop: 10, // Marge au-dessus du conteneur
+    elevation: 5,
+    width: "100%",
+    marginTop: 10,
   },
 
-  // Style de l'en-tête
+  // Header container
   header: {
     width: "100%",
-    alignItems: "center", // Centre le titre et le sous-titre
-    paddingTop: 70, // Espacement supérieur pour la barre de statut
-    paddingBottom: 20, // Espacement inférieur
-    backgroundColor: "#6c63ff", // Fond violet pour l'en-tête
+    alignItems: "center",
+    paddingTop: 70,
+    paddingBottom: 20,
+    backgroundColor: "#6c63ff", // Purple background for the header
   },
 
+  // Logo container and image
   logoContainer: {
     position: "absolute",
-    left: 20, // Aligné à gauche
-    top: 50, // Ajustez en fonction de l'espacement souhaité
+    left: 20,
+    top: 50,
   },
   logoImage: {
-    width: 40, // Largeur de l'image
-    height: 40, // Hauteur de l'image
-    resizeMode: "contain", // Maintenir les proportions de l'image
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
   },
 
-  // Conteneur pour le texte de l'en-tête
+  // Header text styles
   headerTextContainer: {
     marginTop: 50,
-    alignItems: "center", // Centre le titre et le sous-titre
+    alignItems: "flex-start",
   },
-
-  // Style du titre principal
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#fff", // Blanc pour le titre
-    textAlign: "center",
+    color: "#fff", // White title text
+    textAlign: "left",
   },
-
-  // Style du sous-titre
   subtitle: {
     fontSize: 16,
-    color: "#ddd", // Gris clair pour le sous-titre
-    textAlign: "center",
+    color: "#ddd", // Light gray subtitle text
+    textAlign: "left",
   },
 
-  // Conteneur des icônes
+  // Icons in the header
   icons: {
-    position: "absolute", // Position absolue pour les icônes
-    right: 20, // Aligné à droite
-    top: 50, // Aligné verticalement avec le logo
-    flexDirection: "row", // Aligne les icônes en ligne
+    position: "absolute",
+    right: 20,
+    top: 50,
+    flexDirection: "row",
   },
-
-  // Style des icônes
   icon: {
-    color: "#fff", // Couleur blanche
-    marginLeft: 10, // Espacement entre les icônes
+    color: "#fff", // White icons
+    marginLeft: 10,
   },
 
-  // Conteneur des onglets (navigation)
+  // Tabs container
   tabContainer: {
-    flexDirection: "row", // Onglets alignés horizontalement
-    justifyContent: "space-around", // Espacement équivalent entre les onglets
+    flexDirection: "row",
+    justifyContent: "space-around",
     alignItems: "center",
-    paddingVertical: 10, // Espacement vertical
-    marginHorizontal: 10, // Marges horizontales
+    paddingVertical: 10,
+    marginHorizontal: 1,
   },
-
-  // Texte des onglets
   tabText: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: "bold",
-    color: "#333", // Gris pour les onglets inactifs
+    color: "#333", // Gray for inactive tabs
   },
-
-  // Texte des onglets actifs
   activeTabText: {
-    color: "#6c63ff", // Violet pour l'onglet actif
+    color: "#6c63ff", // Purple for active tab
+    textDecorationLine: "underline", // Underline for active tab
   },
 
-  // Conteneur de la barre de progression
+  // Progress bar container
+  progressWrapper: {
+    marginTop: 20,
+    alignItems: "center",
+  },
   progressContainer: {
-    marginVertical: 20, // Espacement autour de la barre de progression
-    width: "90%", // Barre occupant 90% de la largeur
-    alignSelf: "center", // Centré horizontalement
-  },
-
-  // Label de la progression
-  progressLabel: {
-    fontSize: 14,
-    color: "#333", // Gris foncé pour le texte de progression
-    marginBottom: 5, // Espacement sous le label
-    textAlign: "center",
-  },
-
-  // Barre de progression (fond)
-  progressBar: {
-    width: "100%", // Largeur complète
-    height: 10,
-    backgroundColor: "#ddd", // Gris clair pour le fond de la barre
-    borderRadius: 5,
+    width: "90%",
+    height: 15,
+    backgroundColor: "#f3f3f3", // Light gray background
+    borderRadius: 10,
     overflow: "hidden",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
-
-  // Remplissage de la barre de progression
   progressFill: {
     height: "100%",
-    backgroundColor: "#6c63ff", // Violet pour la progression
+    backgroundColor: "#6c63ff", // Purple progress
+    borderRadius: 10,
+  },
+  progressLabel: {
+    fontSize: 14,
+    color: "#333",
+    marginTop: 5,
+    textAlign: "center",
   },
 
-  // Conteneur pour les cartes
+  // Cards container
   cardsContainer: {
-    flexDirection: "row", // Aligne les cartes horizontalement
-    flexWrap: "wrap", // Permet le retour à la ligne
-    justifyContent: "space-between", // Espacement équivalent entre les cartes
-    paddingHorizontal: 20, // Espacement horizontal
-    marginTop: 20, // Espacement supérieur
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    marginTop: 20,
   },
 
-  // Style des cartes normales
+  // Individual card styles
   card: {
-    width: "48%", // Chaque carte occupe 48% de la largeur
+    width: "48%",
     height: 120,
-    backgroundColor: "#fff", // Fond blanc
-    borderRadius: 10, // Coins arrondis
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 15, // Espacement entre les cartes
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3, // Ombre pour Android
-  },
-
-  // Style des cartes plus grandes (par exemple, graphique)
-  chartCard: {
-    width: "100%", // Occupe toute la largeur
-    height: 150,
-    backgroundColor: "#fff", // Fond blanc
+    backgroundColor: "#fff", // White card
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 15, // Espacement sous la carte
+    marginBottom: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3, // Ombre pour Android
+    elevation: 3, // Shadow for Android
   },
 
-  // Titre des cartes
+  // Chart card style
+  chartCard: {
+    width: "100%",
+    height: 150,
+    backgroundColor: "#fff", // White background
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3, // Shadow for Android
+  },
+
+  // Card title
   cardTitle: {
     fontSize: 16,
-    color: "#333", // Gris foncé pour le texte
+    color: "#333", // Dark gray for text
     fontWeight: "bold",
   },
 
-  // Valeur mise en évidence dans les cartes
+  // Card value (e.g., 660)
   cardValue: {
     fontSize: 40,
-    color: "#6c63ff", // Violet pour les valeurs
+    color: "#6c63ff", // Purple for value
     fontWeight: "bold",
-    marginTop: 10, // Espacement au-dessus
+    marginTop: 10,
   },
-
 });
 
 export default styles;
