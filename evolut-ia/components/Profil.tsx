@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router"; // Navigation avec Expo Router
 import Navbar from "../components/Navbar";
 import Achievements from "../components/Achievements";
 import Activity from "../components/Activity";
 import styles from "../styles/ProfilStyles";
-import { LinearGradient } from "expo-linear-gradient";
 
 const Profil: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"stats" | "Achievements" | "Activity">("stats");
+  const router = useRouter(); // Navigation avec Expo Router
 
   // Fonction pour choisir une image depuis la galerie
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
     if (!permissionResult.granted) {
       Alert.alert("Permission refusée", "Vous devez autoriser l'accès à la galerie.");
       return;
@@ -156,6 +157,17 @@ const Profil: React.FC = () => {
           />
         </TouchableOpacity>
         <Text style={styles.nameText}>Antoine Dupont</Text>
+
+        {/* Bouton Réglages */}
+        <TouchableOpacity
+          style={styles.settingsButton}
+          onPress={() => router.push("/reglage")} // Redirection vers la page Réglages
+        >
+          <Image
+            source={require("../assets/setting.png")}
+            style={styles.settingsIcon}
+          />
+        </TouchableOpacity>
       </View>
 
       {/* Onglets */}
