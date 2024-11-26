@@ -36,7 +36,7 @@ export default StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    paddingBottom: 20,
+    paddingBottom: 80, // Ajout pour éviter la superposition avec la navbar
     paddingHorizontal: 15,
     overflow: "hidden",
   },
@@ -96,7 +96,7 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
   progressCard: {
-    backgroundColor: "#fff", // Card background
+    backgroundColor: "#fff",
     borderRadius: 15,
     padding: 15,
     marginHorizontal: 10,
@@ -165,6 +165,25 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  fullWidthCard: {
+    width: "100%", // Prend toute la largeur de l'écran
+    height: 150, // Ajuste la hauteur à 150
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  scrollContent: {
+    paddingBottom: 100, // Espace pour laisser de la place à la navbar
+    paddingHorizontal: 10,
+  },
   cardIcon: {
     width: 50,
     height: 50,
@@ -179,6 +198,7 @@ export default StyleSheet.create({
   cardTitle: {
     fontSize: 12,
     color: "#333",
+    fontWeight: "light",
     textAlign: "center",
   },
   progressValue: {
@@ -189,14 +209,19 @@ export default StyleSheet.create({
     marginVertical: 10,
   },
   viewDetailsButton: {
-    backgroundColor: "#6c63ff",
+    backgroundColor: "#F3F3F3",
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   viewDetailsText: {
-    color: "#fff",
+    color: "#6c63ff",
     fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",

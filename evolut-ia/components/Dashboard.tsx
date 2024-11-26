@@ -43,14 +43,14 @@ const Tabs: React.FC = () => {
 };
 
 const ProgressBar: React.FC<{ progress: number }> = ({ progress }) => (
-  <View style={styles.progressCard}> {/* Card wrapping the progress bar */}
+  <View style={styles.progressCard}>
     <View style={styles.progressWrapper}>
       <View style={styles.progressContainer}>
         <LinearGradient
-          colors={["#4A00E0", "#8E2DE2"]} // Gradient colors
+          colors={["#4A00E0", "#8E2DE2"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
-          style={[styles.progressFill, { width: `${progress}%` }]} // Dynamic width
+          style={[styles.progressFill, { width: `${progress}%` }]}
         />
       </View>
       <Text style={styles.progressLabel}>{progress}% Progression</Text>
@@ -77,17 +77,17 @@ const CardsSection: React.FC = () => {
         <Text style={styles.cardTitle}>Historique</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.smallCard} onPress={() => router.push("/")}>
-        <Image source={require("../assets/printer.png")} style={styles.cardIcon} />
-        <Text style={styles.cardTitle}>Dernière retranscription</Text>
-      </TouchableOpacity>
-
       <TouchableOpacity style={styles.largeCard}>
         <Text style={styles.cardTitle}>Progression globale</Text>
         <Text style={styles.progressValue}>660</Text>
         <TouchableOpacity style={styles.viewDetailsButton}>
           <Text style={styles.viewDetailsText}>Voir dans l'ensemble</Text>
         </TouchableOpacity>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.fullWidthCard}>
+        <Image source={require("../assets/printer.png")} style={styles.cardIcon} />
+        <Text style={styles.cardTitle}>Dernière retranscription</Text>
       </TouchableOpacity>
     </View>
   );
@@ -102,8 +102,11 @@ const Dashboard: React.FC = () => {
           <Header />
           <View style={styles.cardContainer}>
             <Tabs />
-            <ProgressBar progress={44} /> {/* Wrapped in a card */}
-            <ScrollView style={styles.scrollContainer}>
+            <ProgressBar progress={44} />
+            <ScrollView
+              style={styles.scrollContainer}
+              contentContainerStyle={styles.scrollContent} // Added padding
+            >
               <CardsSection />
             </ScrollView>
           </View>
