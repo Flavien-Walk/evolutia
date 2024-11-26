@@ -1,4 +1,4 @@
-import * as React from "react"; // Correction pour éviter l'erreur liée à `esModuleInterop`
+import * as React from "react";
 import { useState, useEffect } from "react";
 import {
   View,
@@ -14,10 +14,8 @@ import io from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/ChatGlobalStyles";
 
-// Connexion à Socket.IO
 const socket = io("http://10.76.204.34:3636");
 
-// Typage d'un message
 type Message = {
   id: string;
   text: string;
@@ -25,7 +23,6 @@ type Message = {
   color: string;
 };
 
-// Fonction pour générer un identifiant unique
 const generateUniqueId = () =>
   Date.now().toString() + Math.random().toString(36).substring(2);
 
@@ -35,10 +32,9 @@ const ChatGlobal: React.FC = () => {
   const [newMessage, setNewMessage] = useState<string>("");
   const [user, setUser] = useState<{ name: string; color: string }>({
     name: "",
-    color: `#${Math.floor(Math.random() * 16777215).toString(16)}`, // Couleur aléatoire
+    color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
   });
 
-  // Récupérer les informations utilisateur
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -54,18 +50,22 @@ const ChatGlobal: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        const data = await response.json();
+
+        const textResponse = await response.text();
+        console.log("Réponse brute :", textResponse);
 
         if (response.ok) {
+          const data = JSON.parse(textResponse); // Parser seulement si OK
           setUser({
             name: data.username,
             color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
           });
-
-          // Informer le serveur Socket.IO du nom d'utilisateur
           socket.emit("setUsername", { username: data.username });
         } else {
-          console.error("Erreur lors de la récupération des informations utilisateur :", data.error);
+          console.error(
+            "Erreur lors de la récupération des informations utilisateur :",
+            textResponse
+          );
         }
       } catch (error) {
         console.error("Erreur lors de la récupération de l'utilisateur :", error);
@@ -75,11 +75,9 @@ const ChatGlobal: React.FC = () => {
     fetchUser();
   }, []);
 
-  // Réception des messages du serveur
   useEffect(() => {
     const handleReceiveMessage = (message: Message) => {
       setMessages((prevMessages) => {
-        // Évite les doublons de messages
         if (prevMessages.some((m) => m.id === message.id)) {
           return prevMessages;
         }
@@ -94,7 +92,6 @@ const ChatGlobal: React.FC = () => {
     };
   }, []);
 
-  // Envoi des messages
   const sendMessage = () => {
     if (newMessage.trim() !== "") {
       const message: Message = {
@@ -103,7 +100,7 @@ const ChatGlobal: React.FC = () => {
         sender: user.name || "Anonymous",
         color: user.color,
       };
-      socket.emit("sendMessage", message); // Envoi du message au serveur
+      socket.emit("sendMessage", message);
       setNewMessage("");
     }
   };
@@ -113,7 +110,6 @@ const ChatGlobal: React.FC = () => {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      {/* En-tête */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backArrow}
@@ -124,7 +120,6 @@ const ChatGlobal: React.FC = () => {
         <Text style={styles.headerText}>Chat Global</Text>
       </View>
 
-      {/* Liste des messages */}
       <FlatList
         data={messages}
         keyExtractor={(item) => item.id}
@@ -132,9 +127,7 @@ const ChatGlobal: React.FC = () => {
           <View
             style={[
               styles.messageBubble,
-              item.sender === user.name
-                ? styles.myMessage
-                : styles.otherMessage,
+              item.sender === user.name ? styles.myMessage : styles.otherMessage,
             ]}
           >
             <Text style={[styles.senderText, { color: item.color }]}>
@@ -146,7 +139,6 @@ const ChatGlobal: React.FC = () => {
         contentContainerStyle={styles.chatBox}
       />
 
-      {/* Barre de saisie */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}

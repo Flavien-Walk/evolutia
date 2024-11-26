@@ -30,9 +30,16 @@ const Login: React.FC = () => {
     if (response?.type === "success") {
       const handleGoogleLogin = async () => {
         try {
+          // Extraire le token d'accès depuis la réponse
+          const { authentication } = response;
+          const token = authentication?.accessToken;
 
-          const backendResponse = await fetch("http://10.76.204.61:3636/google-login", {
+          if (!token) {
+            Alert.alert("Erreur", "Impossible d'obtenir le token Google.");
+            return;
+          }
 
+          const backendResponse = await fetch("http://10.76.204.34:3636/google-login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token }),
@@ -63,9 +70,7 @@ const Login: React.FC = () => {
   // Gestion de la connexion classique (email et mot de passe)
   const handleLogin = async () => {
     try {
-
-      const response = await fetch("http://10.76.204.61:3636/login", {
-
+      const response = await fetch("http://10.76.204.34:3636/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

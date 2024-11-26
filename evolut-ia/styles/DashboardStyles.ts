@@ -91,12 +91,6 @@ export default StyleSheet.create({
 
   },
 
-  // Header text styles
-  headerTextContainer: {
-    marginTop: 50,
-    alignItems: "flex-start",
-  },
-
   tabContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
