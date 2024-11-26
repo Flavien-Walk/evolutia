@@ -106,7 +106,10 @@ const Reglage: React.FC = () => {
           isDarkMode && { backgroundColor: "#1E1E1E" },
         ]}
       >
-        <TouchableOpacity style={styles.settingsItem}>
+        <TouchableOpacity
+          style={styles.settingsItem}
+          onPress={() => router.push("/ModifProfil")}
+        >
           <Text
             style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}
           >
