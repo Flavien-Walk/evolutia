@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, ScrollView, TouchableOpacity, StatusBar, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import styles from "../styles/DashboardStyles";
 import Navbar from "../components/Navbar";
@@ -42,34 +43,52 @@ const Tabs: React.FC = () => {
 };
 
 const ProgressBar: React.FC<{ progress: number }> = ({ progress }) => (
-  <View style={styles.progressWrapper}>
-    <View style={styles.progressContainer}>
-      <View style={[styles.progressFill, { width: `${progress}%` }]} />
+  <View style={styles.progressCard}> {/* Card wrapping the progress bar */}
+    <View style={styles.progressWrapper}>
+      <View style={styles.progressContainer}>
+        <LinearGradient
+          colors={["#4A00E0", "#8E2DE2"]} // Gradient colors
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={[styles.progressFill, { width: `${progress}%` }]} // Dynamic width
+        />
+      </View>
+      <Text style={styles.progressLabel}>{progress}% Progression</Text>
     </View>
-    <Text style={styles.progressLabel}>{progress}% Progression</Text>
   </View>
 );
 
 const CardsSection: React.FC = () => {
   const router = useRouter();
   return (
-    <View style={styles.cardsContainer}>
-      <View style={styles.chartCard}>
+    <View style={styles.cardsGrid}>
+      <TouchableOpacity style={styles.largeCard}>
+        <Image source={require("../assets/apple.png")} style={styles.chartImage} />
         <Text style={styles.cardTitle}>Récapitulation de l’avancement par matière</Text>
-      </View>
-      <TouchableOpacity style={styles.card} onPress={() => router.push("/chatbot")}>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.smallCard} onPress={() => router.push("/")}>
+        <Image source={require("../assets/chat-bot.png")} style={styles.cardIcon} />
         <Text style={styles.cardTitle}>IA Assistance</Text>
       </TouchableOpacity>
-      <View style={styles.card}>
+
+      <TouchableOpacity style={styles.smallCard} onPress={() => router.push("/")}>
+        <Image source={require("../assets/screen-share.png")} style={styles.cardIcon} />
         <Text style={styles.cardTitle}>Historique</Text>
-      </View>
-      <View style={styles.card}>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.smallCard} onPress={() => router.push("/")}>
+        <Image source={require("../assets/printer.png")} style={styles.cardIcon} />
         <Text style={styles.cardTitle}>Dernière retranscription</Text>
-      </View>
-      <View style={styles.card}>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.largeCard}>
         <Text style={styles.cardTitle}>Progression globale</Text>
-        <Text style={styles.cardValue}>660</Text>
-      </View>
+        <Text style={styles.progressValue}>660</Text>
+        <TouchableOpacity style={styles.viewDetailsButton}>
+          <Text style={styles.viewDetailsText}>Voir dans l'ensemble</Text>
+        </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -83,13 +102,12 @@ const Dashboard: React.FC = () => {
           <Header />
           <View style={styles.cardContainer}>
             <Tabs />
+            <ProgressBar progress={44} /> {/* Wrapped in a card */}
             <ScrollView style={styles.scrollContainer}>
-              <ProgressBar progress={44} />
               <CardsSection />
             </ScrollView>
           </View>
         </View>
-        {/* Navbar fixée ici */}
         <View style={styles.navbarContainer}>
           <Navbar />
         </View>
