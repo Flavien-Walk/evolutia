@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react"; // Correction pour éviter l'erreur liée à `esModuleInterop`
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -34,7 +35,7 @@ const ChatGlobal: React.FC = () => {
   const [newMessage, setNewMessage] = useState<string>("");
   const [user, setUser] = useState<{ name: string; color: string }>({
     name: "",
-    color: "#" + Math.floor(Math.random() * 16777215).toString(16),
+    color: `#${Math.floor(Math.random() * 16777215).toString(16)}`, // Couleur aléatoire
   });
 
   // Récupérer les informations utilisateur
@@ -54,36 +55,42 @@ const ChatGlobal: React.FC = () => {
           },
         });
         const data = await response.json();
-        setUser({
-          name: data.username,
-          color: "#" + Math.floor(Math.random() * 16777215).toString(16),
-        });
 
-        // Informer le serveur Socket.IO du nom d'utilisateur
-        socket.emit("setUsername", { username: data.username });
+        if (response.ok) {
+          setUser({
+            name: data.username,
+            color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+          });
+
+          // Informer le serveur Socket.IO du nom d'utilisateur
+          socket.emit("setUsername", { username: data.username });
+        } else {
+          console.error("Erreur lors de la récupération des informations utilisateur :", data.error);
+        }
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération de l'utilisateur :",
-          error
-        );
+        console.error("Erreur lors de la récupération de l'utilisateur :", error);
       }
     };
+
     fetchUser();
   }, []);
 
   // Réception des messages du serveur
   useEffect(() => {
-    socket.on("receiveMessage", (message: Message) => {
+    const handleReceiveMessage = (message: Message) => {
       setMessages((prevMessages) => {
+        // Évite les doublons de messages
         if (prevMessages.some((m) => m.id === message.id)) {
           return prevMessages;
         }
         return [...prevMessages, message];
       });
-    });
+    };
+
+    socket.on("receiveMessage", handleReceiveMessage);
 
     return () => {
-      socket.off("receiveMessage");
+      socket.off("receiveMessage", handleReceiveMessage);
     };
   }, []);
 
@@ -96,7 +103,7 @@ const ChatGlobal: React.FC = () => {
         sender: user.name || "Anonymous",
         color: user.color,
       };
-      socket.emit("sendMessage", message);
+      socket.emit("sendMessage", message); // Envoi du message au serveur
       setNewMessage("");
     }
   };

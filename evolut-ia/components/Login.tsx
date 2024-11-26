@@ -7,17 +7,17 @@ import {
   Image,
   Alert,
 } from "react-native";
-import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import * as Google from "expo-auth-session/providers/google";
 import styles from "../styles/LoginScreenStyles";
 
 const Login: React.FC = () => {
   const router = useRouter();
 
   // Champs pour email et mot de passe
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   // Initialisation Google OAuth
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -25,38 +25,42 @@ const Login: React.FC = () => {
     redirectUri: "https://auth.expo.io/@msxprime/evolut-ia",
   });
 
-  // Gestion de la réponse Google
+  // Gestion de la réponse Google OAuth
   useEffect(() => {
     if (response?.type === "success") {
-      const sendGoogleToken = async () => {
+      const handleGoogleLogin = async () => {
         try {
+          const token = response.authentication?.idToken;
+          if (!token) {
+            Alert.alert("Erreur", "Aucun token reçu de Google.");
+            return;
+          }
+
           const backendResponse = await fetch("http://10.76.204.34:3636/google-login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token: response.authentication?.idToken }),
+            body: JSON.stringify({ token }),
           });
 
           const data = await backendResponse.json();
+          console.log("Réponse API Google :", data); // Debug
 
           if (backendResponse.ok) {
-            // Stocker les données utilisateur uniquement si elles existent
             if (data.token) await AsyncStorage.setItem("token", data.token);
             if (data.user?.username) await AsyncStorage.setItem("username", data.user.username);
-            if (data.user?.role) await AsyncStorage.setItem("role", data.user.role);
-            if (data.user?.roleColor) await AsyncStorage.setItem("roleColor", data.user.roleColor);
 
-            Alert.alert("Bienvenue", `Bonjour ${data.user.username} !`);
+            Alert.alert("Connexion réussie", `Bonjour ${data.user.username} !`);
             router.push("/home");
           } else {
-            Alert.alert("Erreur", data.error || "Une erreur est survenue.");
+            Alert.alert("Erreur", data.error || "Impossible de se connecter.");
           }
         } catch (error) {
-          console.error("Erreur lors de l'envoi du token Google :", error);
-          Alert.alert("Erreur", "Impossible de se connecter au serveur.");
+          console.error("Erreur lors de la connexion Google :", error);
+          Alert.alert("Erreur", "Une erreur est survenue avec Google.");
         }
       };
 
-      sendGoogleToken();
+      handleGoogleLogin();
     }
   }, [response]);
 
@@ -70,15 +74,23 @@ const Login: React.FC = () => {
       });
 
       const data = await response.json();
-      if (response.ok) {
-        // Stocker les données utilisateur uniquement si elles existent
-        if (data.token) await AsyncStorage.setItem("token", data.token);
-        if (data.user?.username) await AsyncStorage.setItem("username", data.user.username);
-        if (data.user?.role) await AsyncStorage.setItem("role", data.user.role);
-        if (data.user?.roleColor) await AsyncStorage.setItem("roleColor", data.user.roleColor);
+      console.log("Réponse API Login :", data); // Debug
 
-        Alert.alert("Connexion réussie", `Bonjour ${data.user.username} !`);
-        router.push("/home");
+      if (response.ok) {
+        if (data.token) await AsyncStorage.setItem("token", data.token);
+
+        if (data.user) {
+          const { username, role, roleColor } = data.user;
+
+          if (username) await AsyncStorage.setItem("username", username);
+          if (role) await AsyncStorage.setItem("role", role);
+          if (roleColor) await AsyncStorage.setItem("roleColor", roleColor);
+
+          Alert.alert("Connexion réussie", `Bonjour ${username} !`);
+          router.push("/home");
+        } else {
+          Alert.alert("Erreur", "Les données utilisateur sont absentes.");
+        }
       } else {
         Alert.alert("Erreur", data.error || "Identifiants incorrects.");
       }
@@ -138,7 +150,7 @@ const Login: React.FC = () => {
 
       {/* Boutons Google, Facebook et Apple */}
       <View style={styles.socialIcons}>
-        <TouchableOpacity onPress={() => promptAsync()}>
+        <TouchableOpacity onPress={() => request && promptAsync()}>
           <Image
             source={require("../assets/google.png")}
             style={styles.icon}
