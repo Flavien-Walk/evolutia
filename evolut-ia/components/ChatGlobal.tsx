@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { useRouter } from "expo-router";
 import io from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/ChatGlobalStyles";
 
 // Connexion à Socket.IO
-const socket = io("http://192.168.3.20:5000");
+const socket = io("http://10.76.204.34:3636");
 
 // Typage d'un message
 type Message = {
@@ -17,7 +25,8 @@ type Message = {
 };
 
 // Fonction pour générer un identifiant unique
-const generateUniqueId = () => Date.now().toString() + Math.random().toString(36).substring(2);
+const generateUniqueId = () =>
+  Date.now().toString() + Math.random().toString(36).substring(2);
 
 const ChatGlobal: React.FC = () => {
   const router = useRouter();
@@ -38,7 +47,7 @@ const ChatGlobal: React.FC = () => {
           return;
         }
 
-        const response = await fetch("http://192.168.3.20:5000/user-info", {
+        const response = await fetch("http://10.76.204.34:3636/user-info", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,7 +62,10 @@ const ChatGlobal: React.FC = () => {
         // Informer le serveur Socket.IO du nom d'utilisateur
         socket.emit("setUsername", { username: data.username });
       } catch (error) {
-        console.error("Erreur lors de la récupération de l'utilisateur :", error);
+        console.error(
+          "Erreur lors de la récupération de l'utilisateur :",
+          error
+        );
       }
     };
     fetchUser();
@@ -90,10 +102,16 @@ const ChatGlobal: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
       {/* En-tête */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backArrow} onPress={() => router.push("/chatbot")}>
+        <TouchableOpacity
+          style={styles.backArrow}
+          onPress={() => router.push("/chatbot")}
+        >
           <Text style={styles.backText}>←</Text>
         </TouchableOpacity>
         <Text style={styles.headerText}>Chat Global</Text>
@@ -107,10 +125,14 @@ const ChatGlobal: React.FC = () => {
           <View
             style={[
               styles.messageBubble,
-              item.sender === user.name ? styles.myMessage : styles.otherMessage,
+              item.sender === user.name
+                ? styles.myMessage
+                : styles.otherMessage,
             ]}
           >
-            <Text style={[styles.senderText, { color: item.color }]}>{item.sender}</Text>
+            <Text style={[styles.senderText, { color: item.color }]}>
+              {item.sender}
+            </Text>
             <Text style={styles.messageText}>{item.text}</Text>
           </View>
         )}
@@ -129,7 +151,7 @@ const ChatGlobal: React.FC = () => {
           <Text style={styles.sendText}>Envoyer</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

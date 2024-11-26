@@ -37,7 +37,7 @@ const Register: React.FC = () => {
 
     try {
       // Appel API pour l'inscription
-      const response = await axios.post("http://192.168.3.20:5000/register", {
+      const response = await axios.post("http://10.76.204.34:5000/register", {
         email: formData.email,
         username: formData.username,
         contactNumber: formData.contactNumber,
