@@ -5,7 +5,6 @@ import { useRouter } from "expo-router";
 import styles from "../styles/DashboardStyles";
 import Navbar from "../components/Navbar";
 
-// Header Component
 const Header: React.FC = () => (
   <View style={styles.header}>
     <View style={styles.logoContainer}>
@@ -25,7 +24,6 @@ const Header: React.FC = () => (
   </View>
 );
 
-// Tab Navigation Component
 const Tabs: React.FC = () => {
   const router = useRouter();
   return (
@@ -43,7 +41,6 @@ const Tabs: React.FC = () => {
   );
 };
 
-// Progress Bar Component
 const ProgressBar: React.FC<{ progress: number }> = ({ progress }) => (
   <View style={styles.progressWrapper}>
     <View style={styles.progressContainer}>
@@ -53,7 +50,6 @@ const ProgressBar: React.FC<{ progress: number }> = ({ progress }) => (
   </View>
 );
 
-// Cards Section Component
 const CardsSection: React.FC = () => {
   const router = useRouter();
   return (
@@ -78,7 +74,6 @@ const CardsSection: React.FC = () => {
   );
 };
 
-// Main Dashboard Component
 const Dashboard: React.FC = () => {
   return (
     <>
@@ -93,6 +88,9 @@ const Dashboard: React.FC = () => {
               <CardsSection />
             </ScrollView>
           </View>
+        </View>
+        {/* Navbar fixée ici */}
+        <View style={styles.navbarContainer}>
           <Navbar />
         </View>
       </View>

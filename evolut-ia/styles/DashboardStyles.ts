@@ -11,7 +11,7 @@ export default StyleSheet.create({
     bottom: 0,
     width: width,
     height: height,
-    backgroundColor: "#6c63ff", // Purple background
+    backgroundColor: "#6c63ff",
   },
   container: {
     flex: 1,
@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
-    backgroundColor: "#FFFFFF", // White background
+    backgroundColor: "#FFFFFF",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingTop: 20,
@@ -59,12 +59,10 @@ export default StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     color: "#fff",
-    textAlign: "left",
   },
   subtitle: {
     fontSize: 16,
     color: "#ddd",
-    textAlign: "left",
   },
   icons: {
     position: "absolute",
@@ -81,7 +79,6 @@ export default StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     paddingVertical: 10,
-    marginHorizontal: 1,
   },
   tabText: {
     fontSize: 13,
@@ -102,11 +99,6 @@ export default StyleSheet.create({
     backgroundColor: "#f3f3f3",
     borderRadius: 10,
     overflow: "hidden",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
   },
   progressFill: {
     height: "100%",
@@ -117,10 +109,9 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "#333",
     marginTop: 5,
-    textAlign: "center",
   },
   scrollContainer: {
-    marginBottom: 60, // Space to ensure content doesn't clash with the navbar
+    marginBottom: 100,
   },
   cardsContainer: {
     flexDirection: "row",
@@ -168,21 +159,12 @@ export default StyleSheet.create({
     fontWeight: "bold",
     marginTop: 10,
   },
+
   navbarContainer: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 60,
-    backgroundColor: "#fff",
-    borderTopWidth: 1,
-    borderTopColor: "#ddd",
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
+    position: "absolute", // Fixe le Navbar
+    bottom: 34, // Relevé légèrement de la bordure inférieure
+    width: "100%", // Occupe toute la largeur
+    alignItems: "center", // Centré horizontalement
   },
+
 });
