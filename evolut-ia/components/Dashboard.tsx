@@ -39,10 +39,10 @@ const Tabs: React.FC = () => {
       <TouchableOpacity onPress={() => router.push("/dashboard")}>
         <Text style={[styles.tabText, styles.activeTabText]}>Tableau de bord</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("/matieres")}>
+      <TouchableOpacity onPress={() => router.push("/")}>
         <Text style={styles.tabText}>Matières</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("/recommandation")}>
+      <TouchableOpacity onPress={() => router.push("/")}>
         <Text style={styles.tabText}>Recommandation</Text>
       </TouchableOpacity>
     </View>
