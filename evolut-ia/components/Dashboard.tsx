@@ -24,8 +24,8 @@ const Header: React.FC = () => (
 
 
     <View style={styles.icons}>
-      <Ionicons name="reload-outline" size={24} style={styles.icon} />
-      <Ionicons name="notifications-outline" size={24} style={styles.icon} />
+      <Ionicons name="reload-outline" size={24} style={styles.icons} />
+      <Ionicons name="notifications-outline" size={24} style={styles.icons} />
     </View>
   </View>
 );
