@@ -12,6 +12,7 @@ export default StyleSheet.create({
   profileHeader: {
     alignItems: "center",
     marginVertical: 20,
+    position: "relative", // Permet de positionner le bouton réglage dans ce conteneur
   },
   profileImage: {
     width: 100,
@@ -23,6 +24,15 @@ export default StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     color: "#333333",
+  },
+  settingsButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+  },
+  settingsIcon: {
+    width: 25,
+    height: 25,
   },
   tabsContainer: {
     flexDirection: "row",

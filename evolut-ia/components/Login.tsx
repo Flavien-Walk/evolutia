@@ -164,7 +164,7 @@ const Login: React.FC = () => {
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            source={require("../assets/Facebook.ppng")}
+            source={require("../assets/Facebook.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
