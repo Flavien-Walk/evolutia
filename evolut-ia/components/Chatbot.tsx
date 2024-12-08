@@ -5,22 +5,47 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  FlatList,
+  ScrollView,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import styles from "../styles/ChatbotStyles"; // Importation des styles
+import styles from "../styles/ChatbotStyles";
 
-const Chatbot: React.FC = () => {
-  const [messages, setMessages] = useState<string[]>([]); // Liste des messages
-  const [currentMessage, setCurrentMessage] = useState<string>(""); // Message en cours de saisie
+const Header: React.FC = () => {
+  const router = useRouter();
+  return (
+    <View style={styles.header}>
+      {/* Logo Évolut'IA */}
+      <Image
+        source={require("../assets/Logo Blanc Evolut'IA.png")}
+        style={styles.logoImage}
+      />
+
+      {/* Texte centré */}
+      <Text style={styles.headerText}>IA Assistance</Text>
+
+      {/* Icônes à droite */}
+      <View style={styles.icons}>
+        <TouchableOpacity>
+          <Ionicons name="refresh-outline" size={24} color="#FFFFFF" style={styles.iconSpacing} />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Ionicons name="notifications-outline" size={24} color="#FFFFFF" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const EspaceEchange: React.FC = () => {
+  const [messages, setMessages] = useState<string[]>([]);
+  const [currentMessage, setCurrentMessage] = useState<string>("");
   const router = useRouter();
 
-  // Fonction pour envoyer un message
   const sendMessage = () => {
     if (currentMessage.trim() !== "") {
       setMessages([...messages, currentMessage]);
@@ -35,48 +60,56 @@ const Chatbot: React.FC = () => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          {/* En-tête */}
-          <View style={styles.header}>
-            {/* Flèche de retour */}
-            <TouchableOpacity style={styles.backArrow} onPress={() => router.push("/dashboard")}>
-              <Text style={styles.backText}>←</Text>
-            </TouchableOpacity>
-            <Text style={styles.headerText}>IA Assistance</Text>
+          {/* Flèche de retour en haut à gauche */}
+          <TouchableOpacity style={styles.backArrow} onPress={() => router.push("/dashboard")}>
+            <Ionicons name="arrow-back-outline" size={24} color="#000000" />
+            <Text style={styles.backText}>Retour</Text>
+          </TouchableOpacity>
 
-            {/* Bouton pour switcher vers ChatGlobal */}
-            <TouchableOpacity
-              style={styles.switchButton}
-              onPress={() => router.push("/chatglobal")}
-            >
-              <Text style={styles.switchButtonText}>Chat Global</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Liste des messages */}
           <ScrollView contentContainerStyle={styles.chatBox}>
-            {messages.map((item, index) => (
-              <View key={index.toString()} style={styles.messageBubble}>
-                <Text style={styles.messageText}>{item}</Text>
+            {/* Message de bienvenue */}
+            <View style={styles.messageBubbleContainer}>
+              <View style={styles.assistantMessageBubble}>
+                <Image source={require("../assets/chat-bot.png")} style={styles.assistantIcon} />
+                <Text style={styles.messageBubbleText}>
+                  Bonjour, je suis Mentoria ! 👋 Ton assistant scolaire personnel. Comment puis-je
+                  t'aider ?
+                </Text>
+              </View>
+            </View>
+
+            {/* Messages envoyés par l'utilisateur */}
+            {messages.map((msg, index) => (
+              <View key={index} style={styles.userMessage}>
+                <Text style={styles.messageText}>{msg}</Text>
               </View>
             ))}
           </ScrollView>
 
-          {/* Barre de saisie */}
+          {/* Barre d'entrée de texte */}
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
               placeholder="Message"
               value={currentMessage}
               onChangeText={setCurrentMessage}
-              onFocus={() => {}}
             />
             <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-              <Image source={require("../assets/send.png")} style={styles.sendIcon} />
+              <Ionicons name="send" size={20} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
+  );
+};
+
+const Chatbot: React.FC = () => {
+  return (
+    <View style={styles.background}>
+      <Header />
+      <EspaceEchange />
+    </View>
   );
 };
 
