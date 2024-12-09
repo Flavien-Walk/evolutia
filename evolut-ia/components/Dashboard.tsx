@@ -10,6 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import Matieres from "../components/Matieres";
 import styles from "../styles/DashboardStyles";
 import Navbar from "../components/Navbar";
 
@@ -26,7 +27,7 @@ const Header: React.FC = () => (
     {/* Header Text */}
     <View style={styles.headerTextContainer}>
       <Text style={styles.title}>Prêt à apprendre ?</Text>
-      <Text style={styles.subtitle}>Choisis ta matière.</Text>
+      <Text style={styles.subtitle}>Choisis ton item.</Text>
     </View>
 
     {/* Header Icons */}
@@ -48,7 +49,7 @@ const Tabs: React.FC = () => {
       <TouchableOpacity onPress={() => router.push("/dashboard")}>
         <Text style={[styles.tabText, styles.activeTabText]}>Tableau de bord</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("/")}>
+      <TouchableOpacity onPress={() => router.push("/matiere")}>
         <Text style={styles.tabText}>Matières</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push("/")}>
