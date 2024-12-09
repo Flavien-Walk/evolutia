@@ -55,59 +55,87 @@ const Tabs: React.FC = () => {
 };
 
 const MatiereCards: React.FC = () => {
-  const cards = [
-    {
-      title: "Histoire-Géographie",
-      courses: "15 Courses",
-      image: require("../assets/Logo Blanc Evolut'IA.png"),
-      backgroundColor: "#FFCDD2",
-    },
-    {
-      title: "Mathématiques",
-      courses: "10 Courses",
-      image: require("../assets/Logo Blanc Evolut'IA.png"),
-      backgroundColor: "#C8E6C9",
-    },
-    {
-      title: "Anglais",
-      courses: "25 Courses",
-      image: require("../assets/Logo Blanc Evolut'IA.png"),
-      backgroundColor: "#BBDEFB",
-    },
-    {
-      title: "AI Design Basic",
-      courses: "35 Courses",
-      image: require("../assets/Logo Blanc Evolut'IA.png"),
-      backgroundColor: "#FFE0B2",
-    },
-    {
-      title: "Espagnol",
-      courses: "15 Courses",
-      image: require("../assets/Logo Blanc Evolut'IA.png"),
-      backgroundColor: "#F8BBD0",
-    },
-    {
-      title: "Français",
-      courses: "20 Courses",
-      image: require("../assets/Logo Blanc Evolut'IA.png"),
-      backgroundColor: "#D1C4E9",
-    },
-  ];
+  const router = useRouter();
 
   return (
     <View style={styles.cardsGrid}>
-      {cards.map((card, index) => (
-        <TouchableOpacity
-          key={index}
-          style={[styles.card, { backgroundColor: card.backgroundColor }]}
-        >
-          <Image source={card.image} style={styles.cardImage} />
-          <View style={styles.cardTextContainer}>
-            <Text style={styles.cardTitle}>{card.title}</Text>
-            <Text style={styles.cardSubtitle}>{card.courses}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+      {/* Card 1 */}
+      <TouchableOpacity
+        style={[styles.card, { backgroundColor: "#FFCDD2" }]}
+        onPress={() => router.push("/")}
+      >
+        <Image
+          source={require("../assets/Logo Blanc Evolut'IA.png")}
+          style={styles.cardImage}
+        />
+        <Text style={styles.cardTitle}>Histoire-Géographie</Text>
+        <Text style={styles.cardSubtitle}>15 Courses</Text>
+      </TouchableOpacity>
+
+      {/* Card 2 */}
+      <TouchableOpacity
+        style={[styles.card, { backgroundColor: "#C8E6C9" }]}
+        onPress={() => router.push("/")}
+      >
+        <Image
+          source={require("../assets/Logo Blanc Evolut'IA.png")}
+          style={styles.cardImage}
+        />
+        <Text style={styles.cardTitle}>Mathématiques</Text>
+        <Text style={styles.cardSubtitle}>10 Courses</Text>
+      </TouchableOpacity>
+
+      {/* Card 3 */}
+      <TouchableOpacity
+        style={[styles.card, { backgroundColor: "#BBDEFB" }]}
+        onPress={() => router.push("/anglais")}
+      >
+        <Image
+          source={require("../assets/Logo Blanc Evolut'IA.png")}
+          style={styles.cardImage}
+        />
+        <Text style={styles.cardTitle}>Anglais</Text>
+        <Text style={styles.cardSubtitle}>25 Courses</Text>
+      </TouchableOpacity>
+
+      {/* Card 4 */}
+      <TouchableOpacity
+        style={[styles.card, { backgroundColor: "#FFE0B2" }]}
+        onPress={() => router.push("/")}
+      >
+        <Image
+          source={require("../assets/Logo Blanc Evolut'IA.png")}
+          style={styles.cardImage}
+        />
+        <Text style={styles.cardTitle}>AI Design Basic</Text>
+        <Text style={styles.cardSubtitle}>35 Courses</Text>
+      </TouchableOpacity>
+
+      {/* Card 5 */}
+      <TouchableOpacity
+        style={[styles.card, { backgroundColor: "#F8BBD0" }]}
+        onPress={() => router.push("/")}
+      >
+        <Image
+          source={require("../assets/Logo Blanc Evolut'IA.png")}
+          style={styles.cardImage}
+        />
+        <Text style={styles.cardTitle}>Espagnol</Text>
+        <Text style={styles.cardSubtitle}>15 Courses</Text>
+      </TouchableOpacity>
+
+      {/* Card 6 */}
+      <TouchableOpacity
+        style={[styles.card, { backgroundColor: "#D1C4E9" }]}
+        onPress={() => router.push("/")}
+      >
+        <Image
+          source={require("../assets/Logo Blanc Evolut'IA.png")}
+          style={styles.cardImage}
+        />
+        <Text style={styles.cardTitle}>Français</Text>
+        <Text style={styles.cardSubtitle}>20 Courses</Text>
+      </TouchableOpacity>
     </View>
   );
 };
