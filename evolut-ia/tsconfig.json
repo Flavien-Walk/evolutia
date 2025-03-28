@@ -1,21 +1,22 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true, // Active toutes les vérifications strictes de TypeScript
-    "esModuleInterop": true, // Permet d'utiliser les imports par défaut avec les modules CommonJS
-    "allowSyntheticDefaultImports": true, // Autorise les imports par défaut même si le module ne les exporte pas explicitement
-    "moduleResolution": "node", // Résolution des modules de type Node.js
-    "module": "esnext", // Utilise les modules ESNext modernes
-    "target": "es6", // Version cible du JavaScript ES6
-    "jsx": "react", // Support JSX pour React
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "module": "esnext",
+    "target": "es6",
+    "jsx": "react",
     "paths": {
-      "@/*": ["./*"] // Résolution des alias (par exemple, @/components)
-    }
+      "@/*": ["./*"]
+    },
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "**/*.ts", // Inclut tous les fichiers TypeScript
-    "**/*.tsx", // Inclut tous les fichiers TypeScript avec JSX
-    ".expo/types/**/*.ts", // Inclut les types spécifiques à Expo
-    "expo-env.d.ts" // Fichier d'environnement Expo
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
   ]
 }

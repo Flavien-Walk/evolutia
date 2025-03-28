@@ -46,7 +46,7 @@ const Register: React.FC = () => {
 
     try {
 
-      const response = await axios.post("http://10.76.204.57:3636/register", {
+      const response = await axios.post("http://10.76.203.193:3636/register", {
 
         email: formData.email,
         username: formData.username,
@@ -83,7 +83,7 @@ const Register: React.FC = () => {
 
       {/* Logo */}
       <Image
-        source={require("../assets/Logo noir Evolut'IA.png")}
+        source={require("../assets/Logo_noir_Evolut_IA.png")}
         style={styles.logo}
       />
 

@@ -18,7 +18,7 @@ const Header: React.FC = () => (
     {/* Logo */}
     <View style={styles.logoContainer}>
       <Image
-        source={require("../assets/Logo Blanc Evolut'IA.png")}
+        source={require("../assets/Logo_noir_Evolut_IA.png")}
         style={styles.logoImage}
       />
     </View>
@@ -48,9 +48,9 @@ const Tabs: React.FC = () => {
       <TouchableOpacity onPress={() => router.push("/dashboard")}>
         <Text style={[styles.tabText, styles.activeTabText]}>Tableau de bord</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("/")}>
+      {/* <TouchableOpacity onPress={() => router.push("/matieres")}>
         <Text style={styles.tabText}>Matières</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity onPress={() => router.push("/")}>
         <Text style={styles.tabText}>Recommandation</Text>
       </TouchableOpacity>
