@@ -1,9 +1,9 @@
 // components/Mathematiques.tsx
 import React from "react";
 import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
-import { useRouter } from "expo-router"; // Pour la navigation
+import { useRouter } from "expo-router";
 import styles from "../styles/MathematiquesStyles";
-import Navbar from "./Navbar"; // Navbar déjà présente
+import Navbar from "./Navbar";
 
 const lessons = [
   {
@@ -12,6 +12,7 @@ const lessons = [
     duration: "1hr 10min",
     image: require("../assets/introduction.png"),
     locked: false,
+    navigateTo: "/introduction", // Ajout du lien
   },
   {
     id: "2",
@@ -40,19 +41,27 @@ const Mathematiques: React.FC = () => {
   const router = useRouter();
 
   const renderLesson = ({ item }: any) => (
-    <View style={styles.lessonCard}>
-      <Image source={item.image} style={styles.lessonImage} />
-      <View style={styles.lessonContent}>
-        <Text style={styles.lessonDuration}>{item.duration}</Text>
-        <Text style={styles.lessonTitle}>{item.title}</Text>
+    <TouchableOpacity
+      onPress={() => {
+        if (!item.locked && item.navigateTo) {
+          router.push(item.navigateTo);
+        }
+      }}
+    >
+      <View style={styles.lessonCard}>
+        <Image source={item.image} style={styles.lessonImage} />
+        <View style={styles.lessonContent}>
+          <Text style={styles.lessonDuration}>{item.duration}</Text>
+          <Text style={styles.lessonTitle}>{item.title}</Text>
+        </View>
+        {item.locked && <Text style={styles.lockIcon}>🔒</Text>}
       </View>
-      {item.locked && <Text style={styles.lockIcon}>🔒</Text>}
-    </View>
+    </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      {/* En-tête avec fond vert */}
+      {/* En-tête */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.push("/home")}>
           <Text style={styles.backArrow}>← Retour</Text>
@@ -61,7 +70,7 @@ const Mathematiques: React.FC = () => {
         <Text style={styles.pageSubtitle}>Prêt à comprendre</Text>
       </View>
 
-      {/* Contenu principal en blanc arrondi */}
+      {/* Contenu principal */}
       <View style={styles.contentBox}>
         <View style={styles.lessonsInfoContainer}>
           <Text style={styles.lessonsCount}>4 Lessons</Text>
@@ -71,12 +80,10 @@ const Mathematiques: React.FC = () => {
           Ce cours enseignera les compléments de mathématiques que tu as le moins bien compris. 4 leçons de plus d'une heure.
         </Text>
 
-        {/* Liste des leçons */}
         <FlatList
           data={lessons}
           keyExtractor={(item) => item.id}
           renderItem={renderLesson}
-          style={styles.lessonList}
           showsVerticalScrollIndicator={false}
         />
       </View>
