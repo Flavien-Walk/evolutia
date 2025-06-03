@@ -10,26 +10,21 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import styles from "../styles/DashboardStyles";
+import styles from "../styles/DashboardStyles"; // ✅ fonctionne avec export default
 import Navbar from "../components/Navbar";
 
 const Header: React.FC = () => (
   <View style={styles.header}>
-    {/* Logo */}
     <View style={styles.logoContainer}>
       <Image
         source={require("../assets/Logo_noir_Evolut_IA.png")}
         style={styles.logoImage}
       />
     </View>
-
-    {/* Header Text */}
     <View style={styles.headerTextContainer}>
       <Text style={styles.title}>Prêt à apprendre ?</Text>
       <Text style={styles.subtitle}>Choisis ta matière.</Text>
     </View>
-
-    {/* Header Icons */}
     <View style={styles.icons}>
       <TouchableOpacity style={styles.iconWrapper}>
         <Ionicons name="reload-outline" size={24} style={styles.icon} />
@@ -48,9 +43,9 @@ const Tabs: React.FC = () => {
       <TouchableOpacity onPress={() => router.push("/dashboard")}>
         <Text style={[styles.tabText, styles.activeTabText]}>Tableau de bord</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity onPress={() => router.push("/matieres")}>
+      <TouchableOpacity onPress={() => router.push("/matieres")}>
         <Text style={styles.tabText}>Matières</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push("/")}>
         <Text style={styles.tabText}>Recommandation</Text>
       </TouchableOpacity>
@@ -78,39 +73,24 @@ const CardsSection: React.FC = () => {
   const router = useRouter();
   return (
     <View style={styles.cardsGrid}>
-      {/* Large Card */}
       <TouchableOpacity style={styles.largeCard}>
-        <Image
-          source={require("../assets/apple.png")}
-          style={styles.chartImage}
-        />
-        <Text style={styles.cardTitle}>
-          Récapitulation de l’avancement par matière
-        </Text>
+        <Image source={require("../assets/apple.png")} style={styles.chartImage} />
+        <Text style={styles.cardTitle}>Récapitulation de l’avancement par matière</Text>
       </TouchableOpacity>
 
-      {/* Small Card 1 */}
       <TouchableOpacity
         style={styles.smallCard}
         onPress={() => router.push("/chatbot")}
       >
-        <Image
-          source={require("../assets/chat-bot.png")}
-          style={styles.cardIcon}
-        />
+        <Image source={require("../assets/chat-bot.png")} style={styles.cardIcon} />
         <Text style={styles.cardTitle}>IA Assistance</Text>
       </TouchableOpacity>
 
-      {/* Small Card 2 */}
       <TouchableOpacity style={styles.smallCard} onPress={() => router.push("/")}>
-        <Image
-          source={require("../assets/screen-share.png")}
-          style={styles.cardIcon}
-        />
+        <Image source={require("../assets/screen-share.png")} style={styles.cardIcon} />
         <Text style={styles.cardTitle}>Historique</Text>
       </TouchableOpacity>
 
-      {/* Large Card */}
       <TouchableOpacity style={styles.largeCard}>
         <Text style={styles.cardTitle}>Progression globale</Text>
         <Text style={styles.progressValue}>660</Text>
@@ -119,12 +99,8 @@ const CardsSection: React.FC = () => {
         </TouchableOpacity>
       </TouchableOpacity>
 
-      {/* Full Width Card */}
       <TouchableOpacity style={styles.fullWidthCard}>
-        <Image
-          source={require("../assets/printer.png")}
-          style={styles.cardIcon}
-        />
+        <Image source={require("../assets/printer.png")} style={styles.cardIcon} />
         <Text style={styles.cardTitle}>Dernière retranscription</Text>
       </TouchableOpacity>
     </View>
@@ -134,23 +110,13 @@ const CardsSection: React.FC = () => {
 const Dashboard: React.FC = () => {
   return (
     <>
-      {/* Status Bar */}
-      <StatusBar
-        translucent
-        barStyle="light-content"
-        backgroundColor="transparent"
-      />
+      <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
       <View style={styles.background}>
-        {/* Main Container */}
         <View style={styles.container}>
-          {/* Header */}
           <Header />
           <View style={styles.cardContainer}>
-            {/* Tabs */}
             <Tabs />
-            {/* Progress Bar */}
             <ProgressBar progress={44} />
-            {/* Cards Section */}
             <ScrollView
               style={styles.scrollContainer}
               contentContainerStyle={styles.scrollContent}
@@ -159,12 +125,10 @@ const Dashboard: React.FC = () => {
             </ScrollView>
           </View>
         </View>
-        {/* Navbar */}
         <View style={styles.navbarContainer}>
           <Navbar />
         </View>
-        {/* Footer block */}
-        <View style={styles.footerBlock}></View>
+        <View style={styles.footerBlock} />
       </View>
     </>
   );

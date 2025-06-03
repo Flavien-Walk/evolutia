@@ -1,121 +1,137 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
-const styles = StyleSheet.create({
+const { width, height } = Dimensions.get("window");
+
+export const matieresStyles = StyleSheet.create({
   background: {
-    flex: 1,
-    backgroundColor: "#F7F9FC",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width,
+    height,
+    backgroundColor: "#6c63ff",
   },
   container: {
     flex: 1,
-    paddingTop: 40,
-    paddingHorizontal: 20,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "transparent",
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    width: "100%",
     alignItems: "center",
-    marginBottom: 20,
-  },
-  logoContainer: {
-    flex: 1,
-  },
-  logoImage: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-  },
-  headerTextContainer: {
-    flex: 3,
-    alignItems: "center",
+    paddingTop: 70,
+    paddingBottom: 20,
+    backgroundColor: "#6c63ff",
   },
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#3D3D3D",
+    color: "#fff",
+    textAlign: "center",
   },
   subtitle: {
-    fontSize: 16,
-    color: "#7D7D7D",
+    fontSize: 14,
+    color: "#ddd",
+    marginTop: 5,
+    textAlign: "center",
   },
-  icons: {
+  tabs: {
     flexDirection: "row",
+    justifyContent: "space-around",
     alignItems: "center",
-  },
-  iconWrapper: {
-    marginLeft: 10,
-  },
-  icon: {
-    color: "#3D3D3D",
-  },
-  tabContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
     backgroundColor: "#fff",
-    padding: 10,
-    borderRadius: 10,
+    width: "100%",
+    paddingVertical: 14,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   tabText: {
     fontSize: 16,
-    color: "#7D7D7D",
+    color: "#999",
   },
   activeTabText: {
+    color: "#000",
     fontWeight: "bold",
-    color: "#4A00E0",
+    textDecorationLine: "underline",
+  },
+  cardContainer: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 20,
+    paddingHorizontal: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 5,
+    width: "100%",
+    marginTop: 10,
   },
   scrollContainer: {
-    flex: 1,
+    flexGrow: 1,
+    paddingBottom: 80,
+    paddingHorizontal: 15,
+    overflow: "hidden",
   },
   scrollContent: {
-    paddingBottom: 80,
+    paddingBottom: 100,
+    paddingHorizontal: 10,
   },
-  matiereGrid: {
+  cardsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+    paddingBottom: 100,
+    paddingHorizontal: 1,
+    marginTop: 20,
   },
-  matiereCard: {
+  subjectCard: {
     width: "48%",
-    padding: 20,
-    borderRadius: 15,
-    marginBottom: 15,
+    height: 120,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    justifyContent: "center",
     alignItems: "center",
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  matiereImage: {
-    width: 50,
-    height: 50,
-    marginBottom: 10,
+  cardImage: {
+    width: 60,
+    height: 60,
+    resizeMode: "contain",
   },
-  matiereTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#3D3D3D",
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#222",
     textAlign: "center",
+    marginTop: 10,
   },
-  matiereSubtitle: {
+  cardSubtitle: {
     fontSize: 14,
-    color: "#7D7D7D",
+    fontWeight: "400",
+    color: "#666",
+    marginTop: 2,
     textAlign: "center",
-  },
-  cardContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 10,
   },
   navbarContainer: {
     position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "white",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -3 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
+    bottom: 34,
+    width: "100%",
+    alignItems: "center",
+  },
+  footerBlock: {
+    width: "100%",
+    height: 50,
+    backgroundColor: "#fff",
   },
 });
-
-export default styles;
