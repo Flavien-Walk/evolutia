@@ -1,17 +1,17 @@
+// app/Home.tsx
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, ImageBackground } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Import pour récupérer les données locales
-import { useRouter } from "expo-router"; // Hook pour gérer la navigation
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 import styles from "../styles/HomeScreenStyles";
-import Navbar from "../components/Navbar"; // Import du composant Navbar
+import Navbar from "../components/Navbar";
 
-const HomeScreen: React.FC = () => {
+const Home: React.FC = () => {
   const router = useRouter();
-  const [username, setUsername] = useState("Utilisateur"); // État pour le nom d'utilisateur
-  const [role, setRole] = useState("User"); // État pour le rôle (statut)
-  const [roleColor, setRoleColor] = useState("#808080"); // État pour la couleur du rôle
+  const [username, setUsername] = useState("Utilisateur");
+  const [role, setRole] = useState("User");
+  const [roleColor, setRoleColor] = useState("#808080");
 
-  // Charger les informations utilisateur depuis AsyncStorage
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -62,8 +62,8 @@ const HomeScreen: React.FC = () => {
       {/* Texte principal */}
       <View style={styles.textContainer}>
         <Text style={styles.mainText}>
-          Obtenez votre {"\n"}<Text style={styles.highlight}>Meilleur cours</Text>{" "}
-          aujourd'hui !
+          Obtenez votre {"\n"}
+          <Text style={styles.highlight}>Meilleur cours</Text> aujourd'hui !
         </Text>
       </View>
 
@@ -88,7 +88,10 @@ const HomeScreen: React.FC = () => {
       {/* Section Quiz */}
       <View style={styles.quizSection}>
         <Text style={styles.quizTitle}>Quiz de la semaine</Text>
-        <TouchableOpacity style={styles.quizCard}>
+        <TouchableOpacity
+          style={styles.quizCard}
+          onPress={() => router.push("/mathematiques")}
+        >
           <Image
             source={require("../assets/Image maths.png")}
             style={styles.quizImage}
@@ -106,4 +109,4 @@ const HomeScreen: React.FC = () => {
   );
 };
 
-export default HomeScreen;
+export default Home;

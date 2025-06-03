@@ -46,7 +46,7 @@ const Register: React.FC = () => {
 
     try {
 
-      const response = await axios.post("http://10.76.203.193:3636/register", {
+      const response = await axios.post("http://10.109.249.241:3636/register", {
 
         email: formData.email,
         username: formData.username,
