@@ -6,6 +6,8 @@ export default StyleSheet.create({
     backgroundColor: "#ffffff",
     padding: 20,
   },
+
+  
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -108,4 +110,14 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "#888888",
   },
+
+  planText: {
+  fontSize: 16,
+  color: "#333",
+  marginTop: 5,
+  fontWeight: "500",
+},
+
 });
+
+

@@ -1,4 +1,3 @@
-// app/Home.tsx
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, ImageBackground } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,26 +10,54 @@ const Home: React.FC = () => {
   const [username, setUsername] = useState("Utilisateur");
   const [role, setRole] = useState("User");
   const [roleColor, setRoleColor] = useState("#808080");
+  const [selectedPlan, setSelectedPlan] = useState("Aucune");
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const storedUsername = await AsyncStorage.getItem("username");
-        const storedRole = await AsyncStorage.getItem("role");
-        const storedRoleColor = await AsyncStorage.getItem("roleColor");
+        const token = await AsyncStorage.getItem("token");
 
-        if (storedUsername) {
-          setUsername(storedUsername);
+        if (!token) {
+          console.warn("Token manquant, redirection vers la connexion.");
+          router.push("/login");
+          return;
+        }
+
+        const response = await fetch("http://10.109.249.241:3636/user-info", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          console.warn("Session expirée ou erreur côté serveur.");
+          router.push("/login");
+          return;
+        }
+
+        const data = await response.json();
+
+        if (data.username) {
+          setUsername(data.username);
+          await AsyncStorage.setItem("username", data.username);
+        }
+
+        if (data.role) {
+          setRole(data.role);
+          await AsyncStorage.setItem("role", data.role);
+        }
+
+        if (data.roleColor) {
+          setRoleColor(data.roleColor);
+          await AsyncStorage.setItem("roleColor", data.roleColor);
+        }
+
+        if (data.selectedPlan) {
+          setSelectedPlan(data.selectedPlan);
+          await AsyncStorage.setItem("selectedPlan", data.selectedPlan);
         } else {
-          console.warn("Nom d'utilisateur non trouvé !");
-        }
-
-        if (storedRole) {
-          setRole(storedRole);
-        }
-
-        if (storedRoleColor) {
-          setRoleColor(storedRoleColor);
+          setSelectedPlan("Aucune");
+          await AsyncStorage.setItem("selectedPlan", "Aucune");
         }
       } catch (error) {
         console.error("Erreur lors de la récupération des informations utilisateur :", error);
@@ -49,6 +76,9 @@ const Home: React.FC = () => {
           <Text style={styles.nameText}>{username}</Text>
           <Text style={[styles.roleText, { color: roleColor }]}>
             Statut : {role}
+          </Text>
+          <Text style={styles.planText}>
+            Offre choisie : {selectedPlan}
           </Text>
         </View>
         <TouchableOpacity onPress={() => router.push("/profil")}>
