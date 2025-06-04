@@ -49,25 +49,11 @@ const Matieres: React.FC = () => {
   const handlePress = (subjectName: string) => {
     switch (subjectName) {
       case "Histoire-Géographie":
-        router.push("/");
-        break;
-      case "Mathématiques":
-        router.push("/");
-        break;
-      case "Anglais":
-        router.push("/");
-        break;
-      case "AI Design Basic":
-        router.push("/");
-        break;
-      case "Espagnol":
-        router.push("/");
-        break;
-      case "Français":
-        router.push("/");
+        router.replace("/histoiregeo" as const);
         break;
       default:
-        console.warn("Page non définie pour :", subjectName);
+        console.warn("Page non encore disponible :", subjectName);
+        break;
     }
   };
 
