@@ -46,13 +46,34 @@ const subjects = [
 const Matieres: React.FC = () => {
   const router = useRouter();
 
+  const handlePress = (subjectName: string) => {
+    switch (subjectName) {
+      case "Histoire-Géographie":
+        router.push("/");
+        break;
+      case "Mathématiques":
+        router.push("/");
+        break;
+      case "Anglais":
+        router.push("/");
+        break;
+      case "AI Design Basic":
+        router.push("/");
+        break;
+      case "Espagnol":
+        router.push("/");
+        break;
+      case "Français":
+        router.push("/");
+        break;
+      default:
+        console.warn("Page non définie pour :", subjectName);
+    }
+  };
+
   return (
     <>
-      <StatusBar
-        translucent
-        barStyle="light-content"
-        backgroundColor="transparent"
-      />
+      <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
       <View style={matieresStyles.background}>
         <View style={matieresStyles.container}>
           <View style={matieresStyles.header}>
@@ -78,28 +99,21 @@ const Matieres: React.FC = () => {
               contentContainerStyle={matieresStyles.scrollContent}
             >
               <View style={matieresStyles.cardsGrid}>
-                {subjects.map((subject, index) => {
-                  const slug = subject.name
-                    .toLowerCase()
-                    .replace(/\s+/g, "-")
-                    .replace(/[^a-z0-9-]/g, "");
-
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      style={[
-                        matieresStyles.subjectCard,
-                        { backgroundColor: subject.backgroundColor },
-                      ]}
-                      onPress={() => router.push(`/matieres`)}
-                    >
-                      <Text style={matieresStyles.cardTitle}>{subject.name}</Text>
-                      <Text style={matieresStyles.cardSubtitle}>
-                        {subject.courses} cours
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
+                {subjects.map((subject, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      matieresStyles.subjectCard,
+                      { backgroundColor: subject.backgroundColor },
+                    ]}
+                    onPress={() => handlePress(subject.name)}
+                  >
+                    <Text style={matieresStyles.cardTitle}>{subject.name}</Text>
+                    <Text style={matieresStyles.cardSubtitle}>
+                      {subject.courses} cours
+                    </Text>
+                  </TouchableOpacity>
+                ))}
               </View>
             </ScrollView>
           </View>
