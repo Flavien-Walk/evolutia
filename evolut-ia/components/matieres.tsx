@@ -68,7 +68,7 @@ const Matieres: React.FC = () => {
               <TouchableOpacity>
                 <Text style={matieresStyles.activeTabText}>Matières</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => router.push("/")}>
+              <TouchableOpacity onPress={() => router.push("/recommandation")}>
                 <Text style={matieresStyles.tabText}>Recommandation</Text>
               </TouchableOpacity>
             </View>
@@ -91,7 +91,7 @@ const Matieres: React.FC = () => {
                         matieresStyles.subjectCard,
                         { backgroundColor: subject.backgroundColor },
                       ]}
-                      onPress={() => router.push(`/matieres/${slug}`)}
+                      onPress={() => router.push(`/matieres`)}
                     >
                       <Text style={matieresStyles.cardTitle}>{subject.name}</Text>
                       <Text style={matieresStyles.cardSubtitle}>

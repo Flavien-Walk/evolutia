@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-export const matieresStyles = StyleSheet.create({
+export const recommandationStyles = StyleSheet.create({
   background: {
     position: "absolute",
     top: 0,
@@ -22,7 +22,7 @@ export const matieresStyles = StyleSheet.create({
   header: {
     width: "100%",
     alignItems: "center",
-    paddingTop: 70,
+    paddingTop: 100,
     paddingBottom: 20,
     backgroundColor: "#6c63ff",
   },
@@ -80,47 +80,37 @@ export const matieresStyles = StyleSheet.create({
   },
   scrollContent: {
     paddingBottom: 100,
-    paddingHorizontal: 10,
-  },
-  cardsGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    paddingBottom: 100,
-    paddingHorizontal: 1,
-    marginTop: 20,
-  },
-  subjectCard: {
-    width: "48%",
-    height: 150,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    justifyContent: "center",
     alignItems: "center",
-    marginBottom: 15,
+  },
+  stackContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: 30,
+    gap: 26,
+  },
+  recoCard: {
+    width: "90%",
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    borderRadius: 20,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 6,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  cardImage: {
-    width: 60,
-    height: 60,
-    resizeMode: "contain",
-  },
-  cardTitle: {
-    fontSize: 16,
+  recoTitle: {
+    fontSize: 18,
     fontWeight: "600",
     color: "#222",
     textAlign: "center",
-    marginTop: 10,
   },
-  cardSubtitle: {
+  recoSubtitle: {
     fontSize: 14,
-    fontWeight: "400",
     color: "#666",
-    marginTop: 2,
+    marginTop: 5,
     textAlign: "center",
   },
   navbarContainer: {
