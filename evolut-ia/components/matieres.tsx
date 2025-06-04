@@ -49,7 +49,7 @@ const Matieres: React.FC = () => {
   const handlePress = (subjectName: string) => {
     switch (subjectName) {
       case "Histoire-Géographie":
-        router.replace("/histoiregeo" as const);
+        router.replace("/" as const);
         break;
       default:
         console.warn("Page non encore disponible :", subjectName);
