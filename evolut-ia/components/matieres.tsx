@@ -46,17 +46,6 @@ const subjects = [
 const Matieres: React.FC = () => {
   const router = useRouter();
 
-  const handlePress = (subjectName: string) => {
-    switch (subjectName) {
-      case "Histoire-Géographie":
-        router.replace("/" as const);
-        break;
-      default:
-        console.warn("Page non encore disponible :", subjectName);
-        break;
-    }
-  };
-
   return (
     <>
       <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
@@ -92,7 +81,13 @@ const Matieres: React.FC = () => {
                       matieresStyles.subjectCard,
                       { backgroundColor: subject.backgroundColor },
                     ]}
-                    onPress={() => handlePress(subject.name)}
+                    onPress={() => {
+                      if (subject.name === "Anglais") {
+                        router.push("/anglais");
+                      } else {
+                        console.warn("Page non encore disponible :", subject.name);
+                      }
+                    }}
                   >
                     <Text style={matieresStyles.cardTitle}>{subject.name}</Text>
                     <Text style={matieresStyles.cardSubtitle}>
