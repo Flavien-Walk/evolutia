@@ -18,6 +18,7 @@ import styles from "../styles/ProfilStyles";
 
 const Profil: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [fullName, setFullName] = useState<string>(""); // état pour le nom d’utilisateur
   const [activeTab, setActiveTab] = useState<
     "stats" | "Achievements" | "Activity"
   >("stats");
@@ -47,8 +48,13 @@ const Profil: React.FC = () => {
         }
 
         const data = await response.json();
+
         if (data.profileImage) {
           setProfileImage(data.profileImage);
+        }
+
+        if (data.username) {
+          setFullName(data.username); // Met à jour le nom affiché dynamiquement
         }
       } catch (error) {
         console.error("Erreur lors du chargement des infos utilisateur :", error);
@@ -281,7 +287,9 @@ const Profil: React.FC = () => {
             />
           )}
         </TouchableOpacity>
-        <Text style={styles.nameText}>Antoine Dupont</Text>
+
+        {/* Affiche le nom dynamique ici */}
+        <Text style={styles.nameText}>{fullName || "Utilisateur"}</Text>
 
         {/* Bouton Réglages */}
         <TouchableOpacity
