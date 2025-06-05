@@ -29,7 +29,7 @@ export const anglaisStylesPage = StyleSheet.create({
     fontSize: 16,
   },
   illustration: {
-    width: width * 0.75,
+    width: width * 1,
     height: height * 0.35,
     alignSelf: "center",
     resizeMode: "contain",
@@ -40,7 +40,7 @@ export const anglaisStylesPage = StyleSheet.create({
     width: "100%",
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    paddingTop: 40,
+    paddingTop: 50,
     paddingHorizontal: 30,
     paddingBottom: 10000,
     alignItems: "center",
@@ -70,7 +70,7 @@ export const anglaisStylesPage = StyleSheet.create({
     color: "#000",
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 15,
     color: "#666",
     textAlign: "center",
     marginTop: 8,
