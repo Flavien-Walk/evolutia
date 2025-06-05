@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
-import styles from "../../styles/maths/IntroductionStylesPage";
+import styles from "../../styles/maths/PuissanceStylesPage";
 import Navbar from "../Navbar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -9,23 +9,23 @@ const API_URL = "http://10.109.249.241:3636";
 
 const questions = [
   {
-    question: "Quelle est la valeur de π (Pi) approximativement ?",
-    options: ["3,14", "2,71", "1,41"],
-    answer: "3,14",
+    question: "Combien vaut 2 puissance 3 ?",
+    options: ["6", "8", "9"],
+    answer: "8",
   },
   {
-    question: "Combien de côtés possède un triangle ?",
-    options: ["3", "4", "5"],
-    answer: "3",
+    question: "Combien vaut 5² ?",
+    options: ["10", "20", "25"],
+    answer: "25",
   },
   {
-    question: "Combien font 2 + 2 ?",
-    options: ["3", "4", "5"],
-    answer: "4",
+    question: "Combien vaut 10 puissance 0 ?",
+    options: ["0", "1", "10"],
+    answer: "1",
   },
 ];
 
-const Introduction: React.FC = () => {
+const Puissance: React.FC = () => {
   const router = useRouter();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
@@ -72,7 +72,7 @@ const Introduction: React.FC = () => {
     }
   };
 
-  // Envoi le score lors de la validation du module
+  // Important : on envoie aussi le score
   const validateModule = async (moduleId: string, score: number) => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -128,17 +128,16 @@ const Introduction: React.FC = () => {
       setShowScore(true);
       await saveProgress(nextQuestion, updatedScore);
 
-      // Validation automatique si taux >= 50%
       const successRate = (updatedScore / questions.length) * 100;
       if (successRate >= 50) {
-        await validateModule("1", updatedScore);
+        await validateModule("3", updatedScore); // <-- on passe bien le score ici
       }
     }
   };
 
   const handleNextModule = async () => {
-    await validateModule("1", score);
-    router.push("/statistique");
+    await validateModule("3", score);
+    router.push("/algebre");
   };
 
   const successRate = (score / questions.length) * 100;
@@ -150,14 +149,14 @@ const Introduction: React.FC = () => {
         <TouchableOpacity onPress={() => router.push("/mathematiques")}>
           <Text style={styles.backArrow}>← Retour</Text>
         </TouchableOpacity>
-        <Text style={styles.pageTitle}>Introduction</Text>
+        <Text style={styles.pageTitle}>Puissance</Text>
       </View>
 
       {/* Contenu principal */}
       <View style={styles.contentBox}>
         <Text style={styles.description}>
-          Bienvenue dans le cours d'introduction aux mathématiques ! Ici, tu
-          découvriras les bases essentielles pour progresser sereinement.
+          Bienvenue dans le module Puissance ! Ici, tu maîtriseras les
+          opérations de puissance et tu comprendras leur utilité.
         </Text>
 
         {hasProgress ? (
@@ -167,7 +166,12 @@ const Introduction: React.FC = () => {
             </Text>
             <TouchableOpacity
               onPress={handleResume}
-              style={{ backgroundColor: "#A7D8C9", padding: 10, borderRadius: 8, marginBottom: 10 }}
+              style={{
+                backgroundColor: "#A7D8C9",
+                padding: 10,
+                borderRadius: 8,
+                marginBottom: 10,
+              }}
             >
               <Text style={{ fontSize: 16, textAlign: "center", color: "#2D2D2D" }}>
                 Reprendre le quiz
@@ -175,7 +179,11 @@ const Introduction: React.FC = () => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleStart}
-              style={{ backgroundColor: "#FFC1C1", padding: 10, borderRadius: 8 }}
+              style={{
+                backgroundColor: "#FFC1C1",
+                padding: 10,
+                borderRadius: 8,
+              }}
             >
               <Text style={{ fontSize: 16, textAlign: "center", color: "#2D2D2D" }}>
                 Recommencer depuis le début
@@ -187,14 +195,24 @@ const Introduction: React.FC = () => {
             <Text style={{ fontSize: 16, textAlign: "center", color: "#2D2D2D", marginBottom: 5 }}>
               Question {currentQuestion + 1} sur {questions.length}
             </Text>
-            <Text style={[styles.pageTitle, { fontSize: 20, textAlign: "center", marginBottom: 10 }]}>
+            <Text
+              style={[
+                styles.pageTitle,
+                { fontSize: 20, textAlign: "center", marginBottom: 10 },
+              ]}
+            >
               {questions[currentQuestion].question}
             </Text>
             {questions[currentQuestion].options.map((option, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => handleAnswer(option)}
-                style={{ backgroundColor: "#DFF5ED", padding: 10, borderRadius: 8, marginVertical: 5 }}
+                style={{
+                  backgroundColor: "#DFF5ED",
+                  padding: 10,
+                  borderRadius: 8,
+                  marginVertical: 5,
+                }}
               >
                 <Text style={{ fontSize: 16, textAlign: "center", color: "#2D2D2D" }}>
                   {option}
@@ -213,7 +231,12 @@ const Introduction: React.FC = () => {
             {successRate >= 50 && (
               <TouchableOpacity
                 onPress={handleNextModule}
-                style={{ backgroundColor: "#A7D8C9", padding: 10, borderRadius: 8, marginBottom: 10 }}
+                style={{
+                  backgroundColor: "#A7D8C9",
+                  padding: 10,
+                  borderRadius: 8,
+                  marginBottom: 10,
+                }}
               >
                 <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
                   Passer au module suivant
@@ -222,7 +245,12 @@ const Introduction: React.FC = () => {
             )}
             <TouchableOpacity
               onPress={resetProgress}
-              style={{ backgroundColor: "#A7D8C9", padding: 10, borderRadius: 8, marginTop: 10 }}
+              style={{
+                backgroundColor: "#A7D8C9",
+                padding: 10,
+                borderRadius: 8,
+                marginTop: 10,
+              }}
             >
               <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
                 Recommencer le quiz
@@ -238,4 +266,4 @@ const Introduction: React.FC = () => {
   );
 };
 
-export default Introduction;
+export default Puissance;
