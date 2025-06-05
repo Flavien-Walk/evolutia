@@ -1,8 +1,16 @@
-import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter } from "expo-router"; // Navigation avec Expo Router
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 import Navbar from "../components/Navbar";
 import Achievements from "../components/Achievements";
 import Activity from "../components/Activity";
@@ -10,14 +18,55 @@ import styles from "../styles/ProfilStyles";
 
 const Profil: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"stats" | "Achievements" | "Activity">("stats");
-  const router = useRouter(); // Navigation avec Expo Router
+  const [activeTab, setActiveTab] = useState<
+    "stats" | "Achievements" | "Activity"
+  >("stats");
+  const router = useRouter();
+
+  // Récupération des données utilisateur depuis l'API
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+
+        if (!token) {
+          router.push("/login");
+          return;
+        }
+
+        const response = await fetch("http://10.109.249.241:3636/user-info", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          console.warn("Erreur ou session expirée.");
+          router.push("/login");
+          return;
+        }
+
+        const data = await response.json();
+        if (data.profileImage) {
+          setProfileImage(data.profileImage);
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des infos utilisateur :", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   // Fonction pour choisir une image depuis la galerie
   const pickImage = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
-      Alert.alert("Permission refusée", "Vous devez autoriser l'accès à la galerie.");
+      Alert.alert(
+        "Permission refusée",
+        "Vous devez autoriser l'accès à la galerie."
+      );
       return;
     }
 
@@ -26,44 +75,108 @@ const Profil: React.FC = () => {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
+      base64: true, // Important pour récupérer l'image encodée
     });
 
-    if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
+    if (!result.canceled && result.assets.length > 0) {
+      const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+      setProfileImage(base64Image);
+
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (!token) {
+          Alert.alert("Erreur", "Vous devez être connecté pour changer la photo.");
+          return;
+        }
+
+        const response = await fetch(
+          "http://10.109.249.241:3636/update-profile-image",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ imageUri: base64Image }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Erreur lors de la mise à jour de la photo de profil.");
+        }
+
+        const data = await response.json();
+        setProfileImage(data.profileImage);
+        Alert.alert("Succès", "Photo de profil mise à jour !");
+      } catch (error) {
+        console.error(error);
+        Alert.alert(
+          "Erreur",
+          "Une erreur est survenue lors de la mise à jour de la photo."
+        );
+      }
     }
   };
 
-  // Données des thèmes faibles et forts
   const weakestTopics = [
-    { title: "Lorem Ipsum is simply", percent: 28, image: require("../assets/photoprofil1.png") },
-    { title: "Lorem Ipsum is simply", percent: 35, image: require("../assets/photoprofil2.png") },
-    { title: "Lorem Ipsum is simply", percent: 40, image: require("../assets/photoprofil3.png") },
+    {
+      title: "Lorem Ipsum is simply",
+      percent: 28,
+      image: require("../assets/photoprofil1.png"),
+    },
+    {
+      title: "Lorem Ipsum is simply",
+      percent: 35,
+      image: require("../assets/photoprofil2.png"),
+    },
+    {
+      title: "Lorem Ipsum is simply",
+      percent: 40,
+      image: require("../assets/photoprofil3.png"),
+    },
   ];
 
   const strongestTopics = [
-    { title: "Lorem Ipsum is simply", percent: 95, image: require("../assets/photoprofil4.png") },
-    { title: "Lorem Ipsum is simply", percent: 90, image: require("../assets/photoprofil5.png") },
-    { title: "Lorem Ipsum is simply", percent: 87, image: require("../assets/photoprofil6.png") },
+    {
+      title: "Lorem Ipsum is simply",
+      percent: 95,
+      image: require("../assets/photoprofil4.png"),
+    },
+    {
+      title: "Lorem Ipsum is simply",
+      percent: 90,
+      image: require("../assets/photoprofil5.png"),
+    },
+    {
+      title: "Lorem Ipsum is simply",
+      percent: 87,
+      image: require("../assets/photoprofil6.png"),
+    },
   ];
 
-  // Fonction pour afficher le contenu des onglets
   const renderTabContent = () => {
     switch (activeTab) {
       case "stats":
         return (
           <ScrollView contentContainerStyle={styles.scrollContainer}>
-            {/* Section des statistiques */}
             <View style={styles.statsSection}>
+              {/* Statistiques */}
               <View style={styles.statRow}>
                 <TouchableOpacity style={styles.statCard}>
-                  <Image source={require("../assets/feu.png.png")} style={styles.statIcon} />
+                  <Image
+                    source={require("../assets/feu.png.png")}
+                    style={styles.statIcon}
+                  />
                   <View>
                     <Text style={styles.statValue}>55</Text>
                     <Text style={styles.statLabel}>Quizzes</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.statCard}>
-                  <Image source={require("../assets/stat.png.png")} style={styles.statIcon} />
+                  <Image
+                    source={require("../assets/stat.png.png")}
+                    style={styles.statIcon}
+                  />
                   <View>
                     <Text style={styles.statValue}>#2</Text>
                     <Text style={styles.statLabel}>Leaderboard</Text>
@@ -72,14 +185,20 @@ const Profil: React.FC = () => {
               </View>
               <View style={styles.statRow}>
                 <TouchableOpacity style={styles.statCard}>
-                  <Image source={require("../assets/good.png.png")} style={styles.statIcon} />
+                  <Image
+                    source={require("../assets/good.png.png")}
+                    style={styles.statIcon}
+                  />
                   <View>
                     <Text style={styles.statValue}>83%</Text>
                     <Text style={styles.statLabel}>Accuracy</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.statCard}>
-                  <Image source={require("../assets/level.png.png")} style={styles.statIcon} />
+                  <Image
+                    source={require("../assets/level.png.png")}
+                    style={styles.statIcon}
+                  />
                   <View>
                     <Text style={styles.statValue}>86%</Text>
                     <Text style={styles.statLabel}>Recall</Text>
@@ -101,7 +220,10 @@ const Profil: React.FC = () => {
                         colors={["#FFA726", "#FB8C00"]}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
-                        style={[styles.progressBar, { width: `${topic.percent}%` }]}
+                        style={[
+                          styles.progressBar,
+                          { width: `${topic.percent}%` },
+                        ]}
                       />
                     </View>
                   </View>
@@ -123,7 +245,10 @@ const Profil: React.FC = () => {
                         colors={["#66BB6A", "#43A047"]}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
-                        style={[styles.progressBar, { width: `${topic.percent}%` }]}
+                        style={[
+                          styles.progressBar,
+                          { width: `${topic.percent}%` },
+                        ]}
                       />
                     </View>
                   </View>
@@ -147,21 +272,21 @@ const Profil: React.FC = () => {
       {/* En-tête du profil */}
       <View style={styles.profileHeader}>
         <TouchableOpacity onPress={pickImage}>
-          <Image
-            style={styles.profileImage}
-            source={
-              profileImage
-                ? { uri: profileImage }
-                : require("../assets/default-profile1.png")
-            }
-          />
+          {profileImage ? (
+            <Image style={styles.profileImage} source={{ uri: profileImage }} />
+          ) : (
+            <Image
+              style={styles.profileImage}
+              source={require("../assets/default-profile1.png")}
+            />
+          )}
         </TouchableOpacity>
         <Text style={styles.nameText}>Antoine Dupont</Text>
 
         {/* Bouton Réglages */}
         <TouchableOpacity
           style={styles.settingsButton}
-          onPress={() => router.push("/reglage")} // Redirection vers la page Réglages
+          onPress={() => router.push("/reglage")}
         >
           <Image
             source={require("../assets/setting.png")}
@@ -173,8 +298,16 @@ const Profil: React.FC = () => {
       {/* Onglets */}
       <View style={styles.tabsContainer}>
         {["stats", "Achievements", "Activity"].map((tab) => (
-          <TouchableOpacity key={tab} onPress={() => setActiveTab(tab as typeof activeTab)}>
-            <Text style={[styles.tabText, activeTab === tab && styles.activeTab]}>
+          <TouchableOpacity
+            key={tab}
+            onPress={() => setActiveTab(tab as typeof activeTab)}
+          >
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === tab && styles.activeTab,
+              ]}
+            >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </Text>
           </TouchableOpacity>
@@ -184,7 +317,7 @@ const Profil: React.FC = () => {
       {/* Contenu des onglets */}
       {renderTabContent()}
 
-      {/* Barre de navigation */}
+      {/* Navbar */}
       <View style={styles.navbarContainer}>
         <Navbar />
       </View>

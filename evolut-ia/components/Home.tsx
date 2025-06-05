@@ -11,6 +11,7 @@ const Home: React.FC = () => {
   const [role, setRole] = useState("User");
   const [roleColor, setRoleColor] = useState("#808080");
   const [selectedPlan, setSelectedPlan] = useState("Aucune");
+  const [profileImage, setProfileImage] = useState<string>("");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -59,6 +60,11 @@ const Home: React.FC = () => {
           setSelectedPlan("Aucune");
           await AsyncStorage.setItem("selectedPlan", "Aucune");
         }
+
+        if (data.profileImage) {
+          setProfileImage(data.profileImage);
+          await AsyncStorage.setItem("profileImage", data.profileImage);
+        }
       } catch (error) {
         console.error("Erreur lors de la récupération des informations utilisateur :", error);
       }
@@ -82,10 +88,17 @@ const Home: React.FC = () => {
           </Text>
         </View>
         <TouchableOpacity onPress={() => router.push("/profil")}>
-          <Image
-            source={require("../assets/Profile.png")}
-            style={styles.profileImage}
-          />
+          {profileImage ? (
+            <Image
+              source={{ uri: profileImage }}
+              style={styles.profileImage}
+            />
+          ) : (
+            <Image
+              source={require("../assets/default-profile1.png")}
+              style={styles.profileImage}
+            />
+          )}
         </TouchableOpacity>
       </View>
 
