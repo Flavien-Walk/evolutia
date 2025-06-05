@@ -10,14 +10,14 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import styles from "../styles/DashboardStyles"; // ✅ fonctionne avec export default
+import styles from "../styles/DashboardStyles";
 import Navbar from "../components/Navbar";
 
 const Header: React.FC = () => (
   <View style={styles.header}>
     <View style={styles.logoContainer}>
       <Image
-        source={require("../assets/Logo_noir_Evolut'IA.png")}
+        source={require("../assets/logo_noir_evolutia.png")}
         style={styles.logoImage}
       />
     </View>

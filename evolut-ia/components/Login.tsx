@@ -112,7 +112,7 @@ const Login: React.FC = () => {
 
       {/* Logo */}
       <Image
-        source={require("../assets/Logo_noir_Evolut'IA.png")}
+        source={require("../assets/logo_noir_evolutia.png")}
         style={styles.logo}
       />
 
