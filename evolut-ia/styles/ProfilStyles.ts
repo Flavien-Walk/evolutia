@@ -182,4 +182,27 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+
+logoutButtonUnderName: {
+  marginTop: 10,
+  alignSelf: "center",
+  backgroundColor: "#FF5252",
+  borderRadius: 6,
+  paddingVertical: 8,
+  paddingHorizontal: 30,
+  shadowColor: "#FF5252",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.3,
+  shadowRadius: 3,
+  elevation: 4,
+},
+
+logoutButtonText: {
+  color: "#fff",
+  fontWeight: "bold",
+  fontSize: 16,
+},
+
+
+
 });
