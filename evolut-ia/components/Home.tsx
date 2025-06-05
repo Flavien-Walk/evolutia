@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import styles from "../styles/HomeScreenStyles";
 import Navbar from "../components/Navbar";
+import { MaterialIcons } from '@expo/vector-icons';
 
 const Home: React.FC = () => {
   const router = useRouter();
@@ -94,10 +95,9 @@ const Home: React.FC = () => {
               style={styles.profileImage}
             />
           ) : (
-            <Image
-              source={require("../assets/default-profile1.png")}
-              style={styles.profileImage}
-            />
+            <View style={styles.emptyProfileImage}>
+              <MaterialIcons name="add-a-photo" size={30} color="#ccc" />
+            </View>
           )}
         </TouchableOpacity>
       </View>

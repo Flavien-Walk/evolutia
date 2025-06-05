@@ -118,6 +118,18 @@ export default StyleSheet.create({
   fontWeight: "500",
 },
 
+emptyProfileImage: {
+  width: 70,
+  height: 70,
+  borderRadius: 35,
+  backgroundColor: "#e0e0e0",
+  justifyContent: "center",
+  alignItems: "center",
+  borderWidth: 1,
+  borderColor: "#ccc",
+},
+
+
 });
 
 

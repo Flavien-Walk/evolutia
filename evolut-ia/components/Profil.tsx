@@ -15,6 +15,7 @@ import Navbar from "../components/Navbar";
 import Achievements from "../components/Achievements";
 import Activity from "../components/Activity";
 import styles from "../styles/ProfilStyles";
+import { MaterialIcons } from '@expo/vector-icons'; // Ajouté pour l’icône
 
 const Profil: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -228,10 +229,9 @@ const Profil: React.FC = () => {
           {profileImage ? (
             <Image style={styles.profileImage} source={{ uri: profileImage }} />
           ) : (
-            <Image
-              style={styles.profileImage}
-              source={require("../assets/default-profile1.png")}
-            />
+            <View style={styles.profileImageContainer}>
+              <MaterialIcons name="add-a-photo" size={40} color="#aaa" />
+            </View>
           )}
         </TouchableOpacity>
 
