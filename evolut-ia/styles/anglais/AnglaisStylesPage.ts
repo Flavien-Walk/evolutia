@@ -42,7 +42,7 @@ export const anglaisStylesPage = StyleSheet.create({
     borderTopRightRadius: 40,
     paddingTop: 40,
     paddingHorizontal: 30,
-    paddingBottom: 60,
+    paddingBottom: 10000,
     alignItems: "center",
     justifyContent: "flex-start",
     gap: 12,

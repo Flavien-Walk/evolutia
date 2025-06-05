@@ -29,7 +29,7 @@ const IntroductionAnglais: React.FC = () => {
 
           {/* Illustration */}
           <Image
-            source={require("../../assets/logo_noir_evolutia.png")}
+            source={require("../../assets/introduction_anglais.png")}
             style={anglaisStylesPage.illustration}
           />
 
