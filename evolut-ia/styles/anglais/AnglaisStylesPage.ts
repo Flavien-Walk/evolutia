@@ -1,36 +1,92 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
-export default StyleSheet.create({
+const { width, height } = Dimensions.get("window");
+
+export const anglaisStylesPage = StyleSheet.create({
+  background: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width,
+    height,
+    backgroundColor: "#6c63ff",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#D6E8FF",
+    justifyContent: "flex-start",
   },
   header: {
-    paddingTop: 50,
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    marginTop: 60,
   },
-  backArrow: {
+  backText: {
+    color: "#fff",
+    marginLeft: 6,
     fontSize: 16,
-    color: "#000000",
-    marginBottom: 10,
   },
-  pageTitle: {
-    fontSize: 28,
+  illustration: {
+    width: width * 0.75,
+    height: height * 0.35,
+    alignSelf: "center",
+    resizeMode: "contain",
+    marginVertical: 20,
+  },
+  whiteCard: {
+    backgroundColor: "#fff",
+    width: "100%",
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    paddingTop: 40,
+    paddingHorizontal: 30,
+    paddingBottom: 60,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: 12,
+  },
+  titleWrapper: {
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  mainTitleLine1: {
+    fontSize: 22,
     fontWeight: "bold",
-    color: "#000000",
-  },
-  contentBox: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    padding: 20,
-    marginTop: -20,
-  },
-  description: {
-    fontSize: 16,
-    color: "#2D2D2D",
     textAlign: "center",
+    lineHeight: 30,
+    color: "#000",
+  },
+  violetWord: {
+    color: "#6c63ff",
+    fontWeight: "bold",
+  },
+  mainTitleLine2: {
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
+    lineHeight: 30,
+    color: "#000",
+  },
+  subtitle: {
+    fontSize: 14,
+    color: "#666",
+    textAlign: "center",
+    marginTop: 8,
+    marginBottom: 30,
+    lineHeight: 20,
+  },
+  startButton: {
+    backgroundColor: "#6c63ff",
+    paddingVertical: 16,
+    paddingHorizontal: 60,
+    borderRadius: 16,
+    marginTop: 10,
+  },
+  startButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

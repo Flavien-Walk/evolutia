@@ -1,30 +1,62 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import { useRouter } from "expo-router";
-import styles from "../../styles/anglais/AnglaisStylesPage";
-import Navbar from "../Navbar";
+import { Ionicons } from "@expo/vector-icons";
+import { anglaisStylesPage } from "../../styles/anglais/AnglaisStylesPage";
 
 const IntroductionAnglais: React.FC = () => {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push("/anglais")}>
-          <Text style={styles.backArrow}>← Retour</Text>
-        </TouchableOpacity>
-        <Text style={styles.pageTitle}>Introduction</Text>
-      </View>
+    <>
+      <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
+      <View style={anglaisStylesPage.background}>
+        <View style={anglaisStylesPage.container}>
+          {/* Bouton retour */}
+          <TouchableOpacity
+            style={anglaisStylesPage.header}
+            onPress={() => router.back()}
+          >
+            <Ionicons name="arrow-back" size={20} color="#fff" />
+            <Text style={anglaisStylesPage.backText}>Retour</Text>
+          </TouchableOpacity>
 
-      <View style={styles.contentBox}>
-        <Text style={styles.description}>
-          Bienvenue dans ce module d’introduction à l’anglais ! Ici, tu vas découvrir les bases
-          pour comprendre et t’exprimer à l’oral comme à l’écrit.
-        </Text>
-      </View>
+          {/* Illustration */}
+          <Image
+            source={require("evolut-ia/assets/chat-bot.png")}
+            style={anglaisStylesPage.illustration}
+          />
 
-      <Navbar />
-    </View>
+          {/* Carte blanche */}
+          <View style={anglaisStylesPage.whiteCard}>
+            <View style={anglaisStylesPage.titleWrapper}>
+              <Text style={anglaisStylesPage.mainTitleLine1}>
+                Commençons à <Text style={anglaisStylesPage.violetWord}>développer</Text>
+              </Text>
+              <Text style={anglaisStylesPage.mainTitleLine2}>Nos compétences.</Text>
+            </View>
+
+            <Text style={anglaisStylesPage.subtitle}>
+              Casser les barrières de l’éducation{"\n"}
+              pour un apprentissage au cas par cas !
+            </Text>
+
+            <TouchableOpacity
+              style={anglaisStylesPage.startButton}
+              onPress={() => router.push("/anglais")}
+            >
+              <Text style={anglaisStylesPage.startButtonText}>Commencer</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </>
   );
 };
 

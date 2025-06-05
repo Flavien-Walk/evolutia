@@ -17,7 +17,7 @@ const Header: React.FC = () => (
   <View style={styles.header}>
     <View style={styles.logoContainer}>
       <Image
-        source={require("../assets/Logo_noir_Evolut_IA.png")}
+        source={require("../assets/Logo_noir_Evolut'IA.png")}
         style={styles.logoImage}
       />
     </View>

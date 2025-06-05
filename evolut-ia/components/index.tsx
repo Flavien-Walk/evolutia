@@ -14,7 +14,7 @@ const Index: React.FC = () => {
         <View style={styles.container}>
           {/* Logo */}
           <Image
-            source={require("../assets/Logo_noir_Evolut_IA.png")}
+            source={require("../assets/Logo_noir_Evolut'IA.png")}
             style={styles.logo}
           />
 
