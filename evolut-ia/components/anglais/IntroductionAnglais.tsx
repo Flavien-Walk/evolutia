@@ -29,7 +29,7 @@ const IntroductionAnglais: React.FC = () => {
 
           {/* Illustration */}
           <Image
-            source={require("evolut-ia/assets/chat-bot.png")}
+            source={require("../../assets/logo_noir_evolutia.png")}
             style={anglaisStylesPage.illustration}
           />
 
