@@ -1,4 +1,3 @@
-// Matieres.tsx
 import React from "react";
 import {
   View,
@@ -16,31 +15,37 @@ const subjects = [
     name: "Histoire-Géographie",
     courses: 15,
     backgroundColor: "#FFD6D6",
+    emoji: "🌍",
   },
   {
     name: "Mathématiques",
     courses: 10,
     backgroundColor: "#D6FFF2",
+    emoji: "📐",
   },
   {
     name: "Anglais",
     courses: 25,
     backgroundColor: "#D6E8FF",
+    emoji: "🇬🇧",
   },
   {
     name: "AI Design Basic",
     courses: 35,
     backgroundColor: "#FFD6D6",
+    emoji: "🤖",
   },
   {
     name: "Espagnol",
     courses: 15,
     backgroundColor: "#FFF7D6",
+    emoji: "🇪🇸",
   },
   {
     name: "Français",
     courses: 25,
     backgroundColor: "#E7D6FF",
+    emoji: "🇫🇷",
   },
 ];
 
@@ -52,11 +57,13 @@ const Matieres: React.FC = () => {
       <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
       <View style={matieresStyles.background}>
         <View style={matieresStyles.container}>
+          {/* En-tête violet */}
           <View style={matieresStyles.header}>
             <Text style={matieresStyles.title}>Prêt à apprendre ?</Text>
             <Text style={matieresStyles.subtitle}>Choisis ta matière.</Text>
           </View>
 
+          {/* Carte blanche centrale avec les onglets et les matières */}
           <View style={matieresStyles.cardContainer}>
             <View style={matieresStyles.tabs}>
               <TouchableOpacity onPress={() => router.push("/dashboard")}>
@@ -70,6 +77,7 @@ const Matieres: React.FC = () => {
               </TouchableOpacity>
             </View>
 
+            {/* Scroll de la liste des matières */}
             <ScrollView
               style={matieresStyles.scrollContainer}
               contentContainerStyle={matieresStyles.scrollContent}
@@ -90,6 +98,7 @@ const Matieres: React.FC = () => {
                       }
                     }}
                   >
+                    <Text style={{ fontSize: 34 }}>{subject.emoji}</Text>
                     <Text style={matieresStyles.cardTitle}>{subject.name}</Text>
                     <Text style={matieresStyles.cardSubtitle}>
                       {subject.courses} cours
@@ -101,10 +110,10 @@ const Matieres: React.FC = () => {
           </View>
         </View>
 
+        {/* Barre de navigation */}
         <View style={matieresStyles.navbarContainer}>
           <Navbar />
         </View>
-
         <View style={matieresStyles.footerBlock} />
       </View>
     </>
