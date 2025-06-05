@@ -2,9 +2,9 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-export const anglaisStyles = StyleSheet.create({
+export default StyleSheet.create({
   background: {
-    position: "absolute", // ✅ Fond violet absolu
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -15,124 +15,92 @@ export const anglaisStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    backgroundColor: "transparent",
   },
-  header: {
-    width: "100%",
-    alignItems: "center",
-    paddingTop: 70,
-    paddingBottom: 20,
-    backgroundColor: "#6c63ff",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-  },
-  backButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-  },
-  backText: {
-    color: "#fff",
-    fontSize: 14,
+header: {
+  paddingTop: 30,
+  paddingHorizontal: 20,
+  paddingBottom: 50,
+  backgroundColor: "#6c63ff",
+  alignItems: "flex-start", // ← important
+},
+
+  backArrow: {
+    fontSize: 16,
+    color: "#FFFFFF",
+    marginBottom: 10,
   },
   pageTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#fff",
-    textAlign: "center",
-    flex: 1,
+    color: "#FFFFFF",
   },
-  cardContainer: {
+  pageSubtitle: {
+    fontSize: 16,
+    color: "#E0E0E0",
+    marginTop: 5,
+  },
+  contentBox: {
     flex: 1,
     backgroundColor: "#FFFFFF",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingTop: 20,
-    paddingHorizontal: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 5,
-    width: "100%",
-    marginTop: 10,
+    padding: 15,
+    marginTop: 1,
+    marginBottom: -45,
   },
-  cardHeader: {
+  lessonsInfoContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 10,
   },
   lessonsCount: {
     fontSize: 16,
     fontWeight: "bold",
   },
-  cardTimer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-  },
-  timerText: {
+  totalDuration: {
     fontSize: 14,
-    color: "#888",
+    color: "#888888",
   },
   description: {
     fontSize: 14,
-    color: "#777",
-    marginBottom: 20,
+    color: "#2D2D2D",
+    marginBottom: 10,
   },
   lessonCard: {
+    backgroundColor: "#F7F7F7",
+    borderRadius: 15,
+    padding: 15,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 10,
-    marginBottom: 15,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
+    marginBottom: 10,
+    shadowColor: "#000000",
     shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
+    shadowOpacity: 0.05,
+    shadowRadius: 3.84,
+    elevation: 2,
   },
   lessonImage: {
     width: 60,
     height: 60,
-    borderRadius: 12,
-    marginRight: 10,
+    borderRadius: 15,
+    marginRight: 15,
   },
   lessonContent: {
     flex: 1,
   },
   lessonDuration: {
     fontSize: 12,
-    color: "#777",
+    color: "#888888",
   },
   lessonTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    marginBottom: 5,
-  },
-  progressBar: {
-    height: 6,
-    backgroundColor: "#eee",
-    borderRadius: 3,
+    color: "#000000",
+    marginTop: 4,
   },
   lockIcon: {
     fontSize: 18,
-    color: "#888",
-  },
-  navbarContainer: {
-    position: "absolute",
-    bottom: 34,
-    width: "100%",
-    alignItems: "center",
-  },
-  footerBlock: {
-    width: "100%",
-    height: 50,
-    backgroundColor: "#fff",
+    color: "#888888",
   },
 });

@@ -1,122 +1,189 @@
-import React from "react";
-import {
-    View,
-    Text,
-    FlatList,
-    Image,
-    TouchableOpacity,
-    StatusBar,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, FlatList, TouchableOpacity, StatusBar } from "react-native";
 import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { anglaisStyles } from "../../styles/anglais/AnglaisStyles"; 
-import Navbar from "../Navbar";
+import styles from "../../styles/anglais/AnglaisStyles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const lessons = [
-    {
-        id: "1",
-        title: "00 - Introduction",
-        duration: "1:10min",
-        image: require("../../assets/logo_noir_evolutia.png"),
-        locked: false,
-        navigateTo: "/introductionanglais",
-    },
-    {
-        id: "2",
-        title: "01 - Verbes",
-        duration: "10min",
-        image: require("../../assets/logo_noir_evolutia.png"),
-        locked: true,
-    },
-    {
-        id: "3",
-        title: "02 - Grammaire",
-        duration: "56min",
-        image: require("../../assets/logo_noir_evolutia.png"),
-        locked: true,
-    },
-    {
-        id: "4",
-        title: "03 - Conjugaisons",
-        duration: "45min",
-        image: require("../../assets/logo_noir_evolutia.png"),
-        locked: true,
-    },
+const API_URL = "http://10.109.249.241:3636"; // Adapter si besoin
+
+const initialLessons = [
+  {
+    id: "1",
+    title: "00 - Introduction",
+    duration: "1hr 10min",
+    image: require("../../assets/logo_noir_evolutia.png"),
+    locked: false,
+    navigateTo: "/app/introductionAnglais",
+  },
+  {
+    id: "2",
+    title: "01 - Conjugaison",
+    duration: "4hr 10min",
+    image: require("../../assets/logo_noir_evolutia.png"),
+    locked: true,
+    navigateTo: "/anglais/conjugaison",
+  },
+  {
+    id: "3",
+    title: "02 - Vocabulaire",
+    duration: "3hr 56min",
+    image: require("../../assets/logo_noir_evolutia.png"),
+    locked: true,
+    navigateTo: "/anglais/vocabulaire",
+  },
+  {
+    id: "4",
+    title: "03 - Verbes irréguliers",
+    duration: "1hr 45min",
+    image: require("../../assets/logo_noir_evolutia.png"),
+    locked: true,
+    navigateTo: "/anglais/verbes",
+  },
+  {
+    id: "5",
+    title: "04 - Compréhension orale",
+    duration: "2hr 30min",
+    image: require("../../assets/logo_noir_evolutia.png"),
+    locked: true,
+    navigateTo: "/anglais/orale",
+  },
+  {
+    id: "6",
+    title: "05 - Expression écrite",
+    duration: "3hr 15min",
+    image: require("../../assets/logo_noir_evolutia.png"),
+    locked: true,
+    navigateTo: "/anglais/ecriture",
+  },
+  {
+    id: "7",
+    title: "06 - Lecture de texte",
+    duration: "2hr 05min",
+    image: require("../../assets/logo_noir_evolutia.png"),
+    locked: true,
+    navigateTo: "/anglais/lecture",
+  },
 ];
 
 const Anglais: React.FC = () => {
-    const router = useRouter();
+  const router = useRouter();
+  const [lessons, setLessons] = useState(initialLessons);
 
-    const renderLesson = ({ item }: any) => (
-        <TouchableOpacity
-            disabled={item.locked}
-            onPress={() => {
-                if (!item.locked && item.navigateTo) {
-                    router.push(item.navigateTo);
-                }
-            }}
-        >
-            <View style={anglaisStyles.lessonCard}>
-                <Image source={item.image} style={anglaisStyles.lessonImage} />
-                <View style={anglaisStyles.lessonContent}>
-                    <Text style={anglaisStyles.lessonDuration}>{item.duration}</Text>
-                    <Text style={anglaisStyles.lessonTitle}>{item.title}</Text>
-                    <View style={anglaisStyles.progressBar} />
-                </View>
-                {item.locked && (
-                    <Ionicons name="lock-closed-outline" size={20} color="#6c63ff" />
+  const fetchCompletedModules = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (!token) return;
+
+      const response = await fetch(`${API_URL}/get-progress`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const completedModules = data.completedModules || [];
+        const completedModulesWithScore = data.completedModulesWithScore || [];
+
+        const updatedLessons = initialLessons.map((lesson) => {
+          if (lesson.id === "1") {
+            const completedModule = completedModulesWithScore.find(
+              (m: { moduleId: string; score: number }) => m.moduleId === lesson.id
+            );
+            return {
+              ...lesson,
+              locked: false,
+              completed: !!completedModule,
+              score: completedModule ? completedModule.score : null,
+            };
+          }
+
+          const previousId = (parseInt(lesson.id) - 1).toString();
+          const isUnlocked = completedModules.includes(previousId);
+          const completedModule = completedModulesWithScore.find(
+            (m: { moduleId: string; score: number }) => m.moduleId === lesson.id
+          );
+
+          return {
+            ...lesson,
+            locked: !isUnlocked,
+            completed: !!completedModule,
+            score: completedModule ? completedModule.score : null,
+          };
+        });
+
+        setLessons(updatedLessons);
+      }
+    } catch (err) {
+      console.error("Erreur progression :", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCompletedModules();
+  }, []);
+
+  const renderLesson = ({ item }: any) => (
+    <TouchableOpacity
+      onPress={() => {
+        if (!item.locked && item.navigateTo) {
+          router.push(item.navigateTo);
+        }
+      }}
+    >
+      <View style={styles.lessonCard}>
+        <Image source={item.image} style={styles.lessonImage} />
+        <View style={styles.lessonContent}>
+          <Text style={styles.lessonDuration}>{item.duration}</Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={styles.lessonTitle}>{item.title}</Text>
+            {item.completed && (
+              <>
+                <Text style={{ marginLeft: 8, fontSize: 18 }}>✅</Text>
+                {item.score !== null && (
+                  <Text style={{ marginLeft: 6, color: "#2E7D32", fontWeight: "bold", fontSize: 14 }}>
+                    {item.score} pts
+                  </Text>
                 )}
-            </View>
-        </TouchableOpacity>
-    );
+              </>
+            )}
+          </View>
+        </View>
+        {item.locked && <Text style={styles.lockIcon}>🔒</Text>}
+      </View>
+    </TouchableOpacity>
+  );
 
-    return (
-        <>
-            <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
-            <View style={anglaisStyles.background}>
-                <View style={anglaisStyles.container}>
-                    {/* Header */}
-                    <View style={anglaisStyles.header}>
-                        <TouchableOpacity onPress={() => router.back()} style={anglaisStyles.backButton}>
-                            <Ionicons name="arrow-back" size={20} color="#fff" />
-                            <Text style={anglaisStyles.backText}>Retour</Text>
-                        </TouchableOpacity>
-                        <Text style={anglaisStyles.pageTitle}>Anglais – 3ème</Text>
-                    </View>
+  return (
+    <>
+      <StatusBar barStyle="light-content" backgroundColor="#6c63ff" translucent={false} />
+      <View style={styles.background} /> {/* Fond violet en full screen */}
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => router.back()}>
+            <Text style={styles.backArrow}>← Retour</Text>
+          </TouchableOpacity>
+          <Text style={styles.pageTitle}>Anglais</Text>
+          <Text style={styles.pageSubtitle}>Prêt à comprendre</Text>
+        </View>
 
-                    {/* Carte blanche */}
-                    <View style={anglaisStyles.cardContainer}>
-                        <View style={anglaisStyles.cardHeader}>
-                            <Text style={anglaisStyles.lessonsCount}>12 Lessons</Text>
-                            <View style={anglaisStyles.cardTimer}>
-                                <Ionicons name="time-outline" size={14} color="#999" />
-                                <Text style={anglaisStyles.timerText}>1hr 20min</Text>
-                            </View>
-                        </View>
+        <View style={styles.contentBox}>
+          <View style={styles.lessonsInfoContainer}>
+            <Text style={styles.lessonsCount}>{lessons.length} Leçons</Text>
+            <Text style={styles.totalDuration}>1hr 20min</Text>
+          </View>
+          <Text style={styles.description}>
+            Ce cours enseignera les compléments d’anglais que tu as le moins bien compris. 7 leçons de plus d’une heure.
+          </Text>
 
-                        <Text style={anglaisStyles.description}>
-                            Ce cours enseignera les bases de l'Anglais du début à la fin. 12 leçons de plus d'une heure.
-                        </Text>
-
-                        <FlatList
-                            data={lessons}
-                            renderItem={renderLesson}
-                            keyExtractor={(item) => item.id}
-                            showsVerticalScrollIndicator={false}
-                            contentContainerStyle={{ paddingBottom: 100 }}
-                        />
-                    </View>
-
-                    {/* Navbar */}
-                    <View style={anglaisStyles.navbarContainer}>
-                        <Navbar />
-                    </View>
-
-                    <View style={anglaisStyles.footerBlock} />
-                </View>
-            </View>
-        </>
-    );
+          <FlatList
+            data={lessons}
+            keyExtractor={(item) => item.id}
+            renderItem={renderLesson}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      </View>
+    </>
+  );
 };
 
 export default Anglais;
