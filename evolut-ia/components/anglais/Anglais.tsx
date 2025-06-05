@@ -13,7 +13,7 @@ const initialLessons = [
     duration: "1hr 10min",
     image: require("../../assets/logo_noir_evolutia.png"),
     locked: false,
-    navigateTo: "/app/introductionAnglais",
+   navigateTo: "/introductionanglais"
   },
   {
     id: "2",
