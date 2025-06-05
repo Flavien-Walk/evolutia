@@ -25,20 +25,24 @@ export default StyleSheet.create({
 
   // Card Container
   cardContainer: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 20,
-    paddingHorizontal: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 5,
-    width: "100%",
-    marginTop: 10,
-  },
+  position: "absolute",
+  top: 200, // 👈 même valeur partout pour aligner les cartes
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "#FFFFFF",
+  borderTopLeftRadius: 30,
+  borderTopRightRadius: 30,
+  paddingTop: 20,
+  paddingHorizontal: 10,
+  shadowColor: "#000",
+  shadowOpacity: 0.1,
+  shadowRadius: 10,
+  shadowOffset: { width: 0, height: 5 },
+  elevation: 5,
+  zIndex: 0,
+},
+
 
   // Scroll Container
   scrollContainer: {

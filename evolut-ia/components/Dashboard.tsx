@@ -25,14 +25,6 @@ const Header: React.FC = () => (
       <Text style={styles.title}>Prêt à apprendre ?</Text>
       <Text style={styles.subtitle}>Choisis ta matière.</Text>
     </View>
-    <View style={styles.icons}>
-      <TouchableOpacity style={styles.iconWrapper}>
-        <Ionicons name="reload-outline" size={24} style={styles.icon} />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.iconWrapper}>
-        <Ionicons name="notifications-outline" size={24} style={styles.icon} />
-      </TouchableOpacity>
-    </View>
   </View>
 );
 

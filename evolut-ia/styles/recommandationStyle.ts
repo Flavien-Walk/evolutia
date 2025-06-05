@@ -49,16 +49,20 @@ export const recommandationStyles = StyleSheet.create({
     borderTopRightRadius: 30,
   },
   tabText: {
-    fontSize: 16,
+    fontSize: 13,
     color: "#999",
   },
   activeTabText: {
-    color: "#000",
+    color: "#6c63ff",
     fontWeight: "bold",
     textDecorationLine: "underline",
   },
   cardContainer: {
-    flex: 1,
+    position: "absolute",
+    top: 200, // 👈 même valeur partout pour aligner les cartes
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: "#FFFFFF",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -69,8 +73,7 @@ export const recommandationStyles = StyleSheet.create({
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 5 },
     elevation: 5,
-    width: "100%",
-    marginTop: 10,
+    zIndex: 0,
   },
   scrollContainer: {
     flexGrow: 1,
