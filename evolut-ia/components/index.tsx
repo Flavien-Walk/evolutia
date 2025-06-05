@@ -14,7 +14,7 @@ const Index: React.FC = () => {
         <View style={styles.container}>
           {/* Logo */}
           <Image
-            source={require("../assets/logo_noir_evolutia.png")} // ✅ chemin corrigé
+            source={require("../assets/logo_noir_evolutia.png")} 
             style={styles.logo}
           />
 

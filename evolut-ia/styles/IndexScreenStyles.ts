@@ -21,14 +21,14 @@ const styles = StyleSheet.create({
   logo: {
     width: 160,
     height: 130,
-    marginBottom: 20,
+    marginBottom: 55,
     marginTop: 100,
   },
   card: {
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
     width: "100%",
-    paddingVertical: 65,
+    paddingVertical: 80,
     paddingHorizontal: 10,
     alignItems: "center",
     shadowColor: "#000",
