@@ -1,8 +1,9 @@
+// File: avantleconStyles.ts
 import { StyleSheet, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-export const anglaisStylesPage = StyleSheet.create({
+export const avantleconStyles = StyleSheet.create({
   background: {
     position: "absolute",
     top: 0,

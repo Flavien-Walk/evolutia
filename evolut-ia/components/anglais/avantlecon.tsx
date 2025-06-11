@@ -1,3 +1,4 @@
+// File: avantlecon.tsx
 import React from "react";
 import {
   View,
@@ -8,50 +9,50 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { anglaisStylesPage } from "../../styles/anglais/AnglaisStylesPage";
+import { avantleconStyles } from "../../styles/anglais/avantleconStyles";
 
-const IntroductionAnglais: React.FC = () => {
+const AvantLecon: React.FC = () => {
   const router = useRouter();
 
   return (
     <>
       <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
-      <View style={anglaisStylesPage.background}>
-        <View style={anglaisStylesPage.container}>
+      <View style={avantleconStyles.background}>
+        <View style={avantleconStyles.container}>
           {/* Bouton retour */}
           <TouchableOpacity
-            style={anglaisStylesPage.header}
+            style={avantleconStyles.header}
             onPress={() => router.back()}
           >
             <Ionicons name="arrow-back" size={20} color="#fff" />
-            <Text style={anglaisStylesPage.backText}>Retour</Text>
+            <Text style={avantleconStyles.backText}>Retour</Text>
           </TouchableOpacity>
 
           {/* Illustration */}
           <Image
             source={require("../../assets/introductionimage.png")}
-            style={anglaisStylesPage.illustration}
+            style={avantleconStyles.illustration}
           />
 
           {/* Carte blanche */}
-          <View style={anglaisStylesPage.whiteCard}>
-            <View style={anglaisStylesPage.titleWrapper}>
-              <Text style={anglaisStylesPage.mainTitleLine1}>
-                Commençons à <Text style={anglaisStylesPage.violetWord}>développer</Text>
+          <View style={avantleconStyles.whiteCard}>
+            <View style={avantleconStyles.titleWrapper}>
+              <Text style={avantleconStyles.mainTitleLine1}>
+                Commençons à <Text style={avantleconStyles.violetWord}>développer</Text>
               </Text>
-              <Text style={anglaisStylesPage.mainTitleLine2}>Nos compétences.</Text>
+              <Text style={avantleconStyles.mainTitleLine2}>Nos compétences.</Text>
             </View>
 
-            <Text style={anglaisStylesPage.subtitle}>
+            <Text style={avantleconStyles.subtitle}>
               Casser les barrières de l’éducation{"\n"}
               pour un apprentissage au cas par cas !
             </Text>
 
             <TouchableOpacity
-              style={anglaisStylesPage.startButton}
+              style={avantleconStyles.startButton}
               onPress={() => router.push("/anglais")}
             >
-              <Text style={anglaisStylesPage.startButtonText}>Commencer</Text>
+              <Text style={avantleconStyles.startButtonText}>Commencer</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -60,4 +61,4 @@ const IntroductionAnglais: React.FC = () => {
   );
 };
 
-export default IntroductionAnglais;
+export default AvantLecon;

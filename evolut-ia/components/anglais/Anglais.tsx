@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import styles from "../../styles/anglais/AnglaisStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "http://10.109.249.241:3636"; // Adapter si besoin
+const API_URL = ""; // Adapter si besoin
 
 const initialLessons = [
   {
@@ -13,7 +13,7 @@ const initialLessons = [
     duration: "1hr 10min",
     image: require("../../assets/logo_noir_evolutia.png"),
     locked: false,
-   navigateTo: "/introductionanglais"
+   navigateTo: "/avantleconScreen",
   },
   {
     id: "2",
