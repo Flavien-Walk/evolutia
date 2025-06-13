@@ -7,22 +7,62 @@ export default StyleSheet.create({
   },
   scrollContainer: {
     padding: 20,
-    paddingBottom: 100, // Espace supplémentaire pour la Navbar
+    paddingBottom: 100,
   },
   profileHeader: {
     alignItems: "center",
     marginVertical: 20,
+    position: "relative",
+  },
+  profileImageContainer: {
+    position: "relative",
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    borderWidth: 3,
+    borderColor: "#587EFF",
+    overflow: "hidden",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
   profileImage: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    marginBottom: 10,
+  },
+  imageOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    paddingVertical: 4,
+    alignItems: "center",
+  },
+  editText: {
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: "bold",
   },
   nameText: {
     fontSize: 22,
     fontWeight: "bold",
     color: "#333333",
+  },
+  settingsButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+  },
+  settingsIcon: {
+    width: 25,
+    height: 25,
   },
   tabsContainer: {
     flexDirection: "row",
@@ -36,12 +76,12 @@ export default StyleSheet.create({
     fontWeight: "bold",
     padding: 10,
     marginHorizontal: 10,
-    color: "#666666", // Couleur par défaut pour les onglets
+    color: "#666666",
   },
   activeTab: {
-    color: "#587EFF", // Couleur violette pour l'onglet actif
+    color: "#587EFF",
     borderBottomWidth: 2,
-    borderBottomColor: "#587EFF", // Soulignement violet pour l'onglet actif
+    borderBottomColor: "#587EFF",
   },
   statsSection: {
     marginBottom: 30,
@@ -134,12 +174,35 @@ export default StyleSheet.create({
     height: 70,
     backgroundColor: "#ffffff",
     borderTopWidth: 1,
-    borderTopColor: "#e0e0e0",
+    borderTopColor: "#ffffff",
     justifyContent: "center",
-    shadowColor: "#000",
+    shadowColor: "#ffffff",
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 5,
   },
+
+logoutButtonUnderName: {
+  marginTop: 10,
+  alignSelf: "center",
+  backgroundColor: "#FF5252",
+  borderRadius: 6,
+  paddingVertical: 8,
+  paddingHorizontal: 30,
+  shadowColor: "#FF5252",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.3,
+  shadowRadius: 3,
+  elevation: 4,
+},
+
+logoutButtonText: {
+  color: "#fff",
+  fontWeight: "bold",
+  fontSize: 16,
+},
+
+
+
 });
