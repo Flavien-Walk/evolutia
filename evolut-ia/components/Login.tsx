@@ -39,7 +39,10 @@ const Login: React.FC = () => {
             return;
           }
 
+
+
           const backendResponse = await fetch("http://10.109.249.241:3636/google-login", {
+
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token }),
@@ -70,7 +73,9 @@ const Login: React.FC = () => {
   // Gestion de la connexion classique (email et mot de passe)
   const handleLogin = async () => {
     try {
+
       const response = await fetch("http://10.109.249.241:3636/login", {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

@@ -31,12 +31,14 @@ const Header: React.FC = () => (
 
     {/* Header Icons */}
     <View style={styles.icons}>
+
       <TouchableOpacity style={styles.iconWrapper}>
         <Ionicons name="reload-outline" size={24} style={styles.icon} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.iconWrapper}>
         <Ionicons name="notifications-outline" size={24} style={styles.icon} />
       </TouchableOpacity>
+
     </View>
   </View>
 );
