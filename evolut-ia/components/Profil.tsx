@@ -1,39 +1,117 @@
-import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { LinearGradient } from "expo-linear-gradient";
-import { useRouter } from "expo-router"; // Navigation avec Expo Router
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 import Navbar from "../components/Navbar";
 import Achievements from "../components/Achievements";
 import Activity from "../components/Activity";
 import styles from "../styles/ProfilStyles";
+import { MaterialIcons } from '@expo/vector-icons'; // Ajouté pour l’icône
 
 const Profil: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [fullName, setFullName] = useState<string>("");
   const [activeTab, setActiveTab] = useState<"stats" | "Achievements" | "Activity">("stats");
-  const router = useRouter(); // Navigation avec Expo Router
+  const router = useRouter();
 
-  // Fonction pour choisir une image depuis la galerie
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (!token) {
+          router.push("/login");
+          return;
+        }
+        const response = await fetch("http://10.109.249.241:3636/user-info", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok) {
+          router.push("/login");
+          return;
+        }
+        const data = await response.json();
+        if (data.profileImage) setProfileImage(data.profileImage);
+        if (data.username) setFullName(data.username);
+      } catch (error) {
+        console.error("Erreur lors du chargement des infos utilisateur :", error);
+      }
+    };
+    fetchUserData();
+  }, []);
+
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
       Alert.alert("Permission refusée", "Vous devez autoriser l'accès à la galerie.");
       return;
     }
-
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
+      base64: true,
     });
-
-    if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
+    if (!result.canceled && result.assets.length > 0) {
+      const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+      setProfileImage(base64Image);
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (!token) {
+          Alert.alert("Erreur", "Vous devez être connecté pour changer la photo.");
+          return;
+        }
+        const response = await fetch(
+          "http://10.109.249.241:3636/update-profile-image",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ imageUri: base64Image }),
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Erreur lors de la mise à jour de la photo de profil.");
+        }
+        const data = await response.json();
+        setProfileImage(data.profileImage);
+        Alert.alert("Succès", "Photo de profil mise à jour !");
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Erreur", "Une erreur est survenue lors de la mise à jour de la photo.");
+      }
     }
   };
 
-  // Données des thèmes faibles et forts
+  const handleLogout = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        await fetch("http://10.109.249.241:3636/logout", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+      await AsyncStorage.removeItem("token");
+      Alert.alert("Déconnecté", "Vous avez été déconnecté avec succès.");
+      router.push("/");
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion :", error);
+      Alert.alert("Erreur", "Une erreur est survenue lors de la déconnexion.");
+    }
+  };
+
   const weakestTopics = [
     { title: "Lorem Ipsum is simply", percent: 28, image: require("../assets/photoprofil1.png") },
     { title: "Lorem Ipsum is simply", percent: 35, image: require("../assets/photoprofil2.png") },
@@ -46,13 +124,11 @@ const Profil: React.FC = () => {
     { title: "Lorem Ipsum is simply", percent: 87, image: require("../assets/photoprofil6.png") },
   ];
 
-  // Fonction pour afficher le contenu des onglets
   const renderTabContent = () => {
     switch (activeTab) {
       case "stats":
         return (
           <ScrollView contentContainerStyle={styles.scrollContainer}>
-            {/* Section des statistiques */}
             <View style={styles.statsSection}>
               <View style={styles.statRow}>
                 <TouchableOpacity style={styles.statCard}>
@@ -88,7 +164,6 @@ const Profil: React.FC = () => {
               </View>
             </View>
 
-            {/* Thèmes faibles */}
             <View style={styles.topicSection}>
               <Text style={styles.topicTitle}>Thèmes les moins forts</Text>
               {weakestTopics.map((topic, index) => (
@@ -110,7 +185,6 @@ const Profil: React.FC = () => {
               ))}
             </View>
 
-            {/* Thèmes forts */}
             <View style={styles.topicSection}>
               <Text style={styles.topicTitle}>Thèmes les plus forts</Text>
               {strongestTopics.map((topic, index) => (
@@ -146,22 +220,47 @@ const Profil: React.FC = () => {
     <View style={styles.container}>
       {/* En-tête du profil */}
       <View style={styles.profileHeader}>
-        <TouchableOpacity onPress={pickImage}>
-          <Image
-            style={styles.profileImage}
-            source={
-              profileImage
-                ? { uri: profileImage }
-                : require("../assets/default-profile1.png")
-            }
-          />
+        <TouchableOpacity
+          onPress={pickImage}
+          accessible
+          accessibilityLabel="Changer la photo de profil"
+          accessibilityHint="Ouvre la galerie pour changer la photo"
+        >
+          {profileImage ? (
+            <Image style={styles.profileImage} source={{ uri: profileImage }} />
+          ) : (
+            <View style={styles.profileImageContainer}>
+              <MaterialIcons name="add-a-photo" size={40} color="#aaa" />
+            </View>
+          )}
         </TouchableOpacity>
-        <Text style={styles.nameText}>Antoine Dupont</Text>
 
-        {/* Bouton Réglages */}
+        <Text
+          style={styles.nameText}
+          accessibilityRole="header"
+          accessibilityLabel={`Profil de ${fullName || "Utilisateur"}`}
+        >
+          {fullName || "Utilisateur"}
+        </Text>
+
+        <TouchableOpacity
+          style={styles.logoutButtonUnderName}
+          onPress={handleLogout}
+          accessible
+          accessibilityRole="button"
+          accessibilityLabel="Se déconnecter"
+          accessibilityHint="Déconnecte et retourne à la page d'accueil"
+        >
+          <Text style={styles.logoutButtonText}>Déconnexion</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.settingsButton}
-          onPress={() => router.push("/reglage")} // Redirection vers la page Réglages
+          onPress={() => router.push("/reglage")}
+          accessible
+          accessibilityRole="button"
+          accessibilityLabel="Bouton réglages"
+          accessibilityHint="Ouvre les réglages du profil"
         >
           <Image
             source={require("../assets/setting.png")}
@@ -173,7 +272,13 @@ const Profil: React.FC = () => {
       {/* Onglets */}
       <View style={styles.tabsContainer}>
         {["stats", "Achievements", "Activity"].map((tab) => (
-          <TouchableOpacity key={tab} onPress={() => setActiveTab(tab as typeof activeTab)}>
+          <TouchableOpacity
+            key={tab}
+            onPress={() => setActiveTab(tab as typeof activeTab)}
+            accessible
+            accessibilityRole="tab"
+            accessibilityState={{ selected: activeTab === tab }}
+          >
             <Text style={[styles.tabText, activeTab === tab && styles.activeTab]}>
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </Text>
@@ -184,7 +289,7 @@ const Profil: React.FC = () => {
       {/* Contenu des onglets */}
       {renderTabContent()}
 
-      {/* Barre de navigation */}
+      {/* Navbar */}
       <View style={styles.navbarContainer}>
         <Navbar />
       </View>

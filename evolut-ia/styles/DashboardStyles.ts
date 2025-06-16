@@ -104,11 +104,7 @@ export default StyleSheet.create({
     marginLeft: 10,
   },
 
-  icon: {
-    color: "#fff",
-  },
 
-  // Tabs
   tabContainer: {
     flexDirection: "row",
     justifyContent: "space-around",

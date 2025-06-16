@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,7 +7,8 @@ import {
   Alert,
   Switch,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker"; // Importation pour la galerie
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import styles from "../styles/ReglageStyles";
 
@@ -16,17 +17,54 @@ const Reglage: React.FC = () => {
 
   const [notifications, setNotifications] = useState<boolean>(true);
   const [language, setLanguage] = useState<string>("Français");
-  const [theme, setTheme] = useState<string>("Mode lumineux");
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [username, setUsername] = useState<string>("Utilisateur");
+  const [email, setEmail] = useState<string>("youremail@domain.com");
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   const languages = ["Français", "Anglais", "Italien", "Chinois", "Espagnol"];
 
-  const toggleTheme = (isEnabled: boolean) => {
-    setTheme(isEnabled ? "Mode sombre" : "Mode lumineux");
+  // Récupérer les infos utilisateur
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (!token) {
+          router.push("/login");
+          return;
+        }
+
+        const response = await fetch("http://10.109.249.241:3636/user-info", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!response.ok) {
+          router.push("/login");
+          return;
+        }
+
+        const data = await response.json();
+        setUsername(data.username);
+        setEmail(data.email);
+        setProfileImage(data.profileImage);
+
+        const savedDarkMode = await AsyncStorage.getItem("darkMode");
+        setIsDarkMode(savedDarkMode === "true");
+      } catch (error) {
+        console.error("Erreur lors de la récupération des informations :", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // Gérer le mode sombre en local (AsyncStorage)
+  const toggleTheme = async (isEnabled: boolean) => {
     setIsDarkMode(isEnabled);
+    await AsyncStorage.setItem("darkMode", isEnabled ? "true" : "false");
   };
 
+  // Choisir la langue
   const selectLanguage = () => {
     Alert.alert(
       "Choisissez votre langue",
@@ -38,12 +76,10 @@ const Reglage: React.FC = () => {
     );
   };
 
+  // Sélection d'image et mise à jour
   const pickImage = async () => {
-    // Demander la permission d'accès à la galerie
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
       Alert.alert("Permission refusée", "Vous devez autoriser l'accès à la galerie.");
       return;
     }
@@ -55,8 +91,34 @@ const Reglage: React.FC = () => {
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const selectedImage = result.assets[0].uri;
+      setProfileImage(selectedImage);
+
+      // Envoie au serveur
+      try {
+        const token = await AsyncStorage.getItem("token");
+        const response = await fetch("http://10.109.249.241:3636/update-profile-image", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ imageUri: selectedImage }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          console.log("✅ Photo de profil mise à jour :", data.profileImage);
+          await AsyncStorage.setItem("profileImage", data.profileImage);
+        } else {
+          console.log("❌ Erreur lors de la mise à jour :", data.error);
+          Alert.alert("Erreur", "Impossible de mettre à jour la photo de profil.");
+        }
+      } catch (error) {
+        console.error("❌ Erreur lors de l'envoi de la photo :", error);
+        Alert.alert("Erreur", "Impossible de mettre à jour la photo de profil.");
+      }
     }
   };
 
@@ -64,7 +126,7 @@ const Reglage: React.FC = () => {
     <View
       style={[
         styles.container,
-        isDarkMode && { backgroundColor: "#121212" }, // Background for dark mode
+        isDarkMode && { backgroundColor: "#121212" },
       ]}
     >
       {/* Header */}
@@ -79,7 +141,7 @@ const Reglage: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Profile Section */}
+      {/* Profile */}
       <View style={styles.profileSection}>
         <TouchableOpacity onPress={pickImage}>
           <Image
@@ -90,16 +152,14 @@ const Reglage: React.FC = () => {
           />
         </TouchableOpacity>
         <Text style={[styles.profileName, isDarkMode && { color: "#ffffff" }]}>
-          Antoine Dupont
+          {username}
         </Text>
-        <Text
-          style={[styles.profileDetails, isDarkMode && { color: "#aaaaaa" }]}
-        >
-          youremail@domain.com | +33 1 23 45 67 89
+        <Text style={[styles.profileDetails, isDarkMode && { color: "#aaaaaa" }]}>
+          {email}
         </Text>
       </View>
 
-      {/* Settings Section */}
+      {/* Paramètres */}
       <View
         style={[
           styles.settingsContainer,
@@ -110,18 +170,14 @@ const Reglage: React.FC = () => {
           style={styles.settingsItem}
           onPress={() => router.push("/ModifProfil")}
         >
-          <Text
-            style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}
-          >
+          <Text style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}>
             Modifier les informations du profil
           </Text>
         </TouchableOpacity>
 
         {/* Notifications */}
         <View style={styles.settingsItem}>
-          <Text
-            style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}
-          >
+          <Text style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}>
             Notifications
           </Text>
           <Switch
@@ -132,25 +188,18 @@ const Reglage: React.FC = () => {
           />
         </View>
 
-        {/* Language */}
+        {/* Langue */}
         <TouchableOpacity style={styles.settingsItem} onPress={selectLanguage}>
-          <Text
-            style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}
-          >
+          <Text style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}>
             Langue
           </Text>
-          <Text
-            style={[
-              styles.settingsValue,
-              isDarkMode && { color: "#90CAF9" },
-            ]}
-          >
+          <Text style={[styles.settingsValue, isDarkMode && { color: "#90CAF9" }]}>
             {language}
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Themes Section */}
+      {/* Thèmes */}
       <View
         style={[
           styles.settingsContainer,
@@ -158,9 +207,7 @@ const Reglage: React.FC = () => {
         ]}
       >
         <View style={styles.settingsItem}>
-          <Text
-            style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}
-          >
+          <Text style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}>
             Thèmes
           </Text>
           <Switch
@@ -172,7 +219,7 @@ const Reglage: React.FC = () => {
         </View>
       </View>
 
-      {/* Assistance Section */}
+      {/* Aide */}
       <View
         style={[
           styles.settingsContainer,
@@ -180,23 +227,17 @@ const Reglage: React.FC = () => {
         ]}
       >
         <TouchableOpacity style={styles.settingsItem}>
-          <Text
-            style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}
-          >
+          <Text style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}>
             Aide et assistance
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingsItem}>
-          <Text
-            style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}
-          >
+          <Text style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}>
             Contactez-nous
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingsItem}>
-          <Text
-            style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}
-          >
+          <Text style={[styles.settingsText, isDarkMode && { color: "#ffffff" }]}>
             Politique de confidentialité
           </Text>
         </TouchableOpacity>

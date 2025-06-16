@@ -18,7 +18,7 @@ const Header: React.FC = () => (
     {/* Logo */}
     <View style={styles.logoContainer}>
       <Image
-        source={require("../assets/Logo Blanc Evolut'IA.png")}
+        source={require("../assets/Logo_noir_Evolut_IA.png")}
         style={styles.logoImage}
       />
     </View>
@@ -31,12 +31,14 @@ const Header: React.FC = () => (
 
     {/* Header Icons */}
     <View style={styles.icons}>
+
       <TouchableOpacity style={styles.iconWrapper}>
         <Ionicons name="reload-outline" size={24} style={styles.icon} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.iconWrapper}>
         <Ionicons name="notifications-outline" size={24} style={styles.icon} />
       </TouchableOpacity>
+
     </View>
   </View>
 );
@@ -48,9 +50,9 @@ const Tabs: React.FC = () => {
       <TouchableOpacity onPress={() => router.push("/dashboard")}>
         <Text style={[styles.tabText, styles.activeTabText]}>Tableau de bord</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("/")}>
+      {/* <TouchableOpacity onPress={() => router.push("/matieres")}>
         <Text style={styles.tabText}>Matières</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity onPress={() => router.push("/")}>
         <Text style={styles.tabText}>Recommandation</Text>
       </TouchableOpacity>
