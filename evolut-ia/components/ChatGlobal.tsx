@@ -14,7 +14,7 @@ import io from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/ChatGlobalStyles";
 
-const socket = io("http://10.76.204.34:3636");
+const socket = io("http://10.76.204.15:3636");
 
 type Message = {
   id: string;
@@ -44,7 +44,7 @@ const ChatGlobal: React.FC = () => {
           return;
         }
 
-        const response = await fetch("http://10.76.204.34:3636/user-info", {
+        const response = await fetch("http://10.76.204.15:3636/user-info", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
