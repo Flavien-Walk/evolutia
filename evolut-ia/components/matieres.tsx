@@ -1,92 +1,123 @@
-// import React from "react";
-// import {
-//   View,
-//   Text,
-//   ScrollView,
-//   TouchableOpacity,
-//   StatusBar,
-//   Image,
-// } from "react-native";
-// import { Ionicons } from "@expo/vector-icons";
-// import { useRouter } from "expo-router";
-// import styles from "../styles/matieresStyle";
-// import Navbar from "./Navbar";
+import React from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
+import { useRouter } from "expo-router";
+import Navbar from "../components/Navbar";
+import { matieresStyles } from "../styles/matieresStyle";
 
-// const Header: React.FC = () => (
-//   <View style={styles.header}>
-//     <View style={styles.logoContainer}>
-//       <Image source={require("../assets/Logo_noir_Evolut_IA.png")} style={styles.logoImage} />
-//     </View>
-//     <View style={styles.headerTextContainer}>
-//       <Text style={styles.title}>Prêt à apprendre ?</Text>
-//       <Text style={styles.subtitle}>Choisis ta matière.</Text>
-//     </View>
-//     <View style={styles.icons}>
-//       <TouchableOpacity style={styles.iconWrapper}>
-//         <Ionicons name="reload-outline" size={24} style={styles.icon} />
-//       </TouchableOpacity>
-//       <TouchableOpacity style={styles.iconWrapper}>
-//         <Ionicons name="notifications-outline" size={24} style={styles.icon} />
-//       </TouchableOpacity>
-//     </View>
-//   </View>
-// );
+const subjects = [
+  {
+    name: "Histoire-Géographie",
+    courses: 15,
+    backgroundColor: "#FFD6D6",
+    emoji: "🌍",
+  },
+  {
+    name: "Mathématiques",
+    courses: 10,
+    backgroundColor: "#D6FFF2",
+    emoji: "📐",
+  },
+  {
+    name: "Anglais",
+    courses: 25,
+    backgroundColor: "#D6E8FF",
+    emoji: "🇬🇧",
+  },
+  {
+    name: "AI Design Basic",
+    courses: 35,
+    backgroundColor: "#FFD6D6",
+    emoji: "🤖",
+  },
+  {
+    name: "Espagnol",
+    courses: 15,
+    backgroundColor: "#FFF7D6",
+    emoji: "🇪🇸",
+  },
+  {
+    name: "Français",
+    courses: 25,
+    backgroundColor: "#E7D6FF",
+    emoji: "🇫🇷",
+  },
+];
 
-// const Tabs: React.FC = () => {
-//   const router = useRouter();
-//   return (
-//     <View style={styles.tabContainer}>
-//       <TouchableOpacity onPress={() => router.push("/dashboard")}>
-//         <Text style={styles.tabText}>Tableau de bord</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity onPress={() => router.push("/matieres")}>
-//         <Text style={styles.tabText}>Matières</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity onPress={() => router.push("/")}>
-//         <Text style={styles.tabText}>Recommandation</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
+const Matieres: React.FC = () => {
+  const router = useRouter();
 
-// const MatiereCard: React.FC<{ title: string; courses: number; color: string; image: any }> = ({ title, courses, color, image }) => (
-//   <TouchableOpacity style={[styles.matiereCard, { backgroundColor: color }]}>
-//     <Image source={image} style={styles.matiereImage} />
-//     <Text style={styles.matiereTitle}>{title}</Text>
-//     <Text style={styles.matiereSubtitle}>{courses} Course</Text>
-//   </TouchableOpacity>
-// );
+  return (
+    <>
+      <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
+      <View style={matieresStyles.background}>
+        <View style={matieresStyles.container}>
+          {/* En-tête violet */}
+          <View style={matieresStyles.header}>
+            <Text style={matieresStyles.title}>Prêt à apprendre ?</Text>
+            <Text style={matieresStyles.subtitle}>Choisis ta matière.</Text>
+          </View>
 
-// const MatiereList: React.FC = () => (
-//   <View style={styles.matiereGrid}>
-//     <MatiereCard title="Histoire-Géographie" courses={15} color="#FDECEC" image={require("../assets/fonts")} />
-//     <MatiereCard title="Mathématiques" courses={10} color="#EAFDF4" image={require("../assets/math.png")} />
-//     <MatiereCard title="Anglais" courses={25} color="#E3EDFE" image={require("../assets/english.png")} />
-//     <MatiereCard title="AI Design Basic" courses={35} color="#FCE5E3" image={require("../assets/ai.png")} />
-//     <MatiereCard title="Espagnol" courses={15} color="#FDF6E3" image={require("../assets/spanish.png")} />
-//   </View>
-// );
+          {/* Carte blanche centrale avec les onglets et les matières */}
+          <View style={matieresStyles.cardContainer}>
+            <View style={matieresStyles.tabs}>
+              <TouchableOpacity onPress={() => router.push("/dashboard")}>
+                <Text style={matieresStyles.tabText}>Tableau de bord</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={matieresStyles.activeTabText}>Matières</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push("/recommandation")}>
+                <Text style={matieresStyles.tabText}>Recommandation</Text>
+              </TouchableOpacity>
+            </View>
 
-// const Matieres: React.FC = () => {
-//   return (
-//     <>
-//       <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
-//       <View style={styles.background}>
-//         <View style={styles.container}>
-//           <Header />
-//           <View style={styles.cardContainer}>
-//             <Tabs />
-//             <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.scrollContent}>
-//               <MatiereList />
-//             </ScrollView>
-//           </View>
-//         </View>
-//         <View style={styles.navbarContainer}>
-//           <Navbar />
-//         </View>
-//       </View>
-//     </>
-//   );
-// };
+            {/* Scroll de la liste des matières */}
+            <ScrollView
+              style={matieresStyles.scrollContainer}
+              contentContainerStyle={matieresStyles.scrollContent}
+            >
+              <View style={matieresStyles.cardsGrid}>
+                {subjects.map((subject, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      matieresStyles.subjectCard,
+                      { backgroundColor: subject.backgroundColor },
+                    ]}
+                    onPress={() => {
+                      if (subject.name === "Anglais") {
+                        router.push("/anglais");
+                      } else {
+                        console.warn("Page non encore disponible :", subject.name);
+                      }
+                    }}
+                  >
+                    <Text style={{ fontSize: 34 }}>{subject.emoji}</Text>
+                    <Text style={matieresStyles.cardTitle}>{subject.name}</Text>
+                    <Text style={matieresStyles.cardSubtitle}>
+                      {subject.courses} cours
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </ScrollView>
+          </View>
+        </View>
 
-// export default Matieres;
+        {/* Barre de navigation */}
+        <View style={matieresStyles.navbarContainer}>
+          <Navbar />
+        </View>
+        <View style={matieresStyles.footerBlock} />
+      </View>
+    </>
+  );
+};
+
+export default Matieres;

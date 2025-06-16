@@ -16,7 +16,6 @@ import styles from "../styles/RegisterStyles";
 const Register: React.FC = () => {
   const router = useRouter();
 
-  // État pour les données du formulaire
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -25,28 +24,26 @@ const Register: React.FC = () => {
     confirmPassword: "",
   });
 
-  // Fonction pour gérer les changements dans les champs du formulaire
   const handleInputChange = (name: string, value: string) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Fonction pour gérer l'inscription
   const handleRegister = async () => {
-    // Vérification des mots de passe
     if (formData.password !== formData.confirmPassword) {
-      Alert.alert("Erreur", "Les mots de passe ne correspondent pas");
+      Alert.alert("Erreur", "Les mots de passe ne correspondent pas.");
       return;
     }
 
-    // Vérification des champs obligatoires
     if (!formData.email || !formData.username || !formData.password) {
-      Alert.alert("Erreur", "Veuillez remplir tous les champs obligatoires");
+      Alert.alert("Erreur", "Veuillez remplir tous les champs obligatoires.");
       return;
     }
 
     try {
 
-      const response = await axios.post("http://10.109.249.241:3636/register", {
+      const response = await axios.post("http://10.76.204.44:3636/register", {
+
+
 
         email: formData.email,
         username: formData.username,
@@ -54,10 +51,8 @@ const Register: React.FC = () => {
         password: formData.password,
       });
 
-      // Récupération des données de la réponse
       const { token, user } = response.data;
 
-      // Stockage des informations utilisateur
       if (token) await AsyncStorage.setItem("token", token);
       if (user?.username) await AsyncStorage.setItem("username", user.username);
       if (user?.role) await AsyncStorage.setItem("role", user.role);
@@ -66,7 +61,6 @@ const Register: React.FC = () => {
       Alert.alert("Succès", `Bienvenue, ${user.username} !`);
       router.push("/home");
     } catch (error: any) {
-      // Gestion des erreurs
       console.error("Erreur lors de l'inscription :", error);
       const errorMessage =
         error.response?.data?.error || "Une erreur est survenue, veuillez réessayer.";
@@ -83,7 +77,7 @@ const Register: React.FC = () => {
 
       {/* Logo */}
       <Image
-        source={require("../assets/Logo_noir_Evolut_IA.png")}
+        source={require("../assets/logo_noir_evolutia.png")}
         style={styles.logo}
       />
 
@@ -140,15 +134,15 @@ const Register: React.FC = () => {
         value={formData.confirmPassword}
       />
 
-      {/* Bouton d'inscription */}
+      {/* Bouton S'inscrire */}
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>S'inscrire</Text>
       </TouchableOpacity>
 
-      {/* Texte ou */}
+      {/* Texte "ou" */}
       <Text style={styles.orText}>ou continuer avec</Text>
 
-      {/* Icônes des Réseaux Sociaux */}
+      {/* Réseaux Sociaux */}
       <View style={styles.socialIcons}>
         <TouchableOpacity>
           <Image
