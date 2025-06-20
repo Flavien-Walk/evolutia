@@ -3,7 +3,6 @@ import { StyleSheet, Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
-  // Background
   background: {
     position: "absolute",
     top: 0,
@@ -12,10 +11,9 @@ export default StyleSheet.create({
     bottom: 0,
     width: width,
     height: height,
-    backgroundColor: "#6c63ff", // Purple background
+    backgroundColor: "#6c63ff",
   },
 
-  // Main container
   container: {
     flex: 1,
     justifyContent: "flex-start",
@@ -23,28 +21,25 @@ export default StyleSheet.create({
     backgroundColor: "transparent",
   },
 
-  // Card Container
   cardContainer: {
-  position: "absolute",
-  top: 200, // 👈 même valeur partout pour aligner les cartes
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: "#FFFFFF",
-  borderTopLeftRadius: 30,
-  borderTopRightRadius: 30,
-  paddingTop: 20,
-  paddingHorizontal: 10,
-  shadowColor: "#000",
-  shadowOpacity: 0.1,
-  shadowRadius: 10,
-  shadowOffset: { width: 0, height: 5 },
-  elevation: 5,
-  zIndex: 0,
-},
+    position: "absolute",
+    top: 200,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 20,
+    paddingHorizontal: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 5,
+    zIndex: 0,
+  },
 
-
-  // Scroll Container
   scrollContainer: {
     flexGrow: 1,
     paddingBottom: 80,
@@ -57,7 +52,6 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
   },
 
-  // Header
   header: {
     width: "100%",
     alignItems: "center",
@@ -94,20 +88,18 @@ export default StyleSheet.create({
     color: "#ddd",
   },
 
-  // Header Icons
   icons: {
     position: "absolute",
     right: 20,
     top: 50,
     flexDirection: "row",
     alignItems: "center",
-    gap: 10, // Spacing between icons
+    gap: 10,
   },
 
   iconWrapper: {
     marginLeft: 10,
   },
-
 
   tabContainer: {
     flexDirection: "row",
@@ -127,7 +119,6 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
 
-  // Progress Bar
   progressCard: {
     backgroundColor: "#fff",
     borderRadius: 15,
@@ -172,7 +163,6 @@ export default StyleSheet.create({
     alignSelf: "flex-end",
   },
 
-  // Cards Section
   cardsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -275,19 +265,4 @@ export default StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-
-  // Navbar
-  navbarContainer: {
-    position: "absolute",
-    bottom: 34,
-    width: "100%",
-    alignItems: "center",
-  },
-
-  footerBlock: {
-    width: "100%",
-    height: 50, // Ajustez la hauteur selon vos besoins
-    backgroundColor: "#fff", // Blanc pour correspondre au fond de la page
-  },
-  
 });

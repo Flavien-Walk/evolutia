@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import styles from "../styles/DashboardStyles";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar"; // ✅ import simple
 
 const Header: React.FC = () => (
   <View style={styles.header}>
@@ -25,7 +25,6 @@ const Header: React.FC = () => (
       <Text style={styles.title}>Prêt à apprendre ?</Text>
       <Text style={styles.subtitle}>Choisis ta matière.</Text>
     </View>
-
   </View>
 );
 
@@ -118,10 +117,9 @@ const Dashboard: React.FC = () => {
             </ScrollView>
           </View>
         </View>
-        <View style={styles.navbarContainer}>
-          <Navbar />
-        </View>
-        <View style={styles.footerBlock} />
+
+        {/* Navbar importée sans styles particuliers */}
+        <Navbar />
       </View>
     </>
   );
