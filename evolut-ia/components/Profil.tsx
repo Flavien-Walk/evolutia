@@ -15,7 +15,7 @@ import Navbar from "../components/Navbar";
 import Achievements from "../components/Achievements";
 import Activity from "../components/Activity";
 import styles from "../styles/ProfilStyles";
-import { MaterialIcons } from '@expo/vector-icons'; // Ajouté pour l’icône
+import { MaterialIcons } from '@expo/vector-icons';
 
 const Profil: React.FC = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -31,7 +31,7 @@ const Profil: React.FC = () => {
           router.push("/login");
           return;
         }
-        const response = await fetch("http://10.109.249.241:3636/user-info", {
+        const response = await fetch("https://evolutia-back.onrender.com/user-info", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.ok) {
@@ -70,17 +70,14 @@ const Profil: React.FC = () => {
           Alert.alert("Erreur", "Vous devez être connecté pour changer la photo.");
           return;
         }
-        const response = await fetch(
-          "http://10.109.249.241:3636/update-profile-image",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ imageUri: base64Image }),
-          }
-        );
+        const response = await fetch("https://evolutia-back.onrender.com/update-profile-image", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ imageUri: base64Image }),
+        });
         if (!response.ok) {
           throw new Error("Erreur lors de la mise à jour de la photo de profil.");
         }
@@ -98,7 +95,7 @@ const Profil: React.FC = () => {
     try {
       const token = await AsyncStorage.getItem("token");
       if (token) {
-        await fetch("http://10.109.249.241:3636/logout", {
+        await fetch("https://evolutia-back.onrender.com/logout", {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -220,12 +217,7 @@ const Profil: React.FC = () => {
     <View style={styles.container}>
       {/* En-tête du profil */}
       <View style={styles.profileHeader}>
-        <TouchableOpacity
-          onPress={pickImage}
-          accessible
-          accessibilityLabel="Changer la photo de profil"
-          accessibilityHint="Ouvre la galerie pour changer la photo"
-        >
+        <TouchableOpacity onPress={pickImage}>
           {profileImage ? (
             <Image style={styles.profileImage} source={{ uri: profileImage }} />
           ) : (
@@ -235,50 +227,21 @@ const Profil: React.FC = () => {
           )}
         </TouchableOpacity>
 
-        <Text
-          style={styles.nameText}
-          accessibilityRole="header"
-          accessibilityLabel={`Profil de ${fullName || "Utilisateur"}`}
-        >
-          {fullName || "Utilisateur"}
-        </Text>
+        <Text style={styles.nameText}>{fullName || "Utilisateur"}</Text>
 
-        <TouchableOpacity
-          style={styles.logoutButtonUnderName}
-          onPress={handleLogout}
-          accessible
-          accessibilityRole="button"
-          accessibilityLabel="Se déconnecter"
-          accessibilityHint="Déconnecte et retourne à la page d'accueil"
-        >
+        <TouchableOpacity style={styles.logoutButtonUnderName} onPress={handleLogout}>
           <Text style={styles.logoutButtonText}>Déconnexion</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.settingsButton}
-          onPress={() => router.push("/reglage")}
-          accessible
-          accessibilityRole="button"
-          accessibilityLabel="Bouton réglages"
-          accessibilityHint="Ouvre les réglages du profil"
-        >
-          <Image
-            source={require("../assets/setting.png")}
-            style={styles.settingsIcon}
-          />
+        <TouchableOpacity style={styles.settingsButton} onPress={() => router.push("/reglage")}>
+          <Image source={require("../assets/setting.png")} style={styles.settingsIcon} />
         </TouchableOpacity>
       </View>
 
       {/* Onglets */}
       <View style={styles.tabsContainer}>
         {["stats", "Achievements", "Activity"].map((tab) => (
-          <TouchableOpacity
-            key={tab}
-            onPress={() => setActiveTab(tab as typeof activeTab)}
-            accessible
-            accessibilityRole="tab"
-            accessibilityState={{ selected: activeTab === tab }}
-          >
+          <TouchableOpacity key={tab} onPress={() => setActiveTab(tab as typeof activeTab)}>
             <Text style={[styles.tabText, activeTab === tab && styles.activeTab]}>
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </Text>
@@ -286,7 +249,7 @@ const Profil: React.FC = () => {
         ))}
       </View>
 
-      {/* Contenu des onglets */}
+      {/* Contenu */}
       {renderTabContent()}
 
       {/* Navbar */}

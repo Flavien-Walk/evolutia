@@ -5,7 +5,7 @@ import styles from "../styles/MathematiquesStyles";
 import Navbar from "./Navbar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "http://10.109.249.241:3636"; // Adapter si besoin
+const API_URL = "https://evolutia-back.onrender.com";
 
 const initialLessons = [
   {
@@ -14,7 +14,7 @@ const initialLessons = [
     duration: "1hr 10min",
     image: require("../assets/introduction.png"),
     locked: false,
-    navigateTo: "/introduction", // Correspond à app/introduction.tsx
+    navigateTo: "/introduction",
   },
   {
     id: "2",
@@ -22,7 +22,7 @@ const initialLessons = [
     duration: "4hr 10min",
     image: require("../assets/statistique.png"),
     locked: true,
-    navigateTo: "/statistique", // Correspond à app/statistique.tsx
+    navigateTo: "/statistique",
   },
   {
     id: "3",
@@ -30,7 +30,7 @@ const initialLessons = [
     duration: "3hr 56min",
     image: require("../assets/puissance.png"),
     locked: true,
-    navigateTo: "/puissance", // Correspond à app/puissance.tsx
+    navigateTo: "/puissance",
   },
   {
     id: "4",
@@ -38,7 +38,7 @@ const initialLessons = [
     duration: "1hr 45min",
     image: require("../assets/algebre.png"),
     locked: true,
-    navigateTo: "/algebre", // Correspond à app/algebre.tsx
+    navigateTo: "/algebre",
   },
 ];
 
@@ -62,11 +62,9 @@ const Mathematiques: React.FC = () => {
 
         const updatedLessons = initialLessons.map((lesson) => {
           if (lesson.id === "1") {
-            // Introduction toujours déverrouillé, mais on affiche aussi score + check si complété
             const completedModule = completedModulesWithScore.find(
               (m: { moduleId: string; score: number }) => m.moduleId === lesson.id
             );
-
             return {
               ...lesson,
               locked: false,
@@ -75,11 +73,8 @@ const Mathematiques: React.FC = () => {
             };
           }
 
-          // Déverrouille le module si le précédent est complété
           const previousLessonId = (parseInt(lesson.id, 10) - 1).toString();
           const isUnlocked = completedModules.includes(previousLessonId);
-
-          // Trouve si module terminé et son score
           const completedModule = completedModulesWithScore.find(
             (m: { moduleId: string; score: number }) => m.moduleId === lesson.id
           );

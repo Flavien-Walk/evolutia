@@ -40,11 +40,7 @@ const Register: React.FC = () => {
     }
 
     try {
-
-      const response = await axios.post("http://10.76.204.44:3636/register", {
-
-
-
+      const response = await axios.post("https://evolutia-back.onrender.com/register", {
         email: formData.email,
         username: formData.username,
         contactNumber: formData.contactNumber,
@@ -70,21 +66,17 @@ const Register: React.FC = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
-      {/* Flèche retour */}
       <TouchableOpacity style={styles.backArrow} onPress={() => router.push("/")}>
         <Text style={styles.backText}>←</Text>
       </TouchableOpacity>
 
-      {/* Logo */}
       <Image
         source={require("../assets/logo_noir_evolutia.png")}
         style={styles.logo}
       />
 
-      {/* Titre */}
       <Text style={styles.title}>S'inscrire</Text>
 
-      {/* Description */}
       <Text style={styles.description}>
         Si vous avez déjà un compte, connectez-vous{" "}
         <Link href="/login" style={styles.link}>
@@ -92,7 +84,6 @@ const Register: React.FC = () => {
         </Link>
       </Text>
 
-      {/* Formulaire */}
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -134,15 +125,12 @@ const Register: React.FC = () => {
         value={formData.confirmPassword}
       />
 
-      {/* Bouton S'inscrire */}
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>S'inscrire</Text>
       </TouchableOpacity>
 
-      {/* Texte "ou" */}
       <Text style={styles.orText}>ou continuer avec</Text>
 
-      {/* Réseaux Sociaux */}
       <View style={styles.socialIcons}>
         <TouchableOpacity>
           <Image

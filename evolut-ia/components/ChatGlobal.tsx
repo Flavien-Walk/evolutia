@@ -10,11 +10,20 @@ import {
   Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/ChatGlobalStyles";
 
-const socket = io("http://10.76.204.15:3636");
+// ✅ Backend Render
+const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://192.168.1.73:3636"
+    : "https://evolutia-back.onrender.com";
+
+// ✅ Socket.io instance Render
+const socket = io(BASE_URL, {
+  transports: ["websocket"], // important pour éviter les problèmes sur Render
+});
 
 type Message = {
   id: string;
@@ -35,6 +44,7 @@ const ChatGlobal: React.FC = () => {
     color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
   });
 
+  // 🔐 Récupération des infos utilisateur
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -44,7 +54,7 @@ const ChatGlobal: React.FC = () => {
           return;
         }
 
-        const response = await fetch("http://10.76.204.15:3636/user-info", {
+        const response = await fetch(`${BASE_URL}/user-info`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -55,26 +65,28 @@ const ChatGlobal: React.FC = () => {
         console.log("Réponse brute :", textResponse);
 
         if (response.ok) {
-          const data = JSON.parse(textResponse); // Parser seulement si OK
+          const data = JSON.parse(textResponse);
           setUser({
             name: data.username,
             color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
           });
+
           socket.emit("setUsername", { username: data.username });
         } else {
           console.error(
-            "Erreur lors de la récupération des informations utilisateur :",
+            "Erreur récupération utilisateur :",
             textResponse
           );
         }
       } catch (error) {
-        console.error("Erreur lors de la récupération de l'utilisateur :", error);
+        console.error("Erreur fetchUser :", error);
       }
     };
 
     fetchUser();
   }, []);
 
+  // 📩 Réception des messages
   useEffect(() => {
     const handleReceiveMessage = (message: Message) => {
       setMessages((prevMessages) => {
@@ -92,6 +104,7 @@ const ChatGlobal: React.FC = () => {
     };
   }, []);
 
+  // ✉️ Envoi de message
   const sendMessage = () => {
     if (newMessage.trim() !== "") {
       const message: Message = {

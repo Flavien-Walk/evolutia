@@ -25,7 +25,7 @@ const Home: React.FC = () => {
           return;
         }
 
-        const response = await fetch("http://10.109.249.241:3636/user-info", {
+        const response = await fetch("https://evolutia-back.onrender.com/user-info", {
           headers: {
             Authorization: `Bearer ${token}`
           }

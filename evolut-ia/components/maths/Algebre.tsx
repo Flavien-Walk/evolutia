@@ -5,7 +5,8 @@ import styles from "../../styles/maths/AlgebreStylesPage";
 import Navbar from "../Navbar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "http://10.109.249.241:3636";
+// ✅ URL de production
+const API_URL = "https://evolutia-back.onrender.com";
 
 const questions = [
   {
@@ -72,7 +73,6 @@ const Algebre: React.FC = () => {
     }
   };
 
-  // IMPORTANT : on envoie aussi le score ici !
   const validateModule = async (moduleId: string, score: number) => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -116,9 +116,7 @@ const Algebre: React.FC = () => {
     const isCorrect = selectedOption === questions[currentQuestion].answer;
     const updatedScore = isCorrect ? score + 1 : score;
 
-    if (isCorrect) {
-      setScore(updatedScore);
-    }
+    if (isCorrect) setScore(updatedScore);
 
     const nextQuestion = currentQuestion + 1;
     if (nextQuestion < questions.length) {
@@ -130,7 +128,7 @@ const Algebre: React.FC = () => {
 
       const successRate = (updatedScore / questions.length) * 100;
       if (successRate >= 50) {
-        await validateModule("4", updatedScore);  // <-- on passe bien le score ici
+        await validateModule("4", updatedScore); // module algèbre
       }
     }
   };
@@ -139,7 +137,6 @@ const Algebre: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.push("/mathematiques")}>
           <Text style={styles.backArrow}>← Retour</Text>
@@ -147,7 +144,6 @@ const Algebre: React.FC = () => {
         <Text style={styles.pageTitle}>Algèbre</Text>
       </View>
 
-      {/* Contenu principal */}
       <View style={styles.contentBox}>
         <Text style={styles.description}>
           Bienvenue dans le module Algèbre ! Ici, tu apprendras à résoudre des équations et à comprendre les bases du calcul algébrique.
@@ -189,12 +185,7 @@ const Algebre: React.FC = () => {
             <Text style={{ fontSize: 16, textAlign: "center", color: "#2D2D2D", marginBottom: 5 }}>
               Question {currentQuestion + 1} sur {questions.length}
             </Text>
-            <Text
-              style={[
-                styles.pageTitle,
-                { fontSize: 20, textAlign: "center", marginBottom: 10 },
-              ]}
-            >
+            <Text style={[styles.pageTitle, { fontSize: 20, textAlign: "center", marginBottom: 10 }]}>
               {questions[currentQuestion].question}
             </Text>
             {questions[currentQuestion].options.map((option, index) => (
@@ -214,49 +205,48 @@ const Algebre: React.FC = () => {
               </TouchableOpacity>
             ))}
           </View>
-        ) : showScore && (
-          <View style={{ marginTop: 30, alignItems: "center" }}>
-            <Text style={{ fontSize: 20, fontWeight: "bold", color: "#2D2D2D", marginBottom: 10 }}>
-              Tu as obtenu {score} / {questions.length} bonnes réponses !
-            </Text>
-            <Text style={{ fontSize: 16, color: "#2D2D2D", marginBottom: 10 }}>
-              Taux de réussite : {successRate.toFixed(2)}%
-            </Text>
-
-            {successRate >= 50 && (
-              <Text style={{ fontSize: 18, color: "#2D2D2D", marginVertical: 15, textAlign: "center" }}>
-                🎉 Félicitations, vous avez terminé le module Maths !
+        ) : (
+          showScore && (
+            <View style={{ marginTop: 30, alignItems: "center" }}>
+              <Text style={{ fontSize: 20, fontWeight: "bold", color: "#2D2D2D", marginBottom: 10 }}>
+                Tu as obtenu {score} / {questions.length} bonnes réponses !
               </Text>
-            )}
-
-            <TouchableOpacity
-              onPress={() => router.push("/home")}
-              style={{
-                backgroundColor: "#A7D8C9",
-                padding: 10,
-                borderRadius: 8,
-                marginBottom: 10,
-              }}
-            >
-              <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
-                Retour à l'accueil
+              <Text style={{ fontSize: 16, color: "#2D2D2D", marginBottom: 10 }}>
+                Taux de réussite : {successRate.toFixed(2)}%
               </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={resetProgress}
-              style={{
-                backgroundColor: "#A7D8C9",
-                padding: 10,
-                borderRadius: 8,
-                marginTop: 10,
-              }}
-            >
-              <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
-                Recommencer le quiz
-              </Text>
-            </TouchableOpacity>
-          </View>
+              {successRate >= 50 && (
+                <Text style={{ fontSize: 18, color: "#2D2D2D", marginVertical: 15, textAlign: "center" }}>
+                  🎉 Félicitations, tu as terminé le module Maths !
+                </Text>
+              )}
+              <TouchableOpacity
+                onPress={() => router.push("/home")}
+                style={{
+                  backgroundColor: "#A7D8C9",
+                  padding: 10,
+                  borderRadius: 8,
+                  marginBottom: 10,
+                }}
+              >
+                <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
+                  Retour à l'accueil
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={resetProgress}
+                style={{
+                  backgroundColor: "#A7D8C9",
+                  padding: 10,
+                  borderRadius: 8,
+                  marginTop: 10,
+                }}
+              >
+                <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
+                  Recommencer le quiz
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )
         )}
       </View>
 

@@ -5,7 +5,8 @@ import styles from "../../styles/maths/StatistiqueStylesPage";
 import Navbar from "../Navbar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "http://10.109.249.241:3636";
+// ✅ URL de production
+const API_URL = "https://evolutia-back.onrender.com";
 
 const questions = [
   {
@@ -19,20 +20,12 @@ const questions = [
   },
   {
     question: "Quel est le mode dans une série statistique ?",
-    options: [
-      "La valeur la plus fréquente",
-      "La moyenne",
-      "La médiane",
-    ],
+    options: ["La valeur la plus fréquente", "La moyenne", "La médiane"],
     answer: "La valeur la plus fréquente",
   },
   {
     question: "Comment calcule-t-on la médiane ?",
-    options: [
-      "Valeur la plus fréquente",
-      "Valeur au milieu après tri",
-      "Moyenne des valeurs",
-    ],
+    options: ["Valeur la plus fréquente", "Valeur au milieu après tri", "Moyenne des valeurs"],
     answer: "Valeur au milieu après tri",
   },
 ];
@@ -84,7 +77,6 @@ const Statistique: React.FC = () => {
     }
   };
 
-  // On envoie aussi le score à la validation
   const validateModule = async (moduleId: string, score: number) => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -142,7 +134,7 @@ const Statistique: React.FC = () => {
 
       const successRate = (updatedScore / questions.length) * 100;
       if (successRate >= 50) {
-        await validateModule("2", updatedScore); // id module statistique + score
+        await validateModule("2", updatedScore); // ID module statistique
       }
     }
   };
@@ -156,7 +148,6 @@ const Statistique: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.push("/mathematiques")}>
           <Text style={styles.backArrow}>← Retour</Text>
@@ -164,7 +155,6 @@ const Statistique: React.FC = () => {
         <Text style={styles.pageTitle}>Statistique</Text>
       </View>
 
-      {/* Contenu principal */}
       <View style={styles.contentBox}>
         <Text style={styles.description}>
           Bienvenue dans le module Statistique ! Ici, tu approfondiras tes
@@ -208,12 +198,7 @@ const Statistique: React.FC = () => {
             <Text style={{ fontSize: 16, textAlign: "center", color: "#2D2D2D", marginBottom: 5 }}>
               Question {currentQuestion + 1} sur {questions.length}
             </Text>
-            <Text
-              style={[
-                styles.pageTitle,
-                { fontSize: 20, textAlign: "center", marginBottom: 10 },
-              ]}
-            >
+            <Text style={[styles.pageTitle, { fontSize: 20, textAlign: "center", marginBottom: 10 }]}>
               {questions[currentQuestion].question}
             </Text>
             {questions[currentQuestion].options.map((option, index) => (
@@ -233,47 +218,48 @@ const Statistique: React.FC = () => {
               </TouchableOpacity>
             ))}
           </View>
-        ) : showScore && (
-          <View style={{ marginTop: 30, alignItems: "center" }}>
-            <Text style={{ fontSize: 20, fontWeight: "bold", color: "#2D2D2D", marginBottom: 10 }}>
-              Tu as obtenu {score} / {questions.length} bonnes réponses !
-            </Text>
-            <Text style={{ fontSize: 16, color: "#2D2D2D", marginBottom: 10 }}>
-              Taux de réussite : {successRate.toFixed(2)}%
-            </Text>
-            {successRate >= 50 && (
+        ) : (
+          showScore && (
+            <View style={{ marginTop: 30, alignItems: "center" }}>
+              <Text style={{ fontSize: 20, fontWeight: "bold", color: "#2D2D2D", marginBottom: 10 }}>
+                Tu as obtenu {score} / {questions.length} bonnes réponses !
+              </Text>
+              <Text style={{ fontSize: 16, color: "#2D2D2D", marginBottom: 10 }}>
+                Taux de réussite : {successRate.toFixed(2)}%
+              </Text>
+              {successRate >= 50 && (
+                <TouchableOpacity
+                  onPress={handleNextModule}
+                  style={{
+                    backgroundColor: "#A7D8C9",
+                    padding: 10,
+                    borderRadius: 8,
+                    marginBottom: 10,
+                  }}
+                >
+                  <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
+                    Passer au module suivant
+                  </Text>
+                </TouchableOpacity>
+              )}
               <TouchableOpacity
-                onPress={handleNextModule}
+                onPress={resetProgress}
                 style={{
                   backgroundColor: "#A7D8C9",
                   padding: 10,
                   borderRadius: 8,
-                  marginBottom: 10,
+                  marginTop: 10,
                 }}
               >
                 <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
-                  Passer au module suivant
+                  Recommencer le quiz
                 </Text>
               </TouchableOpacity>
-            )}
-            <TouchableOpacity
-              onPress={resetProgress}
-              style={{
-                backgroundColor: "#A7D8C9",
-                padding: 10,
-                borderRadius: 8,
-                marginTop: 10,
-              }}
-            >
-              <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
-                Recommencer le quiz
-              </Text>
-            </TouchableOpacity>
-          </View>
+            </View>
+          )
         )}
       </View>
 
-      {/* Navbar */}
       <Navbar />
     </View>
   );

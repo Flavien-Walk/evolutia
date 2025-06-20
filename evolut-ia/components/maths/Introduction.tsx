@@ -5,7 +5,7 @@ import styles from "../../styles/maths/IntroductionStylesPage";
 import Navbar from "../Navbar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "http://10.109.249.241:3636";
+const API_URL = "https://evolutia-back.onrender.com";
 
 const questions = [
   {
@@ -72,7 +72,6 @@ const Introduction: React.FC = () => {
     }
   };
 
-  // Envoi le score lors de la validation du module
   const validateModule = async (moduleId: string, score: number) => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -128,7 +127,6 @@ const Introduction: React.FC = () => {
       setShowScore(true);
       await saveProgress(nextQuestion, updatedScore);
 
-      // Validation automatique si taux >= 50%
       const successRate = (updatedScore / questions.length) * 100;
       if (successRate >= 50) {
         await validateModule("1", updatedScore);
@@ -145,7 +143,6 @@ const Introduction: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.push("/mathematiques")}>
           <Text style={styles.backArrow}>← Retour</Text>
@@ -153,11 +150,9 @@ const Introduction: React.FC = () => {
         <Text style={styles.pageTitle}>Introduction</Text>
       </View>
 
-      {/* Contenu principal */}
       <View style={styles.contentBox}>
         <Text style={styles.description}>
-          Bienvenue dans le cours d'introduction aux mathématiques ! Ici, tu
-          découvriras les bases essentielles pour progresser sereinement.
+          Bienvenue dans le cours d'introduction aux mathématiques ! Ici, tu découvriras les bases essentielles pour progresser sereinement.
         </Text>
 
         {hasProgress ? (
@@ -202,37 +197,38 @@ const Introduction: React.FC = () => {
               </TouchableOpacity>
             ))}
           </View>
-        ) : showScore && (
-          <View style={{ marginTop: 30, alignItems: "center" }}>
-            <Text style={{ fontSize: 20, fontWeight: "bold", color: "#2D2D2D", marginBottom: 10 }}>
-              Tu as obtenu {score} / {questions.length} bonnes réponses !
-            </Text>
-            <Text style={{ fontSize: 16, color: "#2D2D2D", marginBottom: 10 }}>
-              Taux de réussite : {successRate.toFixed(2)}%
-            </Text>
-            {successRate >= 50 && (
+        ) : (
+          showScore && (
+            <View style={{ marginTop: 30, alignItems: "center" }}>
+              <Text style={{ fontSize: 20, fontWeight: "bold", color: "#2D2D2D", marginBottom: 10 }}>
+                Tu as obtenu {score} / {questions.length} bonnes réponses !
+              </Text>
+              <Text style={{ fontSize: 16, color: "#2D2D2D", marginBottom: 10 }}>
+                Taux de réussite : {successRate.toFixed(2)}%
+              </Text>
+              {successRate >= 50 && (
+                <TouchableOpacity
+                  onPress={handleNextModule}
+                  style={{ backgroundColor: "#A7D8C9", padding: 10, borderRadius: 8, marginBottom: 10 }}
+                >
+                  <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
+                    Passer au module suivant
+                  </Text>
+                </TouchableOpacity>
+              )}
               <TouchableOpacity
-                onPress={handleNextModule}
-                style={{ backgroundColor: "#A7D8C9", padding: 10, borderRadius: 8, marginBottom: 10 }}
+                onPress={resetProgress}
+                style={{ backgroundColor: "#A7D8C9", padding: 10, borderRadius: 8, marginTop: 10 }}
               >
                 <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
-                  Passer au module suivant
+                  Recommencer le quiz
                 </Text>
               </TouchableOpacity>
-            )}
-            <TouchableOpacity
-              onPress={resetProgress}
-              style={{ backgroundColor: "#A7D8C9", padding: 10, borderRadius: 8, marginTop: 10 }}
-            >
-              <Text style={{ fontSize: 16, color: "#2D2D2D" }}>
-                Recommencer le quiz
-              </Text>
-            </TouchableOpacity>
-          </View>
+            </View>
+          )
         )}
       </View>
 
-      {/* Navbar */}
       <Navbar />
     </View>
   );
