@@ -34,7 +34,7 @@ const Reglage: React.FC = () => {
           return;
         }
 
-        const response = await fetch("http://10.109.249.241:3636/user-info", {
+        const response = await fetch("https://evolutia-back.onrender.com/user-info", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -98,7 +98,7 @@ const Reglage: React.FC = () => {
       // Envoie au serveur
       try {
         const token = await AsyncStorage.getItem("token");
-        const response = await fetch("http://10.109.249.241:3636/update-profile-image", {
+        const response = await fetch("https://evolutia-back.onrender.com/update-profile-image", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
