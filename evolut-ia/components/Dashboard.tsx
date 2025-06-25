@@ -74,12 +74,12 @@ const CardsSection: React.FC = () => {
         style={styles.smallCard}
         onPress={() => router.push("/chatbot")}
       >
-        <Image source={require("../assets/chat-bot.png")} style={styles.cardIcon} />
+        <Image source={require("../assets/IAassistance.png")} style={styles.cardIcon} />
         <Text style={styles.cardTitle}>IA Assistance</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.smallCard} onPress={() => router.push("/")}>
-        <Image source={require("../assets/screen-share.png")} style={styles.cardIcon} />
+        <Image source={require("../assets/Historique.png")} style={styles.cardIcon} />
         <Text style={styles.cardTitle}>Historique</Text>
       </TouchableOpacity>
 
@@ -92,7 +92,7 @@ const CardsSection: React.FC = () => {
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.fullWidthCard}>
-        <Image source={require("../assets/printer.png")} style={styles.cardIcon} />
+        <Image source={require("../assets/dernièreretranscription.png")} style={styles.cardIcon} />
         <Text style={styles.cardTitle}>Dernière retranscription</Text>
       </TouchableOpacity>
     </View>
