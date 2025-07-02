@@ -265,4 +265,24 @@ export default StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+
+  // Dans la section progressCard ou progressWrapper, ajouter :
+progressDetails: {
+  fontSize: 12,
+  color: "#CCCCCC",
+  marginTop: 5,
+  textAlign: "center",
+},
+
+// Dans la section des cartes, ajouter :
+progressStats: {
+  marginVertical: 8,
+},
+
+progressStatsText: {
+  fontSize: 12,
+  color: "#CCCCCC",
+  textAlign: "center",
+},
+
 });

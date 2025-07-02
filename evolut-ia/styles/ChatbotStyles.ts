@@ -25,18 +25,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginLeft: 40, // Pour décaler le texte à droite et éviter la superposition avec la flèche
+    marginLeft: 40,
   },
   switchButton: {
     paddingVertical: 8,
     paddingHorizontal: 12,
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#F0EFFF", // Nouveau violet clair
     borderRadius: 8,
   },
   switchButtonText: {
     fontSize: 14,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: "#6C63FF", // Contraste pour bonne lisibilité
   },
   chatBox: {
     flex: 1,

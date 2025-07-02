@@ -27,7 +27,7 @@ const subjects = [
     name: "Anglais",
     courses: 25,
     backgroundColor: "#D6E8FF",
-    emoji: "🇬🇧",
+    emoji: "💂",
   },
   {
     name: "AI Design Basic",
@@ -39,13 +39,13 @@ const subjects = [
     name: "Espagnol",
     courses: 15,
     backgroundColor: "#FFF7D6",
-    emoji: "🇪🇸",
+    emoji: "💃",
   },
   {
     name: "Français",
     courses: 25,
     backgroundColor: "#E7D6FF",
-    emoji: "🇫🇷",
+    emoji: "🗼",
   },
 ];
 

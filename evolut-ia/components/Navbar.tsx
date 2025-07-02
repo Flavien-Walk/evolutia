@@ -5,7 +5,7 @@ import { Link } from "expo-router";
 
 const Navbar = () => {
   console.log("Rendering Navbar...");
-  
+
   return (
     <View style={styles.navbar}>
       <Link href="/home" asChild>
@@ -13,19 +13,19 @@ const Navbar = () => {
           <Ionicons name="home-outline" size={24} style={styles.navIcon} />
         </TouchableOpacity>
       </Link>
-      
-      <Link href="/search" asChild>
+
+      <Link href="/chatbot" asChild>
         <TouchableOpacity>
-          <Ionicons name="search-outline" size={24} style={styles.navIcon} />
+          <Ionicons name="chatbubble-ellipses-outline" size={24} style={styles.navIcon} />
         </TouchableOpacity>
       </Link>
-      
+
       <Link href="/dashboard" asChild>
         <TouchableOpacity>
           <Ionicons name="grid-outline" size={24} style={styles.navIcon} />
         </TouchableOpacity>
       </Link>
-      
+
       <Link href="/profil" asChild>
         <TouchableOpacity>
           <Ionicons name="person-outline" size={24} style={styles.navIcon} />
